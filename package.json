@@ -1,0 +1,37 @@
+{
+    "name": "pandatype",
+    "version": "1.0.0",
+    "description": "",
+    "homepage": "/",
+    "main": "index.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "format": "prettier --write \"src/**/*.{js,jsx}\"",
+        "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@vitejs/plugin-react": "^2.1.0",
+        "autoprefixer": "^10.4.19",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-jsx-a11y": "^6.6.1",
+        "eslint-plugin-react": "^7.31.8",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "postcss": "^8.4.38",
+        "prettier-plugin-tailwindcss": "^0.5.14",
+        "tailwindcss": "^3.4.3",
+        "vite": "^3.1.4"
+    },
+    "dependencies": {
+        "eslint": "^8.24.0",
+        "eslint-config-prettier": "^8.5.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "use-sound": "^4.0.1"
+    }
+}
