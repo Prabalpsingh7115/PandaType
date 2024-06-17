@@ -1,14 +1,24 @@
 import {createRoot} from "react-dom/client"
-import Header from "./Header";
+import {BrowserRouter, Routes, Route } from 'react-router-dom'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 import "./style.css"
+import Login from "./pages/Login"; 
+import Register from "./pages/Register"; 
+import Home from "./pages/Home"
 
 const App=()=>{
 
     return (
-        <div id="main">
-            <h1 className="text-7xl text-blue-500">Panda Type</h1>
-            <Header/>
-        </div>
+        <GoogleOAuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                </Routes>
+            </BrowserRouter>
+        </GoogleOAuthProvider>
     )
 }
 

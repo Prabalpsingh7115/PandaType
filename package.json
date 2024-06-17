@@ -28,10 +28,14 @@
         "vite": "^3.1.4"
     },
     "dependencies": {
+        "@react-oauth/google": "^0.12.1",
         "eslint": "^8.24.0",
         "eslint-config-prettier": "^8.5.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "use-sound": "^4.0.1"
+        "react-oauth": "^0.0.1",
+        "react-router-dom": "^6.23.1",
+        "use-sound": "^4.0.1",
+        "uuid": "^9.0.1"
     }
 }
