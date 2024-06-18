@@ -7,24 +7,20 @@ const handleCursor = (cursor,para)=>{
     // console.log(nextWord)
     // console.log(nextLetter)
 
-    if(!nextWord && !nextLetter)
-    {
-        return;
-    }
-
     if(nextLetter)
     {
-        cursor.current.style.left=`${nextLetter.getBoundingClientRect().left-1}px`
-        cursor.current.style.top=`${nextLetter.getBoundingClientRect().top}px`
+        cursor.current.style.left=`${(nextLetter.getBoundingClientRect().left/16)}rem`
+        cursor.current.style.top=`${(nextLetter.getBoundingClientRect().top/16)}rem`
     }
     else if(nextWord)
     {
-        cursor.current.style.left=`${nextWord.getBoundingClientRect().right}px`
-        cursor.current.style.top=`${nextWord.getBoundingClientRect().top+2}px`
+        cursor.current.style.left=`${(nextWord.getBoundingClientRect().right/16)}rem`
+        cursor.current.style.top=`${(nextWord.getBoundingClientRect().top/16)}rem`
     }
     else
     {
-        cursor.current.style.left=`78px`
+        cursor.current.style.left=`${(para.current.lastChild.getBoundingClientRect().right/16)}rem`
+        cursor.current.style.top=`${(para.current.lastChild.getBoundingClientRect().top/16)}rem`
     }
 }
 

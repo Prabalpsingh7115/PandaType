@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "homepage": "/",
-    "main": "index.js",
+    "main": "main.jsx",
     "scripts": {
         "dev": "vite",
         "build": "vite build",

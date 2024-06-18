@@ -8,7 +8,7 @@ const clearClass=(para)=>{
         });
     }
 
-    para.current.style.marginTop="0px"
+    para.current.style.marginTop="0rem"
     const correctLetters=[...para.current.querySelectorAll('.letter.correct')]
     const incorrectLetters=[...para.current.querySelectorAll('.letter.incorrect')]
     const currentElements=[...para.current.querySelectorAll('.current')]

@@ -14,14 +14,16 @@ const TypingArena = ({ mode, value }) => {
   const inputKey = useRef();
   const para = useRef();
   const cursor = useRef();
+  const container = useRef();
 
   const helper = () => {
     setBlur(false);
+    handleCursor(cursor, para);
   };
 
   const handleKeyPress = (e) => {
     const curWord = para.current.querySelector(".word.current");
-    const curLetter = curWord.querySelector(".letter.current");
+    const curLetter = curWord?.querySelector(".letter.current");
     const expectedLetter = curLetter?.innerText || " ";
     inputKey.current = e.key;
 
@@ -41,9 +43,12 @@ const TypingArena = ({ mode, value }) => {
       handleBackSpace(curWord, curLetter);
     }
 
-    if (curWord.getBoundingClientRect().top > 350) {
-      const curMargin = parseInt(para.current.style.marginTop || "0px");
-      para.current.style.marginTop = curMargin - 36 + "px";
+    if (
+      curWord.getBoundingClientRect().bottom + 16 >=
+      container.current.getBoundingClientRect().bottom
+    ) {
+      const curMargin = parseInt(para.current.style.marginTop || "0rem");
+      para.current.style.marginTop = `${curMargin - 2.75}rem`;
     }
 
     handleCursor(cursor, para);
@@ -71,13 +76,16 @@ const TypingArena = ({ mode, value }) => {
         </div>
       </div>
 
-      <div className={`${blur ? "blur-md" : ""} h-[108px] overflow-hidden`}>
+      <div
+        className={`${blur ? "blur-md" : ""} h-[6.75rem] overflow-hidden`}
+        ref={container}
+      >
         <div
-          className={`${blur ? "opacity-0" : "animate-cursor"} cursor absolute left-[78px] h-[36px] w-0.5 bg-slate-200`}
+          className={`${blur ? "opacity-0" : "animate-cursor"} cursor absolute h-[2.25rem] w-0.5 bg-slate-200`}
           ref={cursor}
         ></div>
         <div
-          className={`flex h-[108px]  flex-wrap gap-x-4 leading-[36px] text-[#71717a] outline-none`}
+          className={`flex h-[6.75rem]  flex-wrap gap-x-4 leading-[2.25rem] text-[#71717a] outline-none`}
           ref={para}
           onClick={helper}
           tabIndex="0"
@@ -85,7 +93,7 @@ const TypingArena = ({ mode, value }) => {
         >
           {words.map((word, i) => (
             <div
-              className={`${i === 0 ? "current " : ""}word flex h-[36px] gap-x-1`}
+              className={`${i === 0 ? "current " : ""}word flex  gap-x-1`}
               key={i}
             >
               {word.split("").map((letter, j) => (
