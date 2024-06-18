@@ -61,11 +61,14 @@ const TypingArena = ({ mode, value }) => {
   }, [mode, value]);
 
   return (
-    <div className={`mx-20 flex h-1/2 flex-col justify-center text-3xl`}>
-      <div
-        className={`${mode === "time" ? "opacity-100" : "opacity-0"} clock relative left-0 top-0 p-4`}
-      >
-        {value}
+    <div className={`flex h-3/5 w-4/5 flex-col justify-center text-3xl`}>
+      <div className="flex flex-row justify-between">
+        <div
+          className={`${mode === "time" ? "opacity-100" : "opacity-0"} clock  left-0 top-0 `}
+        >
+          {value}
+        </div>
+        <button className="text-[#71717a]"> New Game</button>
       </div>
       <div className="flex items-center justify-center">
         <div
@@ -85,7 +88,7 @@ const TypingArena = ({ mode, value }) => {
           ref={cursor}
         ></div>
         <div
-          className={`flex h-[6.75rem]  flex-wrap gap-x-4 leading-[2.25rem] text-[#71717a] outline-none`}
+          className={`flex h-[6.75rem] flex-wrap gap-x-4 leading-[2.25rem] text-[#71717a] outline-none`}
           ref={para}
           onClick={helper}
           tabIndex="0"
@@ -110,7 +113,7 @@ const TypingArena = ({ mode, value }) => {
       </div>
 
       <button
-        className={`${blur ? "opacity-0" : ""} p-10 text-[#71717a] `}
+        className={`${blur ? "opacity-0" : ""} mt-5 text-[#71717a] `}
         onClick={() => {
           clearClass(para);
           handleCursor(cursor, para);
