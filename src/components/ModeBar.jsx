@@ -25,12 +25,12 @@ const ModeBar = ({
   return (
     <div
       className={
-        "flex h-10 flex-row items-center justify-center gap-x-5 bg-transparent text-2xl"
+        "flex h-10 flex-row items-center justify-center gap-x-5 bg-transparent text-2xl text-gray-500"
       }
     >
       <div className="mode flex flex-row gap-x-5">
         <div
-          className={`${mode === "time" ? "text-gray-500 underline " : ""}flex hover:underline-offset-6 cursor-pointer hover:underline`}
+          className={`${mode === "time" ? "text-gray-100 underline " : "cursor-pointer hover:text-gray-300 "}flex `}
           onClick={() => {
             setMode("time");
           }}
@@ -38,7 +38,7 @@ const ModeBar = ({
           Time
         </div>
         <div
-          className={`${mode === "words" ? "text-gray-500 underline " : ""}flex hover:underline-offset-6 cursor-pointer hover:underline`}
+          className={`${mode === "words" ? "text-gray-100 underline " : " cursor-pointer hover:text-gray-300  "}flex `}
           onClick={() => {
             setMode("words");
           }}
@@ -50,7 +50,7 @@ const ModeBar = ({
       <div className="len flex flex-row gap-5">
         {subModes.map((submode) => (
           <div
-            className={`${submode == subMode ? "text-gray-500 underline" : ""} underline-offset-6 flex cursor-pointer hover:underline`}
+            className={`${submode == subMode ? "text-gray-100 underline" : " cursor-pointer hover:text-gray-300"} flex `}
             key={submode}
             onClick={() => {
               setSubMode(submode);

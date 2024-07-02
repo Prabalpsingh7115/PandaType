@@ -12,8 +12,8 @@ const Home = () => {
   const [subMode, setSubMode] = useState(subModes[0]);
 
   return (
-    <div className="flex h-screen w-full flex-col items-center overflow-hidden  font-customFont">
-      <div className="flex h-1/5 w-full items-center justify-between px-10 py-5 text-2xl text-white">
+    <div className="flex h-screen w-11/12 flex-col items-center overflow-hidden font-customFont">
+      <div className="flex h-1/5 w-full items-center justify-between text-2xl text-white">
         <Link to="/">
           <div className="flex items-center justify-center">
             <img
@@ -24,7 +24,7 @@ const Home = () => {
             <span>PandaType</span>
           </div>
         </Link>
-        <div className="login register flex gap-2 ">
+        <div className="login register flex gap-2 text-gray-500 hover:text-gray-100">
           <Link to="/login">Login </Link>
           <span> / </span>
           <Link to="/register">Register</Link>

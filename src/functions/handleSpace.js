@@ -11,9 +11,20 @@ const handleSpace=(curWord,curLetter,expectedLetter)=>{
         })
     }
 
-    curWord.nextSibling?.classList.add("current");
-    curWord.nextSibling?.firstChild.classList.add("current");
-    curWord.classList.remove("current");
+    const correctLetters=curWord?.querySelectorAll('.current.word > .letter.correct');
+
+    if(correctLetters?.length===curWord?.children.length)
+    {
+        curWord?.classList.add("typed");
+    }
+    else
+    {
+        curWord?.classList.add("mistyped");
+    }
+
+    curWord?.nextSibling?.classList.add("current");
+    curWord?.nextSibling?.firstChild.classList.add("current");
+    curWord?.classList.remove("current");
     curLetter?.classList.remove("current");
 }
 

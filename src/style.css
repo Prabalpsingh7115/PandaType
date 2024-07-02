@@ -7,5 +7,10 @@
 }
 
 .incorrect{
-    color:#ef4444
+    color:#ef4444;
+    
+}
+
+.mistyped{
+    border-bottom:1px #ef4444 solid ;
 }

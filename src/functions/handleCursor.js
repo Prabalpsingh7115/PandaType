@@ -1,8 +1,8 @@
 
 
-const handleCursor = (cursor,para)=>{
+const handleCursor = (cursor,words)=>{
 
-    const nextWord=para.current?.querySelector('.word.current')
+    const nextWord=words.current?.querySelector('.word.current')
     const nextLetter=nextWord?.querySelector('.letter.current')
     // console.log(nextWord)
     // console.log(nextLetter)
@@ -19,8 +19,8 @@ const handleCursor = (cursor,para)=>{
     }
     else
     {
-        cursor.current.style.left=`${(para.current.lastChild.getBoundingClientRect().right/16)}rem`
-        cursor.current.style.top=`${(para.current.lastChild.getBoundingClientRect().top/16)}rem`
+        cursor.current.style.left=`${(words.current.lastChild.getBoundingClientRect().right/16)}rem`
+        cursor.current.style.top=`${(words.current.lastChild.getBoundingClientRect().top/16)}rem`
     }
 }
 
