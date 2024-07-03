@@ -1,6 +1,6 @@
 
 
-const handleBackSpace=(curWord,curLetter)=>{
+const handleBackSpace=(words,curWord,curLetter)=>{
 
     const invalidateLetter=(letter)=>{
 
@@ -16,7 +16,15 @@ const handleBackSpace=(curWord,curLetter)=>{
         {
             letter.classList.remove('correct');
         }
+    }
 
+    if(curWord?.classList?.contains('mistyped'))
+    {
+        curWord?.classList.remove('mistyped')
+    }
+    if(curWord?.classList?.contains('typed'))
+    {
+        curWord?.classList.remove('typed')
     }
 
 
@@ -24,7 +32,6 @@ const handleBackSpace=(curWord,curLetter)=>{
     {
         curWord.lastChild.classList.add('current');
         invalidateLetter(curWord.lastChild);
-        
     }
     else if(curLetter===curWord.firstChild)
     {
@@ -32,7 +39,6 @@ const handleBackSpace=(curWord,curLetter)=>{
         curLetter.classList.remove('current');
         curWord.classList.remove('current');
         prevWord.classList.add('current');
-
     }
     else 
     {

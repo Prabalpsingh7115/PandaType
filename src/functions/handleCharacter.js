@@ -1,6 +1,5 @@
-
-
 const handleCharacter=(inputKey,curWord,curLetter,expectedLetter)=>{
+
     if(inputKey===expectedLetter)
     {
         curLetter?.classList.add("correct"); 
@@ -15,7 +14,7 @@ const handleCharacter=(inputKey,curWord,curLetter,expectedLetter)=>{
         const extraLetter=document.createElement('div');
         extraLetter.className="letter incorrect extra";
         extraLetter.innerHTML=`${inputKey}`;
-        curWord.appendChild(extraLetter)
+        curWord?.appendChild(extraLetter)
     }
 
     curLetter?.nextSibling?.classList.add("current");

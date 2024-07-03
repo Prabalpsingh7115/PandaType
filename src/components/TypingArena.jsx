@@ -8,11 +8,12 @@ import handleBackSpace from "../functions/handleBackSpace";
 import handleCursor from "../functions/handleCursor";
 import clearClass from "../functions/clearClass";
 import scrollLines from "../functions/scrollLines";
-import getSpeed from "../functions/getSpeed";
+import getResults from "../functions/getResults";
 
 const TypingArena = ({ mode, value }) => {
   const [para, setPara] = useState(getParagraph(mode, value));
   const [game, setGame] = useState("waiting");
+  const [results, setResults] = useState({});
   const inputKey = useRef();
   const words = useRef();
   const cursor = useRef();
@@ -26,10 +27,10 @@ const TypingArena = ({ mode, value }) => {
 
   const gameover = () => {
     setGame("over");
-    const WPM = getSpeed(words);
-    alert(`WPM : ${WPM}`);
+    setResults(getResults(words));
     clearInterval(window.timer);
     window.gameStart = null;
+    window.timer = null;
   };
 
   const startTimer = () => {
@@ -39,13 +40,12 @@ const TypingArena = ({ mode, value }) => {
           window.gameStart = new Date().getTime();
         }
 
-        const curTime = new Date().getTime();
-        const remTime = Math.round(
-          window.gameTime - (curTime - window.gameStart) / 1000,
-        );
-
         if (mode === "time") {
-          if (remTime <= 10) {
+          const curTime = new Date().getTime();
+          const remTime = Math.round(
+            window.gameTime - (curTime - window.gameStart) / 1000,
+          );
+          if (remTime <= 5) {
             clock.current.classList.add("incorrect");
           }
 
@@ -80,8 +80,6 @@ const TypingArena = ({ mode, value }) => {
     // console.log(curword)
     // console.log(curletter)
 
-    startTimer();
-
     if (inputKey.current.length === 1 && inputKey.current !== " ") {
       handleCharacter(inputKey.current, curWord, curLetter, expectedLetter);
     }
@@ -91,14 +89,21 @@ const TypingArena = ({ mode, value }) => {
     }
 
     if (inputKey.current === "Backspace") {
-      handleBackSpace(curWord, curLetter);
+      handleBackSpace(words, curWord, curLetter);
     }
 
     scrollLines(container, words, curWord);
     handleCursor(cursor, words);
+
+    startTimer();
+
+    const nextWord = words.current.querySelector(".word.current");
+
     if (
-      curWord === words.current.lastChild &&
-      curLetter === curWord.lastChild
+      (curWord === words.current.lastChild &&
+        curLetter === curWord.lastChild &&
+        curLetter.classList.contains("correct")) ||
+      !nextWord
     ) {
       gameover();
     }
@@ -111,7 +116,7 @@ const TypingArena = ({ mode, value }) => {
     setGame("waiting");
     window.timer = null;
     window.gameStart = null;
-    window.gameTime = { value };
+    window.gameTime = value;
   }, [mode, value]);
 
   return (
@@ -134,6 +139,7 @@ const TypingArena = ({ mode, value }) => {
         onKeyDown={handleKeyPress}
         onClick={() => {
           if (game === "waiting") setGame("typing");
+          clock.current.innerHTML = window.gameTime;
         }}
       >
         <div
@@ -167,6 +173,12 @@ const TypingArena = ({ mode, value }) => {
       </div>
 
       <div
+        className={`${game === "over" ? "opacity-100" : "opacity-0"} results flex w-full justify-center gap-4`}
+      >
+        <h1>Results : </h1>
+        <span>{results.WPM || 0} WPM</span>
+      </div>
+      <div
         className={`${game === "waiting" ? "opacity-0" : game === "over" ? "opacity-100" : "opacity-50"} flex w-full justify-center text-[#71717a] `}
       >
         <button
@@ -188,6 +200,10 @@ const TypingArena = ({ mode, value }) => {
             setPara(getParagraph(mode, value));
             clearClass(words, clock);
             handleCursor(cursor, words);
+            setGame("typing");
+            container.current?.focus();
+            clock.current.innerHTML = window.gameTime;
+            clearInterval(window.timer);
           }}
         >
           New Game

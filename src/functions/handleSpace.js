@@ -1,6 +1,12 @@
 
 
 const handleSpace=(curWord,curLetter,expectedLetter)=>{
+
+    if(!curWord||curLetter===curWord.firstChild)
+    {
+        return;
+    }
+
     if(expectedLetter!==' ')
     {
         const skippedLetters=[...curWord.querySelectorAll('.current.word .letter:not(.correct)')];
@@ -9,6 +15,15 @@ const handleSpace=(curWord,curLetter,expectedLetter)=>{
         skippedLetters.forEach((letter)=>{
             letter.classList.add("incorrect");
         })
+    }
+
+    if(curWord?.classList.contains("typed"))
+    {
+        curWord?.classList.remove("typed")
+    }
+    if(curWord?.classList.contains("mistyped"))
+    {
+        curWord?.classList.remove("mistyped")
     }
 
     const correctLetters=curWord?.querySelectorAll('.current.word > .letter.correct');

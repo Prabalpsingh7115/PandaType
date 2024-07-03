@@ -12,5 +12,11 @@
 }
 
 .mistyped{
-    border-bottom:1px #ef4444 solid ;
+    text-decoration: underline;
+    text-decoration-color: #ef4444;
+    text-decoration-thickness: 0.1rem;
+}
+
+.extra{
+    opacity: 0.7;
 }
