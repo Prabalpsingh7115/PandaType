@@ -76,7 +76,7 @@ const TypingArena = ({ mode, value }) => {
     const expectedLetter = curLetter?.innerText || " ";
     inputKey.current = e.key;
 
-    // console.log(words)
+    // console.log(words);
     // console.log(curword)
     // console.log(curletter)
 
@@ -168,7 +168,7 @@ const TypingArena = ({ mode, value }) => {
         <div
           className={`${game === "waiting" ? "" : "hidden"} absolute inset-0 pt-[2.25rem] text-center text-gray-300`}
         >
-          Click or press any key to continue!
+          Click here or press any key to continue!
         </div>
       </div>
 
