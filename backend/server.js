@@ -16,7 +16,7 @@ connectDB();
 
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173','https://panda-type.netlify.app/'],
     optionsSuccessStatus: 200,
 };
  
@@ -44,7 +44,7 @@ app.post('/logout',(req,res)=>{
 })
 
 
-app.get('/',verifyJWT,(req,res)=>{
+app.get('/',(req,res)=>{
     res.send("<h1>HELLO</h1>")
 })
 
