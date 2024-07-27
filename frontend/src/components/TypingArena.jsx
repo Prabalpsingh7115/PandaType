@@ -45,7 +45,7 @@ const TypingArena = ({ mode, value }) => {
           const remTime = Math.round(
             window.gameTime - (curTime - window.gameStart) / 1000,
           );
-          if (remTime <= 5) {
+          if (remTime <= 5 && clock && clock.current) {
             clock.current.classList.add("incorrect");
           }
 
@@ -53,7 +53,9 @@ const TypingArena = ({ mode, value }) => {
             gameover();
           }
 
-          clock.current.innerHTML = remTime;
+          if (clock && clock.current) {
+            clock.current.innerHTML = remTime;
+          }
         }
       }, 1000);
     }
