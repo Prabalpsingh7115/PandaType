@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 
 import ModeBar from "../components/ModeBar";
@@ -8,7 +8,7 @@ import logoutIcon from "../assets/icons/logout.png";
 import { UserContext } from "../../context/User";
 
 const Home = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [mode, setMode] = useState("time");
   const [subModes, setSubModes] = useState([15, 30, 60, 120]);
@@ -19,23 +19,26 @@ const Home = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:4000/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/logout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: user.user.username,
+            accessToken: undefined,
+          }),
         },
-        body: JSON.stringify({
-          username: user.user.username,
-          accessToken: undefined,
-        }),
-      });
+      );
 
       const result = await response.json();
 
       if (response.ok) {
         user.setUser(null);
         result.accessToken = null;
-        navigate("/auth");
+        // navigate("/auth");
         console.log("Logout successful");
       }
     } catch (err) {

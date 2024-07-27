@@ -19,17 +19,20 @@ const Auth = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch("http://localhost:4000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: rusername,
+            email,
+            password: rpassword,
+          }),
         },
-        body: JSON.stringify({
-          username: rusername,
-          email,
-          password: rpassword,
-        }),
-      });
+      );
 
       const data = await response.json();
 
@@ -50,13 +53,16 @@ const Auth = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:4000/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/auth`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: lusername, password: lpassword }),
         },
-        body: JSON.stringify({ username: lusername, password: lpassword }),
-      });
+      );
 
       const data = await response.json();
 
