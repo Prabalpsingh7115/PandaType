@@ -16,7 +16,7 @@ connectDB();
 
 
 const corsOptions = {
-    origin: ['http://localhost:5173','https://panda-type.netlify.app/'],
+    origin: ['http://localhost:5173','https://panda-type.netlify.app'],
     optionsSuccessStatus: 200,
 };
  
