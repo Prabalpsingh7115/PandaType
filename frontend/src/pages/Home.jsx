@@ -12,6 +12,7 @@ const Home = () => {
   const [mode, setMode] = useState("time");
   const [subModes, setSubModes] = useState([15, 30, 60, 120]);
   const [subMode, setSubMode] = useState(subModes[0]);
+
   useEffect(() => {
     setComponent(
       <Game

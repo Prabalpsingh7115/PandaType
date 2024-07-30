@@ -15,14 +15,13 @@ import { ResultContext } from "../context/Result";
 
 const TypingArena = ({ mode, value }) => {
   const [para, setPara] = useState(getParagraph(mode, value));
-  const [focus, setFocus] = useState(false);
   const [game, setGame] = useState("idle");
   const inputKey = useRef();
   const words = useRef();
   const cursor = useRef();
   const container = useRef();
   const clock = useRef();
-  const { component, setComponent } = useContext(ComponentContext);
+  const { setComponent } = useContext(ComponentContext);
   const { setResult } = useContext(ResultContext);
 
   window.timer = null;
@@ -31,11 +30,10 @@ const TypingArena = ({ mode, value }) => {
   container.current?.focus();
 
   const gameover = () => {
-    if (component === <TestResult />) {
-      return;
+    if (game === "typing") {
+      setResult(getResults(words));
     }
     setGame("finished");
-    setResult(getResults(words));
     clearInterval(window.timer);
     window.gameStart = null;
     window.timer = null;
@@ -121,7 +119,6 @@ const TypingArena = ({ mode, value }) => {
     clearClass(words, clock);
     setPara(getParagraph(mode, value));
     handleCursor(cursor, words);
-    setFocus(false);
     setGame("idle");
     window.timer = null;
     window.gameStart = null;
@@ -146,13 +143,6 @@ const TypingArena = ({ mode, value }) => {
         ref={container}
         tabIndex="0"
         onKeyDown={handleKeyPress}
-        onClick={() => {
-          if (game === "finished") {
-            return;
-          }
-          if (!focus) setFocus(true);
-          clock.current.innerHTML = window.gameTime;
-        }}
       >
         <div
           className={`${game === "finished" ? "hidden" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5 animate-cursor bg-slate-200`}
@@ -192,7 +182,6 @@ const TypingArena = ({ mode, value }) => {
             gameover();
             clearClass(words, clock);
             handleCursor(cursor, words);
-            setFocus(false);
             setGame("idle");
             container.current?.focus();
             clock.current.innerHTML = window.gameTime;
@@ -203,12 +192,10 @@ const TypingArena = ({ mode, value }) => {
         <button
           className={`px-3 hover:text-gray-300 hover:underline`}
           onClick={() => {
-            gameover();
             setGame("idle");
             setPara(getParagraph(mode, value));
             clearClass(words, clock);
             handleCursor(cursor, words);
-            setFocus(false);
             container.current?.focus();
             clock.current.innerHTML = window.gameTime;
             clearInterval(window.timer);
