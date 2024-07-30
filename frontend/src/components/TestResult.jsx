@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 
 import Game from "./Game";
 import { ResultContext } from "../context/Result";
@@ -7,10 +7,6 @@ import { ComponentContext } from "../context/Component";
 const TestResult = () => {
   const { result } = useContext(ResultContext);
   const { setComponent } = useContext(ComponentContext);
-
-  const [mode, setMode] = useState("time");
-  const [subModes, setSubModes] = useState([15, 30, 60, 120]);
-  const [subMode, setSubMode] = useState(subModes[0]);
 
   return (
     <div className="results justify center flex flex-col items-center gap-10">
@@ -22,16 +18,7 @@ const TestResult = () => {
       <button
         className={`px-3 hover:text-gray-300 hover:underline`}
         onClick={() => {
-          setComponent(
-            <Game
-              mode={mode}
-              setMode={setMode}
-              subMode={subMode}
-              setSubMode={setSubMode}
-              subModes={subModes}
-              setSubModes={setSubModes}
-            />,
-          );
+          setComponent(<Game />);
         }}
       >
         New Game

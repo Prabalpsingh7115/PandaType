@@ -5,6 +5,7 @@ import "./style.css";
 import { UserProvider } from "./context/User";
 import { ResultProvider } from "./context/Result";
 import { ComponentProvider } from "./context/Component";
+import { GameStateProvider } from "./context/GameState";
 import Home from "./pages/Home";
 import Auth from "./pages/Authentication";
 import Profile from "./pages/Profile";
@@ -14,13 +15,15 @@ const App = () => {
     <UserProvider>
       <ComponentProvider>
         <ResultProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
-          </BrowserRouter>
+          <GameStateProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </BrowserRouter>
+          </GameStateProvider>
         </ResultProvider>
       </ComponentProvider>
     </UserProvider>

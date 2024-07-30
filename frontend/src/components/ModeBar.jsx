@@ -1,15 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import getSubModes from "../functions/getSubModes";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
-const ModeBar = ({
-  mode,
-  setMode,
-  subModes,
-  setSubModes,
-  subMode,
-  setSubMode,
-}) => {
+import { GameStateContext } from "../context/GameState";
+
+const ModeBar = () => {
+  const {
+    gameState,
+    mode,
+    subModes,
+    subMode,
+    setMode,
+    setSubModes,
+    setSubMode,
+  } = useContext(GameStateContext);
+
   useEffect(() => {
     const fetchSubModes = async () => {
       const submodes = getSubModes({ mode });
@@ -24,9 +29,7 @@ const ModeBar = ({
 
   return (
     <div
-      className={
-        "flex h-10 flex-row items-center justify-center gap-x-5 bg-transparent text-2xl text-gray-500"
-      }
+      className={`${gameState === "idle" ? "" : "opacity-100"} flex h-10 flex-row items-center justify-center gap-x-5 bg-transparent text-2xl text-gray-500`}
     >
       <div className="mode flex flex-row gap-x-5">
         <div

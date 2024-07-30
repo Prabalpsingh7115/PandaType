@@ -38,7 +38,7 @@ const handleBackSpace=(words,curWord,curLetter)=>{
         const prevWord=curWord.previousSibling;
         curLetter.classList.remove('current');
         curWord.classList.remove('current');
-        prevWord.classList.add('current');
+        prevWord?.classList.add('current');
     }
     else 
     {
