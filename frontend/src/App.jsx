@@ -2,19 +2,27 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./style.css";
-import Auth from "./pages/Authentication";
+import { UserProvider } from "./context/User";
+import { ResultProvider } from "./context/Result";
+import { ComponentProvider } from "./context/Component";
 import Home from "./pages/Home";
-import { UserProvider } from "../context/User";
+import Auth from "./pages/Authentication";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
     <UserProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<Auth />} />
-        </Routes>
-      </BrowserRouter>
+      <ComponentProvider>
+        <ResultProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </BrowserRouter>
+        </ResultProvider>
+      </ComponentProvider>
     </UserProvider>
   );
 };

@@ -6,7 +6,8 @@ import userIcon from "../assets/icons/user-icon.png";
 import emailIcon from "../assets/icons/email-icon.png";
 import pwdIcon from "../assets/icons/pwd-icon.png";
 import pandaIcon from "../assets/icons/panda-icon.png";
-import { UserContext } from "../../context/User";
+import { UserContext } from "../context/User";
+import api from "../api/axios";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -15,69 +16,43 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [rpassword, setRpassword] = useState("");
   const [lpassword, setLpassword] = useState("");
-  const user = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleRegister = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: rusername,
-            email,
-            password: rpassword,
-          }),
-        },
-      );
+      const response = await api.post("/register", {
+        username: rusername,
+        email,
+        password: rpassword,
+      });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Registration successful", data);
-        alert(data.message);
-        navigate("/auth");
-      } else {
-        console.error("Registration failed:", data.message);
-      }
+      setRpassword("");
+      setRusername("");
+      setEmail("");
+      console.log(response.data.message);
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error.response.data);
     }
-    setRpassword("");
-    setRusername("");
-    setEmail("");
   };
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/auth`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username: lusername, password: lpassword }),
-        },
-      );
+      const response = await api.post("/auth", {
+        username: lusername,
+        password: lpassword,
+      });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Login successful:", data);
-        user.setUser({ username: lusername });
-        navigate("/");
-      } else {
-        console.error("Login failed:", data.message);
-      }
+      navigate("/");
+      console.log(response.data);
+      setUser({
+        username: lusername,
+        acessToken: response.data.acessToken,
+      });
+      setLpassword("");
+      setLusername("");
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error.response.data);
     }
-    setLpassword("");
-    setLusername("");
   };
 
   return (

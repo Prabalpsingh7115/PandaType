@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 
 import getParagraph from "../functions/getParagraph";
 import handleCharacter from "../functions/handleCharacter";
@@ -9,42 +9,50 @@ import handleCursor from "../functions/handleCursor";
 import clearClass from "../functions/clearClass";
 import scrollLines from "../functions/scrollLines";
 import getResults from "../functions/getResults";
+import TestResult from "./TestResult";
+import { ComponentContext } from "../context/Component";
+import { ResultContext } from "../context/Result";
 
 const TypingArena = ({ mode, value }) => {
   const [para, setPara] = useState(getParagraph(mode, value));
-  const [game, setGame] = useState("waiting");
-  const [results, setResults] = useState({});
+  const [focus, setFocus] = useState(false);
+  const [game, setGame] = useState("idle");
   const inputKey = useRef();
   const words = useRef();
   const cursor = useRef();
   const container = useRef();
   const clock = useRef();
+  const { component, setComponent } = useContext(ComponentContext);
+  const { setResult } = useContext(ResultContext);
 
-  container.current?.focus();
   window.timer = null;
   window.gameStart = null;
-  window.gameTime = value;
+  window.gameTime = mode === "time" ? value : 1000;
+  container.current?.focus();
 
   const gameover = () => {
-    setGame("over");
-    setResults(getResults(words));
+    if (component === <TestResult />) {
+      return;
+    }
+    setGame("finished");
+    setResult(getResults(words));
     clearInterval(window.timer);
     window.gameStart = null;
     window.timer = null;
+    setComponent(<TestResult />);
   };
 
   const startTimer = () => {
     if (!window.timer) {
       window.timer = setInterval(() => {
         if (!window.gameStart) {
-          window.gameStart = new Date().getTime();
+          window.gameStart = new Date().getTime() - 250;
         }
 
         if (mode === "time") {
           const curTime = new Date().getTime();
-          const remTime = Math.round(
-            window.gameTime - (curTime - window.gameStart) / 1000,
-          );
+          const remTime =
+            window.gameTime - Math.floor((curTime - window.gameStart) / 1000);
           if (remTime <= 5 && clock && clock.current) {
             clock.current.classList.add("incorrect");
           }
@@ -62,15 +70,14 @@ const TypingArena = ({ mode, value }) => {
   };
 
   const handleKeyPress = (e) => {
-    if (game === "over") {
+    if (game === "finished") {
       return;
     }
 
-    if (game === "waiting") {
+    if (game === "idle") {
       setGame("typing");
       cursor.current.style.left =
         container.current.getBoundingClientRect().left;
-      return;
     }
 
     const curWord = words.current.querySelector(".word.current");
@@ -83,6 +90,7 @@ const TypingArena = ({ mode, value }) => {
     // console.log(curletter)
 
     if (inputKey.current.length === 1 && inputKey.current !== " ") {
+      startTimer();
       handleCharacter(inputKey.current, curWord, curLetter, expectedLetter);
     }
 
@@ -96,8 +104,6 @@ const TypingArena = ({ mode, value }) => {
 
     scrollLines(container, words, curWord);
     handleCursor(cursor, words);
-
-    startTimer();
 
     const nextWord = words.current.querySelector(".word.current");
 
@@ -115,7 +121,8 @@ const TypingArena = ({ mode, value }) => {
     clearClass(words, clock);
     setPara(getParagraph(mode, value));
     handleCursor(cursor, words);
-    setGame("waiting");
+    setFocus(false);
+    setGame("idle");
     window.timer = null;
     window.gameStart = null;
     window.gameTime = value;
@@ -127,7 +134,7 @@ const TypingArena = ({ mode, value }) => {
     >
       <div className="mb-8 flex flex-row justify-between">
         <div
-          className={`${mode === "time" ? "opacity-100" : "opacity-0"}  clock left-0 top-0 `}
+          className={`${mode === "time" && game === "typing" ? "opacity-100" : "opacity-0"}  clock left-0 top-0 `}
           ref={clock}
         >
           {window.gameTime}
@@ -140,17 +147,20 @@ const TypingArena = ({ mode, value }) => {
         tabIndex="0"
         onKeyDown={handleKeyPress}
         onClick={() => {
-          if (game === "waiting") setGame("typing");
+          if (game === "finished") {
+            return;
+          }
+          if (!focus) setFocus(true);
           clock.current.innerHTML = window.gameTime;
         }}
       >
         <div
-          className={`${game === "typing" ? "" : "hidden"} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5 animate-cursor bg-slate-200`}
+          className={`${game === "finished" ? "hidden" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5 animate-cursor bg-slate-200`}
           ref={cursor}
         ></div>
 
         <div
-          className={`${game === "waiting" ? "blur-sm" : game === "over" ? "opacity-70" : ""} words flex flex-wrap gap-x-2`}
+          className={`${game === "finished" ? "opacity-50" : ""} words flex flex-wrap gap-x-2`}
           ref={words}
         >
           {para.map((word, i) => (
@@ -167,21 +177,14 @@ const TypingArena = ({ mode, value }) => {
           ))}
         </div>
 
-        <div
-          className={`${game === "waiting" ? "" : "hidden"} absolute inset-0 pt-[2.25rem] text-center text-gray-300`}
+        {/* <div
+          className={`${focus || game === "idle" ? "hidden" : ""} absolute inset-0 pt-[2.25rem] text-center text-gray-300`}
         >
           Click here or press any key to continue!
-        </div>
-      </div>
-
-      <div
-        className={`${game === "over" ? "opacity-100" : "opacity-0"} results flex w-full justify-center gap-4`}
-      >
-        <h1>Results : </h1>
-        <span>{results.WPM || 0} WPM</span>
+        </div> */}
       </div>
       <div
-        className={`${game === "waiting" ? "opacity-0" : game === "over" ? "opacity-100" : "opacity-50"} flex w-full justify-center text-[#71717a] `}
+        className={`${game === "finished" ? "opacity-100" : "opacity-0"} flex w-full justify-center text-[#71717a] `}
       >
         <button
           className={`px-3 hover:text-gray-300 hover:underline`}
@@ -189,7 +192,8 @@ const TypingArena = ({ mode, value }) => {
             gameover();
             clearClass(words, clock);
             handleCursor(cursor, words);
-            setGame("typing");
+            setFocus(false);
+            setGame("idle");
             container.current?.focus();
             clock.current.innerHTML = window.gameTime;
           }}
@@ -199,10 +203,12 @@ const TypingArena = ({ mode, value }) => {
         <button
           className={`px-3 hover:text-gray-300 hover:underline`}
           onClick={() => {
+            gameover();
+            setGame("idle");
             setPara(getParagraph(mode, value));
             clearClass(words, clock);
             handleCursor(cursor, words);
-            setGame("typing");
+            setFocus(false);
             container.current?.focus();
             clock.current.innerHTML = window.gameTime;
             clearInterval(window.timer);
