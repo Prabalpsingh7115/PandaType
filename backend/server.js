@@ -9,6 +9,7 @@ import handleLogin from "./controllers/authController.js";
 import verifyJWT from "./functions/verifyJWT.js";
 import handleRefreshToken from "./controllers/refreshTokenController.js";
 import handleLogout from "./controllers/logoutController.js";
+import getProfile from "./controllers/profileController.js";
 
 
 const app=express();
@@ -16,7 +17,7 @@ connectDB();
 
 
 const corsOptions = {
-    origin: ['http://localhost:5173','https://panda-type.netlify.app'],
+    origin: ['http://localhost:5173/profile','http://localhost:5173','https://panda-type.netlify.app'],
     optionsSuccessStatus: 200,
 };
  
@@ -36,6 +37,10 @@ app.post('/auth',(req,res)=>{
 
 app.post('/refresh',(req,res)=>{
     handleRefreshToken(req,res);
+})
+
+app.get('/profile',(req,res)=>{
+    getProfile(req,res);
 })
 
 

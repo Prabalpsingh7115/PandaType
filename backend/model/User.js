@@ -13,7 +13,22 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    refreshToken:String
+    refreshToken:String,
+    joindate:{
+        type:String
+    },
+    tests:{
+        tstart:{
+            type:Number    
+        },
+        tfinish:{
+            type:Number    
+        },
+        ttime:{
+            type:Number
+        },
+    }
+
 })
 
 export default mongoose.model('User',UserSchema);

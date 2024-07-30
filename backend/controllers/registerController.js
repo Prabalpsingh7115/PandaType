@@ -31,7 +31,13 @@ const handleNewUser =async (req,res)=>{
         const newUser={
             "username":username,
             "email":email,
-            "password":hashedPwd
+            "password":hashedPwd,
+            "joindate":new Date().toLocaleDateString(),
+            "tests":{
+                "tstart":0,
+                "tfinish":0,
+                "ttime":0
+            }
         }
 
         const result= await User.create(newUser);
