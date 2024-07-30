@@ -43,7 +43,6 @@ const Auth = () => {
       });
 
       navigate("/");
-      console.log(response.data);
       setUser({
         username: lusername,
         acessToken: response.data.acessToken,

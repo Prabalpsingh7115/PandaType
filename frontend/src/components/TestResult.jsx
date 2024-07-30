@@ -1,12 +1,11 @@
 import { useContext } from "react";
 
-import Game from "./Game";
 import { ResultContext } from "../context/Result";
-import { ComponentContext } from "../context/Component";
+import { GameStateContext } from "../context/GameState.jsx";
 
 const TestResult = () => {
   const { result } = useContext(ResultContext);
-  const { setComponent } = useContext(ComponentContext);
+  const {setGameState}=useContext(GameStateContext);
 
   return (
     <div className="results justify center flex flex-col items-center gap-10">
@@ -18,7 +17,7 @@ const TestResult = () => {
       <button
         className={`px-3 hover:text-gray-300 hover:underline`}
         onClick={() => {
-          setComponent(<Game />);
+          setGameState("idle");
         }}
       >
         New Game

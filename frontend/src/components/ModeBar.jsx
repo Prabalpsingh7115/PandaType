@@ -5,15 +5,8 @@ import { useEffect, useContext } from "react";
 import { GameStateContext } from "../context/GameState";
 
 const ModeBar = () => {
-  const {
-    gameState,
-    mode,
-    subModes,
-    subMode,
-    setMode,
-    setSubModes,
-    setSubMode,
-  } = useContext(GameStateContext);
+  const { mode, subModes, subMode, setMode, setSubModes, setSubMode } =
+    useContext(GameStateContext);
 
   useEffect(() => {
     const fetchSubModes = async () => {
@@ -29,7 +22,7 @@ const ModeBar = () => {
 
   return (
     <div
-      className={`${gameState === "idle" ? "" : "opacity-100"} flex h-10 flex-row items-center justify-center gap-x-5 bg-transparent text-2xl text-gray-500`}
+      className={`flex h-10 flex-row items-center justify-center gap-x-5 bg-transparent text-2xl text-gray-500`}
     >
       <div className="mode flex flex-row gap-x-5">
         <div

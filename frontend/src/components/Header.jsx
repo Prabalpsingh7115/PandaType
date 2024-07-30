@@ -5,9 +5,11 @@ import pandaIcon from "../assets/icons/panda-icon.png";
 import logoutIcon from "../assets/icons/logout.png";
 import { UserContext } from "../context/User.jsx";
 import api from "../api/axios.js";
+import { GameStateContext } from "../context/GameState.jsx";
 
 const Header = () => {
   const { user, setUser } = useContext(UserContext);
+  const { gameState } = useContext(GameStateContext);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -26,7 +28,9 @@ const Header = () => {
   };
 
   return (
-    <div className="left-0 top-0 flex h-1/5 w-full items-center justify-between text-2xl text-white">
+    <div
+      className={`${gameState !== "idle" ? "opacity:0" : ""} left-0 top-0 flex h-1/5 w-full items-center justify-between text-2xl text-white`}
+    >
       <Link to="/">
         <div className="flex items-center justify-center">
           <img src={pandaIcon} alt="panda-icon" className="h-16 w-16 invert " />

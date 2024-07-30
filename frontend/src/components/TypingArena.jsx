@@ -10,15 +10,13 @@ import handleCursor from "../functions/handleCursor";
 import clearClass from "../functions/clearClass";
 import scrollLines from "../functions/scrollLines";
 import getResults from "../functions/getResults";
-import TestResult from "./TestResult";
-import { ComponentContext } from "../context/Component";
 import { ResultContext } from "../context/Result";
 import { GameStateContext } from "../context/GameState";
 
 const TypingArena = () => {
   const { gameState, setGameState, mode, subMode } =
     useContext(GameStateContext);
-  const { setComponent } = useContext(ComponentContext);
+
   const { setResult } = useContext(ResultContext);
 
   const inputKey = useRef();
@@ -37,7 +35,6 @@ const TypingArena = () => {
     window.gameStart = null;
     window.timer = null;
     setGameState("finished");
-    setComponent(<TestResult />);
   };
 
   const startTimer = () => {
