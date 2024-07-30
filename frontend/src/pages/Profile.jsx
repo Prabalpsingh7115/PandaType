@@ -47,7 +47,7 @@ const Profile = () => {
       return "";
     }
 
-    const [day, month, year] = date.split("/");
+    const [month, day, year] = date.split("/");
     const monthName = months[parseInt(month) - 1];
     return day + " " + monthName + " " + year;
   };
