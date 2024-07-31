@@ -46,7 +46,7 @@ const handleLogin =async (req,res)=>{
     foundUser.refreshToken=refreshToken;
     await foundUser.save();
 
-    res.cookie('jwt',refreshToken,{httpOnly:true,secure:true,SameSite:None, maxAge:10*60*1000});
+    res.cookie('jwt',refreshToken,{httpOnly:true,secure:true,sameSite:'None', maxAge:10*60*1000});
     return res.status(200).json({accessToken});
 }
 
