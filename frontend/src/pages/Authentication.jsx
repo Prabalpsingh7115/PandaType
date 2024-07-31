@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+// import Cookies from "js-cookie";
 
 import registerImage from "../assets/images/panda-bgg.jpeg";
 import userIcon from "../assets/icons/user-icon.png";
@@ -16,7 +18,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [rpassword, setRpassword] = useState("");
   const [lpassword, setLpassword] = useState("");
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleRegister = async () => {
     try {
@@ -25,11 +27,10 @@ const Auth = () => {
         email,
         password: rpassword,
       });
-
+      console.log(response.data);
       setRpassword("");
       setRusername("");
       setEmail("");
-      console.log(response.data.message);
     } catch (error) {
       console.log("Error:", error.response.data);
     }
@@ -37,16 +38,24 @@ const Auth = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("/auth", {
-        username: lusername,
-        password: lpassword,
-      });
+      const response = await api.post(
+        "/auth",
+        {
+          username: lusername,
+          password: lpassword,
+        },
+        { withCredentials: true },
+      );
 
+      console.log(response.data);
+      const decode = jwtDecode(response.data.accessToken);
+      console.log(decode);
       navigate("/");
       setUser({
-        username: lusername,
-        acessToken: response.data.acessToken,
+        username: decode.username,
+        acessToken: response.data.accessToken,
       });
+      console.log(user);
       setLpassword("");
       setLusername("");
     } catch (error) {

@@ -33,7 +33,7 @@ const handleRefreshToken = async (req,res)=>{
                 process.env.ACCESS_TOKEN_SECRET,
                 {expiresIn:'30s'}
             )
-
+            
             return res.status(200).json({accessToken});
         }
 

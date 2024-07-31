@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
+// import Cookies from "js-cookie";
 
 import pandaIcon from "../assets/icons/panda-icon.png";
 import logoutIcon from "../assets/icons/logout.png";
@@ -14,10 +15,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await api.post("/logout", {
-        username: null,
-        accessToken: null,
-      });
+      const response = await api.post("/logout", {}, { withCredentials: true });
       setUser(null);
       console.log(response);
       navigate("/");

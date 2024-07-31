@@ -82,7 +82,7 @@ const Profile = () => {
       <Header />
       <div className="flex h-2/5 w-full items-center rounded-lg bg-[#393B44] px-5">
         <div className="flex w-1/3 flex-col items-center justify-center">
-          <span className="text-6xl">{user.username}</span>
+          <span className="text-6xl">{user?.username}</span>
           <span className="text-xl text-gray-400">
             Joined {dateformat(profile?.joindate.substr(0, 10))}
           </span>
