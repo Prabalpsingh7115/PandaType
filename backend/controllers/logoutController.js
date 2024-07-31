@@ -17,14 +17,14 @@ const handleLogout = async (req,res)=>{
     
     if(!foundUser)
     {
-        res.clearCookie('jwt',{httpOnly:true,secure:true});
+        res.clearCookie('jwt',{httpOnly:true,secure:true,SameSite:None});
         return res.status(204).json({'message':'behenchod'});
     }
 
     foundUser.refreshToken=undefined;
     await foundUser.save();
 
-    res.clearCookie('jwt',{httpOnly:true,secure:true});
+    res.clearCookie('jwt',{httpOnly:true,secure:true,SameSite:None});
     return res.status(204).json({'message':`${foundUser.username} logged out successfully`})
 }
 
