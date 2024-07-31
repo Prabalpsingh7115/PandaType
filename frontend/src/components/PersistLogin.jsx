@@ -30,10 +30,7 @@ const PersistLogin = () => {
           };
         });
       } catch (err) {
-        // console.error(err);
-        if (err.response.status == 401) {
-          setUser(null);
-        }
+        console.error(err);
       } finally {
         setLoading(false);
       }

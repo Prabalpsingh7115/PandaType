@@ -49,7 +49,7 @@ const Auth = () => {
 
       console.log(response.data);
       const decode = jwtDecode(response.data.accessToken);
-      console.log(decode);
+      // console.log(decode);
       navigate("/");
       setUser({
         username: decode.username,

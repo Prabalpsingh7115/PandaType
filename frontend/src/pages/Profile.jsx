@@ -28,7 +28,7 @@ const Profile = () => {
     try {
       const response = await axios.get("/profile", {
         params: {
-          username: user.username,
+          username: user?.username,
         },
       });
       console.log(response.data);
