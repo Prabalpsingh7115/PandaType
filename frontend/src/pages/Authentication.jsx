@@ -33,6 +33,7 @@ const Auth = () => {
       setEmail("");
       handleLogin();
     } catch (error) {
+      toast.error(`${error.response.data.message}`);
       console.log("Error:", error.response.data);
     }
   };
