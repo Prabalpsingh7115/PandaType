@@ -1,5 +1,6 @@
 const handleCharacter=(inputKey,curWord,curLetter,expectedLetter)=>{
 
+    // console.log(expectedLetter,inputKey)
     if(inputKey===expectedLetter)
     {
         curLetter?.classList.add("correct"); 
@@ -11,6 +12,11 @@ const handleCharacter=(inputKey,curWord,curLetter,expectedLetter)=>{
     
     if(expectedLetter===' ')
     {
+        const extraLetters=[...curWord.querySelectorAll('.letter.extra')];
+        if(extraLetters.length>10)
+        {
+            return;
+        }
         const extraLetter=document.createElement('div');
         extraLetter.className="letter incorrect extra";
         extraLetter.innerHTML=`${inputKey}`;

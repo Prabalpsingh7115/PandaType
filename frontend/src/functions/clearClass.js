@@ -16,12 +16,14 @@ const clearClass=(para,clock)=>{
     para.current.style.marginTop="0rem"
     const correctLetters=[...para.current.querySelectorAll('.letter.correct')]
     const incorrectLetters=[...para.current.querySelectorAll('.letter.incorrect')]
+    const missedLetters=[...para.current.querySelectorAll('.letter.missed')]
     const currentElements=[...para.current.querySelectorAll('.current')]
     const typedwords=[...para.current.querySelectorAll(".word.typed")]
     const mistypedwords=[...para.current.querySelectorAll(".word.mistyped")]
 
     removeClass(correctLetters,'correct');
     removeClass(incorrectLetters,'incorrect');
+    removeClass(missedLetters,'missed');
     removeClass(currentElements,'current');
     removeClass(typedwords,'typed');
     removeClass(mistypedwords,'mistyped');

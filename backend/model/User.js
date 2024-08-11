@@ -27,6 +27,45 @@ const UserSchema = new mongoose.Schema({
         ttime:{
             type:Number
         },
+    },
+    records:{
+        modeTime:{
+            fifteen:{
+                type:Number,
+                default:200
+            },
+            thirty:{
+                type:Number,
+                default:200
+            },
+            sixty:{
+                type:Number,
+                default:200
+            },
+            onetwenty:{
+                type:Number,
+                default:200
+            }
+        },
+        modeWords:{
+            twenty:{
+                type:Number,
+                default:200
+            },
+            fifty:{
+                type:Number,
+                default:200
+            },
+            seventy:{
+                type:Number,
+                default:200
+            },
+            hundred:{
+                type:Number,
+                default:200
+            }
+
+        }
     }
 
 })

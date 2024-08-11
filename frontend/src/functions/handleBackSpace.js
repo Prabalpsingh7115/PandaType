@@ -1,5 +1,4 @@
 
-
 const handleBackSpace=(words,curWord,curLetter)=>{
 
     const invalidateLetter=(letter)=>{
@@ -11,6 +10,10 @@ const handleBackSpace=(words,curWord,curLetter)=>{
         else if(letter.classList.contains('incorrect'))
         {
             letter.classList.remove('incorrect');
+        }
+        else if(letter.classList.contains('missed'))
+        {
+            letter.classList.remove('missed');
         }
         else
         {
@@ -36,9 +39,31 @@ const handleBackSpace=(words,curWord,curLetter)=>{
     else if(curLetter===curWord.firstChild)
     {
         const prevWord=curWord.previousSibling;
-        curLetter.classList.remove('current');
-        curWord.classList.remove('current');
-        prevWord?.classList.add('current');
+        if(prevWord)
+        {
+            if(prevWord.classList.contains('typed'))
+            {
+                return
+            }
+            else
+            {
+                const missedLetters=[...prevWord.querySelectorAll('.letter.missed')];
+                // console.log(missedLetters);
+                if(missedLetters.length)
+                {
+                    missedLetters[0].classList.add('current');
+                    missedLetters.forEach((letter)=>{
+                        invalidateLetter(letter)
+                    })
+                    
+                }
+                curLetter.classList.remove('current');
+                curWord.classList.remove('current');
+                prevWord?.classList.add('current');
+                prevWord?.classList.remove('mistyped');
+            }
+            
+        }
     }
     else 
     {

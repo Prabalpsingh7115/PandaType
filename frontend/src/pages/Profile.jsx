@@ -111,25 +111,33 @@ const Profile = () => {
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">15 seconds</span>
             <span className="text-3xl ">
-              {profile?.result?.modeTime?.fifteen || "__"}
+              {profile?.records?.modeTime?.fifteen !== 200
+                ? profile?.records?.modeTime?.fifteen
+                : "__" || "__"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">30 seconds</span>
             <span className="text-3xl ">
-              {profile?.result?.modeTime?.thirty || "__"}
+              {profile?.records?.modeTime?.thirty !== 200
+                ? profile?.records?.modeTime?.thirty
+                : "__" || "__"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">60 seconds</span>
             <span className="text-3xl ">
-              {profile?.result?.modeTime?.sixty || "__"}
+              {profile?.records?.modeTime?.sixty !== 200
+                ? profile?.records?.modeTime?.sixty
+                : "__" || "__"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">120 seconds</span>
             <span className="text-3xl ">
-              {profile?.result?.modeTime?.onetwenty || "__"}
+              {profile?.records?.modeTime?.onetwenty !== 200
+                ? profile?.records?.modeTime?.onetwenty
+                : "__" || "__"}
             </span>
           </div>
         </div>
@@ -138,25 +146,33 @@ const Profile = () => {
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">25 words</span>
             <span className="text-3xl ">
-              {profile?.result?.modewords?.twenty || "__"}
+              {profile?.records?.modeWords?.twenty !== 200
+                ? profile?.records?.modeWords?.twenty
+                : "__" || "__"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">50 words</span>
             <span className="text-3xl ">
-              {profile?.result?.modewords?.fifty || "__"}
+              {profile?.records.modeWords?.fifty !== 200
+                ? profile?.records.modeWords?.fifty
+                : "__" || "__"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">70 words</span>
             <span className="text-3xl ">
-              {profile?.result?.modewords?.seventy || "__"}
+              {profile?.records.modeWords?.seventy !== 200
+                ? profile?.records.modeWords?.seventy
+                : "__" || "__"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
             <span className="text-xl text-gray-400">100 words</span>
             <span className="text-3xl ">
-              {profile?.result?.modewords?.hundred || "__"}
+              {profile?.records.modeWords?.hundred !== 200
+                ? profile?.records.modeWords?.hundred
+                : "__" || "__"}
             </span>
           </div>
         </div>

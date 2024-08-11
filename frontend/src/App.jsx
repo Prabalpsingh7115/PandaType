@@ -1,5 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./style.css";
 import { UserProvider } from "./context/User";
@@ -13,6 +15,16 @@ import PersistLogin from "./components/PersistLogin";
 const App = () => {
   return (
     <UserProvider>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        theme="dark"
+      />
       <ResultProvider>
         <GameStateProvider>
           <BrowserRouter>

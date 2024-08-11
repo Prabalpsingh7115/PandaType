@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-// import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 import registerImage from "../assets/images/panda-bgg.jpeg";
 import userIcon from "../assets/icons/user-icon.png";
@@ -18,7 +18,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [rpassword, setRpassword] = useState("");
   const [lpassword, setLpassword] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleRegister = async () => {
     try {
@@ -31,6 +31,7 @@ const Auth = () => {
       setRpassword("");
       setRusername("");
       setEmail("");
+      handleLogin();
     } catch (error) {
       console.log("Error:", error.response.data);
     }
@@ -41,25 +42,27 @@ const Auth = () => {
       const response = await api.post(
         "/auth",
         {
-          username: lusername,
-          password: lpassword,
+          username: lusername || rusername,
+          password: lpassword || rpassword,
         },
         { withCredentials: true },
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       const decode = jwtDecode(response.data.accessToken);
       // console.log(decode);
-      navigate("/");
-      setUser({
+      await setUser({
         username: decode.username,
         acessToken: response.data.accessToken,
       });
-      console.log(user);
+      navigate("/");
+      toast(`${decode.username} logged in`);
+      // console.log(user);
       setLpassword("");
       setLusername("");
     } catch (error) {
-      console.log("Error:", error.response.data);
+      toast.error(`${error.response.data.message}`);
+      // console.log("Error:", error);
     }
   };
 

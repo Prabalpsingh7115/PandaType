@@ -9,21 +9,12 @@ const handleSpace=(curWord,curLetter,expectedLetter)=>{
 
     if(expectedLetter!==' ')
     {
-        const skippedLetters=[...curWord.querySelectorAll('.current.word .letter:not(.correct)')];
+        const skippedLetters=[...curWord.querySelectorAll('.current.word .letter:not(.correct):not(.incorrect')];
         // console.log(skippedLetters)
 
         skippedLetters.forEach((letter)=>{
-            letter.classList.add("incorrect");
+            letter.classList.add("missed");
         })
-    }
-
-    if(curWord?.classList.contains("typed"))
-    {
-        curWord?.classList.remove("typed")
-    }
-    if(curWord?.classList.contains("mistyped"))
-    {
-        curWord?.classList.remove("mistyped")
     }
 
     const correctLetters=curWord?.querySelectorAll('.current.word > .letter.correct');

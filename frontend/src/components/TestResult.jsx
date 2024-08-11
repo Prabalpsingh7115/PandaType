@@ -5,7 +5,7 @@ import { GameStateContext } from "../context/GameState.jsx";
 
 const TestResult = () => {
   const { result } = useContext(ResultContext);
-  const {setGameState}=useContext(GameStateContext);
+  const { setGameState } = useContext(GameStateContext);
 
   return (
     <div className="results justify center flex flex-col items-center gap-10">
@@ -14,8 +14,28 @@ const TestResult = () => {
         <h1>Speed : </h1>
         <span>{Math.floor(result.WPM) || 0} WPM</span>
       </div>
+      <div className="result flex w-full justify-center gap-4 text-6xl">
+        <h1>Accuracy : </h1>
+        <span>
+          {Math.floor(
+            (result.correctLetters * 100) /
+              (result.correctLetters +
+                result.incorrectLetters +
+                result.extraLetters +
+                result.missedLetters),
+          )}{" "}
+          %
+        </span>
+      </div>
+      <div className="result flex w-full justify-center gap-4 text-5xl">
+        <h1>Characters : </h1>
+        <span>
+          {result.correctLetters} / {result.incorrectLetters} /
+          {result.extraLetters} / {result.missedLetters}
+        </span>
+      </div>
       <button
-        className={`px-3 hover:text-gray-300 hover:underline`}
+        className={`rounded-lg bg-gray-900 px-3 py-2 text-4xl hover:text-gray-300`}
         onClick={() => {
           setGameState("idle");
         }}

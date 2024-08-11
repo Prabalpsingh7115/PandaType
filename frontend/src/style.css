@@ -11,6 +11,10 @@
     
 }
 
+.missed{
+    color:gray
+}
+
 .mistyped{
     text-decoration: underline;
     text-decoration-color: #ef4444;
@@ -18,5 +22,5 @@
 }
 
 .extra{
-    opacity: 0.7;
+    opacity: 0.6;
 }
