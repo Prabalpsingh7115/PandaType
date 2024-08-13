@@ -75,6 +75,9 @@ const TypingArena = () => {
     const curLetter = curWord?.querySelector(".letter.current");
     const expectedLetter = curLetter?.innerText || " ";
     inputKey.current = e.key;
+    if (e.key === undefined) {
+      alert("hjkjk");
+    }
 
     // console.log(words);
     // console.log(curword)
