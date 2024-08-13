@@ -23,6 +23,7 @@ const TypingArena = () => {
   const words = useRef();
   const cursor = useRef();
   const container = useRef();
+  const inputF = useRef();
   const clock = useRef();
   const [para, setPara] = useState(getParagraph(mode, subMode));
 
@@ -65,13 +66,8 @@ const TypingArena = () => {
   };
 
   const handleKeyPress = (e) => {
-    if (gameState === "idle") {
-      setGameState("typing");
-      cursor.current.style.left =
-        container.current.getBoundingClientRect().left;
-      startTimer();
-      return;
-    }
+    invokeFocus();
+    setGameState("typing");
 
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
@@ -110,6 +106,20 @@ const TypingArena = () => {
     }
   };
 
+  const invokeFocus = () => {
+    if (inputF.current !== document.activeElement) {
+      setGameState("typing");
+      startTimer();
+      inputF.current.focus();
+    }
+  };
+
+  // const removeFocus = () => {
+  //   if (inputF.current === document.activeElement) {
+  //     inputF.current.blur();
+  //   }
+  // };
+
   useEffect(() => {
     clearClass(words, clock);
     setPara(getParagraph(mode, subMode));
@@ -121,9 +131,16 @@ const TypingArena = () => {
     window.gameTime = subMode;
   }, [mode, subMode]);
 
+  useEffect(() => {
+    console.log(document.activeElement);
+  }, [document.activeElement]);
+
   return (
     <div
       className={`flex h-3/5 w-11/12 flex-col justify-center gap-5 text-3xl`}
+      onClick={() => {
+        console.log(document.activeElement);
+      }}
     >
       <div className="mb-8 flex flex-row justify-between">
         <div
@@ -137,12 +154,12 @@ const TypingArena = () => {
       <div
         className={`relative flex h-[6.75rem] overflow-hidden  leading-[2.25rem] text-[#71717a] outline-none`}
         ref={container}
-        tabIndex="0"
         onKeyDown={handleKeyPress}
+        onClick={invokeFocus}
       >
-        <input type="text" className="hidden" />
+        <input type="text" className="h-0 w-0" ref={inputF} />
         <div
-          className={`${gameState !== "typing" ? "hidden" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5 animate-cursor bg-slate-200`}
+          className={`${gameState === "idle" ? "hidden" : gameState !== "typing" ? "animate-cursor" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5  bg-slate-200`}
           ref={cursor}
         ></div>
 
@@ -167,7 +184,7 @@ const TypingArena = () => {
         <div
           className={`${gameState !== "idle" ? "hidden" : ""} absolute inset-0 pt-[2.25rem] text-center text-gray-300`}
         >
-          Press any key to start!
+          Click here or press any key to start!
         </div>
       </div>
       <div

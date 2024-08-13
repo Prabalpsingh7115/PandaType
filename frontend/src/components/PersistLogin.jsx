@@ -45,10 +45,10 @@ const PersistLogin = () => {
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log(loading);
-    // console.log(user);
-  }, [loading]);
+  // useEffect(() => {
+  //   // console.log(loading);
+  //   // console.log(user);
+  // }, [loading]);
 
   return <>{loading ? <p>Loading....</p> : <Outlet />}</>;
 };
