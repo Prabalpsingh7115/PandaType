@@ -77,7 +77,7 @@ const TypingArena = () => {
 
     const currentCode = e.which || e.code;
     inputKey.current = e.key;
-    if (!e.key) {
+    if (e.key === "Unidentified") {
       inputKey.current = String.fromCharCode(currentCode);
     }
     document.getElementById("keypress").innerText = inputKey.current;
