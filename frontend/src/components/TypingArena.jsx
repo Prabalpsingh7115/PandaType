@@ -74,9 +74,11 @@ const TypingArena = () => {
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
     const expectedLetter = curLetter?.innerText || " ";
+
+    const currentCode = e.which || e.code;
     inputKey.current = e.key;
-    if (e.key === undefined) {
-      alert("hjkjk");
+    if (!e.key) {
+      inputKey.current = String.fromCharCode(currentCode);
     }
 
     // console.log(words);
