@@ -80,6 +80,7 @@ const TypingArena = () => {
     if (!e.key) {
       inputKey.current = String.fromCharCode(currentCode);
     }
+    document.getElementById("keypress").innerText = inputKey.current;
 
     // console.log(words);
     // console.log(curword)
@@ -146,6 +147,7 @@ const TypingArena = () => {
     <div
       className={`flex h-3/5 w-11/12 flex-col justify-center gap-5 text-3xl`}
     >
+      <div id="keypress"></div>
       <div className="mb-8 flex flex-row justify-between">
         <div
           className={`${mode === "time" && gameState === "typing" ? "opacity-100" : "opacity-0"}  clock left-0 top-0 `}
