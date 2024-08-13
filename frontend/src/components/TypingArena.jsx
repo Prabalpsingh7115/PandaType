@@ -66,8 +66,10 @@ const TypingArena = () => {
   };
 
   const handleKeyPress = (e) => {
+    e.preventDefault();
     invokeFocus();
     setGameState("typing");
+    console.log(e);
 
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
@@ -138,9 +140,6 @@ const TypingArena = () => {
   return (
     <div
       className={`flex h-3/5 w-11/12 flex-col justify-center gap-5 text-3xl`}
-      onClick={() => {
-        console.log(document.activeElement);
-      }}
     >
       <div className="mb-8 flex flex-row justify-between">
         <div
