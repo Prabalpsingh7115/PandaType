@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../context/User";
 import Header from "../components/Header";
@@ -23,6 +24,7 @@ const months = [
 const Profile = () => {
   const { user } = useContext(UserContext);
   const [profile, setProfile] = useState(null);
+  // const navigate = useNavigate();
 
   const getProfile = async () => {
     try {
@@ -30,10 +32,19 @@ const Profile = () => {
         params: {
           username: user?.username,
         },
+        headers: {
+          authorization: `Bearer ${user?.accessToken}`,
+        },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setProfile(response.data);
     } catch (err) {
+      if (err.response.status === 403) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+      // navigate("/auth");
       console.log(err.response);
     }
   };

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { toast } from "react-toastify";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 import pandaIcon from "../assets/icons/panda-icon.png";
 import logoutIcon from "../assets/icons/logout.png";
@@ -20,8 +20,9 @@ const Header = () => {
       toast.warn(`Alvida ${user.username}!`);
       console.log(response);
       await setUser(null);
+      Cookies.remove("accessToken");
       navigate("/");
-      console.log("Logout successful");
+      // console.log("Logout successful");
     } catch (err) {
       toast.error(`${err.response.data.message}`);
       console.log(err);

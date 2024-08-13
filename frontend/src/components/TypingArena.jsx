@@ -140,6 +140,7 @@ const TypingArena = () => {
         tabIndex="0"
         onKeyDown={handleKeyPress}
       >
+        <input type="text" className="hidden" />
         <div
           className={`${gameState !== "typing" ? "hidden" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5 animate-cursor bg-slate-200`}
           ref={cursor}

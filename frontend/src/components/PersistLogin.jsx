@@ -2,6 +2,7 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 import { UserContext } from "../context/User.jsx";
 import axios from "../api/axios.js";
@@ -22,15 +23,17 @@ const PersistLogin = () => {
         );
 
         const decode = jwtDecode(response.data.accessToken);
-        setUser((prev) => {
+        await setUser((prev) => {
           return {
             ...prev,
             username: decode.username,
             accessToken: response.data.accessToken,
           };
         });
+        Cookies.remove("accessToken");
+        Cookies.set("accessToken", response.data.accessToken);
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       } finally {
         setLoading(false);
       }

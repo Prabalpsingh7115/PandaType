@@ -1,4 +1,5 @@
 import express from "express";
+import { createServer } from 'node:http';
 import 'dotenv/config';
 import cookieParser from "cookie-parser";
 import cors from 'cors'
@@ -13,6 +14,7 @@ import getProfile from "./controllers/profileController.js";
 
 
 const app=express();
+const server=createServer(app)
 connectDB();
 
 
@@ -23,7 +25,6 @@ const corsOptions = {
 };
  
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -40,7 +41,7 @@ app.post('/refresh',(req,res)=>{
     handleRefreshToken(req,res);
 })
 
-app.get('/profile',(req,res)=>{
+app.get('/profile',verifyJWT,(req,res)=>{
     getProfile(req,res);
 })
 
@@ -49,11 +50,10 @@ app.post('/logout',(req,res)=>{
     handleLogout(req,res);
 })
 
-
 app.get('/',(req,res)=>{
     res.send("<h1>HELLO</h1>")
 })
 
-app.listen(4000,()=>{
+server.listen(4000,()=>{
     console.log("Server is running")
 })

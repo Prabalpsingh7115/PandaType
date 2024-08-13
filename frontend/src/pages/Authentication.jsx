@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 import registerImage from "../assets/images/panda-bgg.jpeg";
 import userIcon from "../assets/icons/user-icon.png";
@@ -18,7 +19,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [rpassword, setRpassword] = useState("");
   const [lpassword, setLpassword] = useState("");
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleRegister = async () => {
     try {
@@ -52,9 +53,11 @@ const Auth = () => {
       // console.log(response.data);
       const decode = jwtDecode(response.data.accessToken);
       // console.log(decode);
+      // console.log(response.data);
+      Cookies.set("accessToken", response.data.accessToken);
       await setUser({
         username: decode.username,
-        acessToken: response.data.accessToken,
+        accessToken: response.data.accessToken,
       });
       navigate("/");
       toast(`${decode.username} logged in`);
@@ -66,6 +69,11 @@ const Auth = () => {
       // console.log("Error:", error);
     }
   };
+
+  // console.log(user);
+  if (user) {
+    navigate("/");
+  }
 
   return (
     <div

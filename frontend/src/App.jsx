@@ -29,8 +29,8 @@ const App = () => {
         <GameStateProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/auth" element={<Auth />} />
               <Route element={<PersistLogin />}>
+                <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
               </Route>

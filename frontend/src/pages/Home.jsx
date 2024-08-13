@@ -6,9 +6,13 @@ import ModeBar from "../components/ModeBar";
 import TypingArena from "../components/TypingArena";
 import TestResult from "../components/TestResult";
 import { GameStateContext } from "../context/GameState";
+import { UserContext } from "../context/User";
 
 const Home = () => {
   const { gameState } = useContext(GameStateContext);
+  const { user } = useContext(UserContext);
+
+  console.log(user);
   return (
     <div className="flex h-screen w-11/12 flex-col items-center overflow-hidden font-customFont">
       <Header />
