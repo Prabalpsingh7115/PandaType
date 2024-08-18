@@ -9,7 +9,7 @@ const handleSpace=(curWord,curLetter,expectedLetter)=>{
 
     if(expectedLetter!==' ')
     {
-        const skippedLetters=[...curWord.querySelectorAll('.current.word .letter:not(.correct):not(.incorrect')];
+        const skippedLetters=[...curWord.querySelectorAll('.current.word > .letter:not(.correct):not(.incorrect')];
         // console.log(skippedLetters)
 
         skippedLetters.forEach((letter)=>{

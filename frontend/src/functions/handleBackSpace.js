@@ -1,11 +1,11 @@
 
-const handleBackSpace=(words,curWord,curLetter)=>{
+const handleBackSpace=(ctrl,words,curWord,curLetter)=>{
 
     const invalidateLetter=(letter)=>{
 
         if(letter.classList.contains("extra"))
         {
-            letter.parentNode.removeChild(letter);
+            letter.parentNode?.removeChild(letter);
         }
         else if(letter.classList.contains('incorrect'))
         {
@@ -21,55 +21,93 @@ const handleBackSpace=(words,curWord,curLetter)=>{
         }
     }
 
-    if(curWord?.classList?.contains('mistyped'))
-    {
-        curWord?.classList.remove('mistyped')
-    }
-    if(curWord?.classList?.contains('typed'))
-    {
-        curWord?.classList.remove('typed')
-    }
+    const invalidateWord=(word)=>{
+
+        const correctLetters=[...word.querySelectorAll('.letter.correct')]
+        const incorrectLetters=[...word.querySelectorAll('.letter.incorrect')]
+        const missedLetters=[...word.querySelectorAll('.letter.missed')]
+        const extraLetters=[...word.querySelectorAll('.letter.extra')]
+
+        console.log(correctLetters,incorrectLetters,extraLetters,missedLetters);
+        correctLetters.forEach((letter)=>{invalidateLetter(letter)})
+        incorrectLetters.forEach((letter)=>{invalidateLetter(letter)})
+        missedLetters.forEach((letter)=>{invalidateLetter(letter)})
+        extraLetters.forEach((letter)=>{invalidateLetter(letter)})
 
 
-    if(!curLetter)
-    {
-        curWord.lastChild.classList.add('current');
-        invalidateLetter(curWord.lastChild);
-    }
-    else if(curLetter===curWord.firstChild)
-    {
-        const prevWord=curWord.previousSibling;
-        if(prevWord)
+        if(word?.classList?.contains('mistyped'))
         {
-            if(prevWord.classList.contains('typed'))
-            {
-                return
-            }
-            else
-            {
-                const missedLetters=[...prevWord.querySelectorAll('.letter.missed')];
-                // console.log(missedLetters);
-                if(missedLetters.length)
-                {
-                    missedLetters[0].classList.add('current');
-                    missedLetters.forEach((letter)=>{
-                        invalidateLetter(letter)
-                    })
-                    
-                }
-                curLetter.classList.remove('current');
-                curWord.classList.remove('current');
-                prevWord?.classList.add('current');
-                prevWord?.classList.remove('mistyped');
-            }
-            
+            word?.classList.remove('mistyped')
+        }
+        if(word?.classList?.contains('typed'))
+        {
+            word?.classList.remove('typed')
         }
     }
-    else 
+
+
+    if(ctrl)
     {
-        curLetter.classList.remove('current');
-        curLetter.previousSibling.classList.add('current');
-        invalidateLetter(curLetter.previousSibling);
+        if(curLetter&&curLetter===curWord.firstChild)
+        {
+            const prevWord=curWord.previousSibling;
+            if(prevWord&&prevWord.classList.contains('mistyped'))
+            {
+                invalidateWord(prevWord);
+                prevWord.classList.add('current');
+                prevWord.firstChild.classList.add('current');
+                curWord.classList.remove('current');
+                curLetter.classList.remove('current');
+            }
+        }
+        else
+        {
+            invalidateWord(curWord);
+            curWord.firstChild.classList.add('current');
+        }
+    }
+    else
+    {
+        if(!curLetter)
+        {
+            curWord.lastChild.classList.add('current');
+            invalidateLetter(curWord.lastChild);
+        }
+        else if(curLetter===curWord.firstChild)
+        {
+            const prevWord=curWord.previousSibling;
+            if(prevWord)
+            {
+                if(prevWord.classList.contains('typed'))
+                {
+                    return
+                }
+                else
+                {
+                    const missedLetters=[...prevWord.querySelectorAll('.letter.missed')];
+                    // console.log(missedLetters);
+                    if(missedLetters.length)
+                    {
+                        missedLetters[0].classList.add('current');
+                        missedLetters.forEach((letter)=>{
+                            invalidateLetter(letter)
+                        })
+                        
+                    }
+                    curLetter.classList.remove('current');
+                    curWord.classList.remove('current');
+                    prevWord?.classList.add('current');
+                    prevWord?.classList.remove('mistyped');
+                }
+                
+            }
+        }
+        else 
+        {
+            curLetter.classList.remove('current');
+            curLetter.previousSibling.classList.add('current');
+            invalidateLetter(curLetter.previousSibling);
+        }
     }
 
 }

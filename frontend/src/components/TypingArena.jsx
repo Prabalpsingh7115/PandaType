@@ -66,10 +66,9 @@ const TypingArena = () => {
   };
 
   const handleKeyPress = (e) => {
-    e.preventDefault();
     invokeFocus();
     setGameState("typing");
-    console.log(e);
+    // console.log(e);
 
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
@@ -95,8 +94,13 @@ const TypingArena = () => {
     }
 
     if (inputKey.current === "Backspace") {
-      handleBackSpace(words, curWord, curLetter);
+      const ctrl = e.ctrlKey;
+      handleBackSpace(ctrl, words, curWord, curLetter);
     }
+
+    // if (e.keyCode === 229) {
+    //   console.log(e.which);
+    // }
 
     scrollLines(container, words, curWord);
     handleCursor(cursor, words);
@@ -160,10 +164,14 @@ const TypingArena = () => {
       <div
         className={`relative flex h-[6.75rem] overflow-hidden  leading-[2.25rem] text-[#71717a] outline-none`}
         ref={container}
-        onKeyDown={handleKeyPress}
         onClick={invokeFocus}
       >
-        <input type="text" className="h-0 w-0" ref={inputF} />
+        <input
+          type="text"
+          className="h-0 w-0"
+          ref={inputF}
+          onKeyDown={handleKeyPress}
+        />
         <div
           className={`${gameState === "idle" ? "hidden" : gameState !== "typing" ? "animate-cursor" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5  bg-slate-200`}
           ref={cursor}

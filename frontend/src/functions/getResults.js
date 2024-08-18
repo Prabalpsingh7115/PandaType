@@ -11,7 +11,7 @@ const getResults =(words)=>{
     const missedLetters=words.current.querySelectorAll(".letter.missed").length
 
     const WPM=(correctWords*60000)/timePassed;
-    console.log(correctLetters,incorrectLetters,extraLetters,missedLetters)
+    // console.log(correctLetters,incorrectLetters,extraLetters,missedLetters)
 
     return {WPM,correctLetters,incorrectLetters,extraLetters,missedLetters};
 
