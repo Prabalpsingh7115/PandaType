@@ -68,24 +68,26 @@ const TypingArena = () => {
   const handleKeyPress = (e) => {
     invokeFocus();
     setGameState("typing");
-    // console.log(e);
+    console.log(e);
 
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
     const expectedLetter = curLetter?.innerText || " ";
 
-    const currentCode = e.which || e.code;
-    inputKey.current = e.key;
-    if (e.key === "Unidentified") {
-      inputKey.current = String.fromCharCode(currentCode);
+    inputKey.current = e.nativeEvent.data;
+    if (
+      e.nativeEvent.inputType === "deleteContentBackward" ||
+      e.nativeEvent.inputType === "deleteWordBackward"
+    ) {
+      inputKey.current = "Backspace";
     }
-    document.getElementById("keypress").innerText = inputKey.current;
+    document.getElementById("keypress").innerText = inputKey.current || " ";
 
     // console.log(words);
     // console.log(curword)
     // console.log(curletter)
 
-    if (inputKey.current.length === 1 && inputKey.current !== " ") {
+    if (inputKey.current?.length === 1 && inputKey.current !== " ") {
       handleCharacter(inputKey.current, curWord, curLetter, expectedLetter);
     }
 
@@ -94,13 +96,9 @@ const TypingArena = () => {
     }
 
     if (inputKey.current === "Backspace") {
-      const ctrl = e.ctrlKey;
+      const ctrl = e.nativeEvent.inputType === "deleteWordBackward";
       handleBackSpace(ctrl, words, curWord, curLetter);
     }
-
-    // if (e.keyCode === 229) {
-    //   console.log(e.which);
-    // }
 
     scrollLines(container, words, curWord);
     handleCursor(cursor, words);
@@ -143,15 +141,14 @@ const TypingArena = () => {
     window.gameTime = subMode;
   }, [mode, subMode]);
 
-  useEffect(() => {
-    console.log(document.activeElement);
-  }, [document.activeElement]);
+  // useEffect(() => {
+  //   console.log(document.activeElement);
+  // }, [document.activeElement]);
 
   return (
     <div
       className={`flex h-3/5 w-11/12 flex-col justify-center gap-5 text-3xl`}
     >
-      <div id="keypress"></div>
       <div className="mb-8 flex flex-row justify-between">
         <div
           className={`${mode === "time" && gameState === "typing" ? "opacity-100" : "opacity-0"}  clock left-0 top-0 `}
@@ -170,7 +167,7 @@ const TypingArena = () => {
           type="text"
           className="h-0 w-0"
           ref={inputF}
-          onKeyDown={handleKeyPress}
+          onInput={handleKeyPress}
         />
         <div
           className={`${gameState === "idle" ? "hidden" : gameState !== "typing" ? "animate-cursor" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5  bg-slate-200`}
@@ -201,6 +198,7 @@ const TypingArena = () => {
           Click here or press any key to start!
         </div>
       </div>
+      <div id="keypress"></div>
       <div
         className={`${gameState === "finished" ? "opacity-100" : "opacity-0"} flex w-full justify-center text-[#71717a] `}
       >

@@ -1,6 +1,8 @@
 
 const handleBackSpace=(ctrl,words,curWord,curLetter)=>{
 
+    console.log(ctrl,curWord)
+
     const invalidateLetter=(letter)=>{
 
         if(letter.classList.contains("extra"))

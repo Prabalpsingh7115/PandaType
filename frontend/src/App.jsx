@@ -10,6 +10,7 @@ import { GameStateProvider } from "./context/GameState";
 import Home from "./pages/Home";
 import Auth from "./pages/Authentication";
 import Profile from "./pages/Profile";
+import Compete from "./pages/Compete";
 import PersistLogin from "./components/PersistLogin";
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/compete" element={<Compete />} />
               </Route>
             </Routes>
           </BrowserRouter>
