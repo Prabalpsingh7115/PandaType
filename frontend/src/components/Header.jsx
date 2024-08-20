@@ -1,37 +1,25 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 
 import pandaIcon from "../assets/icons/panda-icon.png";
 import logoutIcon from "../assets/icons/logout.png";
 import { UserContext } from "../context/User.jsx";
-import api from "../api/axios.js";
 import { GameStateContext } from "../context/GameState.jsx";
+import useLogout from "../hooks/useLogout.jsx";
 
 const Header = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { gameState } = useContext(GameStateContext);
-  const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      const response = await api.post("/logout", {}, { withCredentials: true });
-      toast.warn(`Alvida ${user.username}!`);
-      console.log(response);
-      await setUser(null);
-      Cookies.remove("accessToken");
-      navigate("/");
-      // console.log("Logout successful");
-    } catch (err) {
-      toast.error(`${err.response.data.message}`);
-      console.log(err);
-    }
+  const logout = useLogout();
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
     <div
-      className={`${gameState !== "idle" ? "opacity:0" : ""} left-0 top-0 flex h-1/5 w-full items-center justify-between text-2xl text-white`}
+      className={`${gameState !== "idle" ? "opacity:0" : ""} left-0 top-0 flex h-1/5 w-5/6 items-center justify-between  text-white`}
     >
       <Link to="/">
         <div className="flex items-center justify-center">

@@ -9,7 +9,7 @@ const handleLogout = async (req,res)=>{
     const cookies=req.cookies;
     if(!cookies?.jwt)
     {
-        return res.status(201).json({'message':'behenchod'});
+        return res.status(201).json({'message':'No Token found'});
     }
     
     const refreshToken=cookies.jwt;
@@ -18,7 +18,7 @@ const handleLogout = async (req,res)=>{
     if(!foundUser)
     {
         res.clearCookie('jwt',{httpOnly:true,secure:true,sameSite:'None'});
-        return res.status(204).json({'message':'behenchod'});
+        return res.status(204).json({'message':'No user Found'});
     }
 
     foundUser.refreshToken=undefined;

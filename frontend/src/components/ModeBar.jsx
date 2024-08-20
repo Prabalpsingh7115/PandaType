@@ -22,7 +22,7 @@ const ModeBar = () => {
 
   return (
     <div
-      className={`flex h-10 flex-row items-center justify-center gap-x-5 bg-transparent text-2xl text-gray-500`}
+      className={`flex h-[3rem] flex-row items-center justify-center gap-x-5 bg-transparent text-3xl text-gray-500`}
     >
       <div className="mode flex flex-row gap-x-5">
         <div

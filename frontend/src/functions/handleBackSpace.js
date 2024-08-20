@@ -1,7 +1,6 @@
 
 const handleBackSpace=(ctrl,words,curWord,curLetter)=>{
 
-    console.log(ctrl,curWord)
 
     const invalidateLetter=(letter)=>{
 
@@ -30,7 +29,7 @@ const handleBackSpace=(ctrl,words,curWord,curLetter)=>{
         const missedLetters=[...word.querySelectorAll('.letter.missed')]
         const extraLetters=[...word.querySelectorAll('.letter.extra')]
 
-        console.log(correctLetters,incorrectLetters,extraLetters,missedLetters);
+        // console.log(correctLetters,incorrectLetters,extraLetters,missedLetters);
         correctLetters.forEach((letter)=>{invalidateLetter(letter)})
         incorrectLetters.forEach((letter)=>{invalidateLetter(letter)})
         missedLetters.forEach((letter)=>{invalidateLetter(letter)})

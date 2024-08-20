@@ -16,7 +16,6 @@ import { GameStateContext } from "../context/GameState";
 const TypingArena = () => {
   const { gameState, setGameState, mode, subMode } =
     useContext(GameStateContext);
-
   const { setResult } = useContext(ResultContext);
 
   const inputKey = useRef();
@@ -68,7 +67,7 @@ const TypingArena = () => {
   const handleKeyPress = (e) => {
     invokeFocus();
     setGameState("typing");
-    console.log(e);
+    // console.log(e);
 
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
@@ -81,7 +80,7 @@ const TypingArena = () => {
     ) {
       inputKey.current = "Backspace";
     }
-    document.getElementById("keypress").innerText = inputKey.current || " ";
+    // document.getElementById("keypress").innerText = inputKey.current || " ";
 
     // console.log(words);
     // console.log(curword)
@@ -147,7 +146,7 @@ const TypingArena = () => {
 
   return (
     <div
-      className={`flex h-3/5 w-11/12 flex-col justify-center gap-5 text-3xl`}
+      className={`flex h-[24rem] w-5/6 flex-col justify-center gap-3 text-4xl`}
     >
       <div className="mb-8 flex flex-row justify-between">
         <div
@@ -159,7 +158,7 @@ const TypingArena = () => {
       </div>
 
       <div
-        className={`relative flex h-[6.75rem] overflow-hidden  leading-[2.25rem] text-[#71717a] outline-none`}
+        className={`relative flex h-[7.5rem] overflow-hidden  leading-[2.5rem] text-[#71717a] outline-none`}
         ref={container}
         onClick={invokeFocus}
       >
@@ -170,12 +169,12 @@ const TypingArena = () => {
           onInput={handleKeyPress}
         />
         <div
-          className={`${gameState === "idle" ? "hidden" : gameState !== "typing" ? "animate-cursor" : ""} cursor fixed left-0 top-0 z-10 h-[2.25rem] w-0.5  bg-slate-200`}
+          className={`${gameState === "idle" ? "hidden" : gameState !== "typing" ? "animate-cursor" : ""} cursor fixed left-0 top-0 z-10 h-[2.5rem] w-0.5  bg-slate-200`}
           ref={cursor}
         ></div>
 
         <div
-          className={`${gameState !== "idle" ? "opacity-100" : "blur-sm"} words flex flex-wrap gap-x-2`}
+          className={`${gameState !== "idle" ? "opacity-100" : "blur-md"} words flex flex-wrap gap-x-4 text-4xl`}
           ref={words}
         >
           {para.map((word, i) => (
@@ -199,7 +198,8 @@ const TypingArena = () => {
         </div>
       </div>
       <div id="keypress"></div>
-      <div
+
+      {/* <div
         className={`${gameState === "finished" ? "opacity-100" : "opacity-0"} flex w-full justify-center text-[#71717a] `}
       >
         <button
@@ -226,7 +226,7 @@ const TypingArena = () => {
         >
           New Game
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

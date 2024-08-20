@@ -17,7 +17,7 @@ const scrollLines=(container, words, curWord)=>{
       );
       const curMargin = parseInt(words.current.style.marginTop);
       if (lastWordBottom > containerBottom && curLineTop > containerTop) {
-        words.current.style.marginTop = `${curMargin - 36}px`;
+        words.current.style.marginTop = `${curMargin - 41}px`;
       }
 }
 

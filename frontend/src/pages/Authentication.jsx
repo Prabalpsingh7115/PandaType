@@ -1,8 +1,5 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 
 import registerImage from "../assets/images/panda-bgg.jpeg";
 import userIcon from "../assets/icons/user-icon.png";
@@ -10,7 +7,8 @@ import emailIcon from "../assets/icons/email-icon.png";
 import pwdIcon from "../assets/icons/pwd-icon.png";
 import pandaIcon from "../assets/icons/panda-icon.png";
 import { UserContext } from "../context/User";
-import api from "../api/axios";
+import useLogin from "../hooks/useLogin";
+import useRegister from "../hooks/useRegister";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -19,55 +17,32 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [rpassword, setRpassword] = useState("");
   const [lpassword, setLpassword] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const login = useLogin();
+  const register = useRegister;
 
   const handleRegister = async () => {
-    try {
-      const response = await api.post("/register", {
-        username: rusername,
-        email,
-        password: rpassword,
-      });
-      console.log(response.data);
-      setRpassword("");
-      setRusername("");
-      setEmail("");
-      handleLogin();
-    } catch (error) {
-      toast.error(`${error.response.data.message}`);
-      console.log("Error:", error.response.data);
-    }
+    register(rusername, email, rpassword);
+    login(rusername, lusername);
+    clearLfields();
+    clearRfields();
   };
 
   const handleLogin = async () => {
-    try {
-      const response = await api.post(
-        "/auth",
-        {
-          username: lusername || rusername,
-          password: lpassword || rpassword,
-        },
-        { withCredentials: true },
-      );
+    login(lusername, lpassword);
+    clearLfields();
+    clearRfields();
+  };
 
-      // console.log(response.data);
-      const decode = jwtDecode(response.data.accessToken);
-      // console.log(decode);
-      // console.log(response.data);
-      Cookies.set("accessToken", response.data.accessToken);
-      await setUser({
-        username: decode.username,
-        accessToken: response.data.accessToken,
-      });
-      navigate("/");
-      toast(`${decode.username} logged in`);
-      // console.log(user);
-      setLpassword("");
-      setLusername("");
-    } catch (error) {
-      toast.error(`${error.response.data.message}`);
-      // console.log("Error:", error);
-    }
+  const clearRfields = () => {
+    setRpassword("");
+    setRusername("");
+    setEmail("");
+  };
+
+  const clearLfields = () => {
+    setLpassword("");
+    setLusername("");
   };
 
   // console.log(user);
@@ -100,6 +75,7 @@ const Auth = () => {
                 placeholder="Username"
                 onChange={(e) => {
                   setRusername(e.target.value);
+                  clearLfields();
                 }}
                 className="rounded-lg px-3 py-2"
               />
@@ -114,6 +90,7 @@ const Auth = () => {
                 placeholder="Email Id"
                 onChange={(e) => {
                   setEmail(e.target.value);
+                  clearLfields();
                 }}
                 className="rounded-lg px-3 py-2"
               />
@@ -129,6 +106,7 @@ const Auth = () => {
                   placeholder="Password"
                   onChange={(e) => {
                     setRpassword(e.target.value);
+                    clearLfields();
                   }}
                   className="rounded-lg px-3 py-2"
                 />
@@ -154,7 +132,10 @@ const Auth = () => {
                 name="lusername"
                 value={lusername}
                 placeholder="Username"
-                onChange={(e) => setLusername(e.target.value)}
+                onChange={(e) => {
+                  setLusername(e.target.value);
+                  clearRfields();
+                }}
               />
             </div>
             <div>
@@ -167,7 +148,10 @@ const Auth = () => {
                   name="password"
                   value={lpassword}
                   placeholder="Password"
-                  onChange={(e) => setLpassword(e.target.value)}
+                  onChange={(e) => {
+                    setLpassword(e.target.value);
+                    clearRfields();
+                  }}
                 />
               </div>
             </div>

@@ -25,7 +25,7 @@ const handleRefreshToken = async (req,res)=>{
         (err,decoded)=>{
             if(err||decoded.username!==foundUser.username)
             {
-                return res.status(403)
+                return res.status(403).json({ 'message': 'Forbidden' })
             }
 
             const accessToken=jwt.sign(

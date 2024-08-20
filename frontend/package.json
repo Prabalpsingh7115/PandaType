@@ -40,6 +40,7 @@
         "react-oauth": "^0.0.1",
         "react-router-dom": "^6.23.1",
         "react-toastify": "^10.0.5",
+        "socket.io-client": "^4.7.5",
         "use-sound": "^4.0.1",
         "uuid": "^9.0.1"
     }
