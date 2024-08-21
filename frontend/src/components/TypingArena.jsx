@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useRef, useContext } from "react";
 
-import getParagraph from "../functions/getParagraph";
 import handleCharacter from "../functions/handleCharacter";
 import handleSpace from "../functions/handleSpace";
 import handleBackSpace from "../functions/handleBackSpace";
@@ -14,17 +12,15 @@ import { ResultContext } from "../context/Result";
 import { GameStateContext } from "../context/GameState";
 
 const TypingArena = () => {
-  const { gameState, setGameState, mode, subMode } =
+  const { gameState, setGameState, mode, subMode, para } =
     useContext(GameStateContext);
   const { setResult } = useContext(ResultContext);
-
   const inputKey = useRef();
   const words = useRef();
   const cursor = useRef();
   const container = useRef();
   const inputF = useRef();
   const clock = useRef();
-  const [para, setPara] = useState(getParagraph(mode, subMode));
 
   window.gameTime = mode === "time" ? subMode : 1000;
   container.current?.focus();
@@ -41,7 +37,7 @@ const TypingArena = () => {
     if (!window.timer) {
       window.timer = setInterval(() => {
         if (!window.gameStart) {
-          window.gameStart = new Date().getTime() - 500;
+          window.gameStart = new Date().getTime();
         }
 
         if (mode === "time") {
@@ -65,36 +61,37 @@ const TypingArena = () => {
   };
 
   const handleKeyPress = (e) => {
-    invokeFocus();
-    setGameState("typing");
-    // console.log(e);
-
+    startTimer();
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
     const expectedLetter = curLetter?.innerText || " ";
 
     inputKey.current = e.nativeEvent.data;
-    if (
-      e.nativeEvent.inputType === "deleteContentBackward" ||
-      e.nativeEvent.inputType === "deleteWordBackward"
-    ) {
+    if (e.nativeEvent.inputType === "deleteContentBackward") {
       inputKey.current = "Backspace";
     }
-    // document.getElementById("keypress").innerText = inputKey.current || " ";
+    if (e.nativeEvent.inputType === "deleteWordBackward") {
+      inputKey.current = "Ctrl + Backspace";
+    }
+
+    document.getElementById("key").innerText = inputKey.current;
 
     // console.log(words);
     // console.log(curword)
     // console.log(curletter)
 
     if (inputKey.current?.length === 1 && inputKey.current !== " ") {
-      handleCharacter(inputKey.current, curWord, curLetter, expectedLetter);
+      handleCharacter(inputKey.current);
     }
 
     if (inputKey.current === " ") {
       handleSpace(curWord, curLetter, expectedLetter);
     }
 
-    if (inputKey.current === "Backspace") {
+    if (
+      inputKey.current === "Backspace" ||
+      inputKey.current === "Ctrl + Backspace"
+    ) {
       const ctrl = e.nativeEvent.inputType === "deleteWordBackward";
       handleBackSpace(ctrl, words, curWord, curLetter);
     }
@@ -117,32 +114,23 @@ const TypingArena = () => {
 
   const invokeFocus = () => {
     if (inputF.current !== document.activeElement) {
-      setGameState("typing");
-      startTimer();
       inputF.current.focus();
+      setGameState("typing");
     }
   };
 
-  // const removeFocus = () => {
-  //   if (inputF.current === document.activeElement) {
-  //     inputF.current.blur();
-  //   }
-  // };
-
   useEffect(() => {
     clearClass(words, clock);
-    setPara(getParagraph(mode, subMode));
     handleCursor(cursor, words);
-    setGameState("idle");
     clearInterval(window.timer);
     window.timer = null;
     window.gameStart = null;
     window.gameTime = subMode;
-  }, [mode, subMode]);
+  });
 
-  // useEffect(() => {
-  //   console.log(document.activeElement);
-  // }, [document.activeElement]);
+  useEffect(() => {
+    console.log(document.activeElement);
+  }, [document.activeElement]);
 
   return (
     <div
@@ -161,6 +149,7 @@ const TypingArena = () => {
         className={`relative flex h-[7.5rem] overflow-hidden  leading-[2.5rem] text-[#71717a] outline-none`}
         ref={container}
         onClick={invokeFocus}
+        onKeyDown={invokeFocus}
       >
         <input
           type="text"
@@ -197,7 +186,11 @@ const TypingArena = () => {
           Click here or press any key to start!
         </div>
       </div>
-      <div id="keypress"></div>
+      <div
+        className={`${inputKey.current === " " ? "opacity-0 " : " "} flex items-center justify-center`}
+      >
+        <span id="key" className="h-10 text-red-200 "></span>
+      </div>
 
       {/* <div
         className={`${gameState === "finished" ? "opacity-100" : "opacity-0"} flex w-full justify-center text-[#71717a] `}

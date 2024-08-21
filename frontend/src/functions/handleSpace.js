@@ -1,6 +1,10 @@
 
 
-const handleSpace=(curWord,curLetter,expectedLetter)=>{
+const handleSpace=()=>{
+
+    const curWord=document.querySelector('.word.current');
+    const curLetter=document.querySelector('.letter.current');
+    const expectedLetter=' ';
 
     if(!curWord||curLetter===curWord.firstChild)
     {

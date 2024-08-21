@@ -1,5 +1,8 @@
 
-const handleBackSpace=(ctrl,words,curWord,curLetter)=>{
+const handleBackSpace=(ctrl)=>{
+
+    const curWord=document.querySelector('.word.current')
+    const curLetter=document.querySelector('.letter.current')
 
 
     const invalidateLetter=(letter)=>{
@@ -60,6 +63,7 @@ const handleBackSpace=(ctrl,words,curWord,curLetter)=>{
                 curWord.classList.remove('current');
                 curLetter.classList.remove('current');
             }
+            console.log(document.querySelector('.letter.current'))
         }
         else
         {

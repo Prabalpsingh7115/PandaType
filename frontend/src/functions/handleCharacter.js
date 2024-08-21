@@ -1,6 +1,9 @@
-const handleCharacter=(inputKey,curWord,curLetter,expectedLetter)=>{
+const handleCharacter=(inputKey)=>{
 
-    // console.log(expectedLetter,inputKey)
+    const curWord=document.querySelector('.word.current');
+    const curLetter=document.querySelector('.letter.current');
+    const expectedLetter=curLetter?.innerText||' ';
+    
     if(inputKey===expectedLetter)
     {
         curLetter?.classList.add("correct"); 

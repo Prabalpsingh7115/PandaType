@@ -12,6 +12,7 @@ import verifyJWT from "./functions/verifyJWT.js";
 import handleRefreshToken from "./controllers/refreshTokenController.js";
 import handleLogout from "./controllers/logoutController.js";
 import getProfile from "./controllers/profileController.js";
+import getPara from "./controllers/paraController.js";
 
 
 const corsOptions = {
@@ -36,6 +37,8 @@ const io = new Server(server, {
 });
 
 io.on('connection',(socket)=>{
+
+    console.log(socket.id);
 
     socket.on('connect',()=>{
         console.log('User Connected:', socket.id)
@@ -95,6 +98,10 @@ app.post('/logout',(req,res)=>{
 
 app.get('/',(req,res)=>{
     res.send("<h1>HELLO</h1>")
+})
+
+app.get('/para',(req,res)=>{
+    getPara(req,res);
 })
 
 server.listen(4000,()=>{
