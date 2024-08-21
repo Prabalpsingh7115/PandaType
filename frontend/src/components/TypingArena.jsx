@@ -128,9 +128,9 @@ const TypingArena = () => {
     window.gameTime = subMode;
   });
 
-  useEffect(() => {
-    console.log(document.activeElement);
-  }, [document.activeElement]);
+  // useEffect(() => {
+  //   console.log(document.activeElement);
+  // }, [document.activeElement]);
 
   return (
     <div

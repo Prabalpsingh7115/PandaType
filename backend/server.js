@@ -13,6 +13,7 @@ import handleRefreshToken from "./controllers/refreshTokenController.js";
 import handleLogout from "./controllers/logoutController.js";
 import getProfile from "./controllers/profileController.js";
 import getPara from "./controllers/paraController.js";
+import GetParagraph from "./functions/getParagraph.js";
 
 
 const corsOptions = {
@@ -38,33 +39,31 @@ const io = new Server(server, {
 
 io.on('connection',(socket)=>{
 
-    console.log(socket.id);
+    console.log(`User connected ${socket.id}`);
 
     socket.on('connect',()=>{
         console.log('User Connected:', socket.id)
     })
 
-    socket.on('create',()=>{
+    socket.on('create-room',(cb)=>{
         let roomID=Math.random().toString(36).slice(2)
-        console.log('Room Created',roomID,"by",socket.id)
         socket.join(roomID);
-        console.log(roomID,'joined by ',socket.id)
-
-        socket.emit('roomId',roomID)
+        console.log('Room ',roomID,"created & joined by",socket.id)
+        cb(roomID)
     })
     
-    socket.on('join-room',(roomID)=>{
+    socket.on('join-room',(roomID,cb)=>{
         socket.join(roomID)
         console.log(roomID,'joined by ',socket.id)
+        cb(roomID)
     })
 
-    socket.on('send-message',(msg,roomID)=>{
-        console.log(msg);
-        socket.to(roomID).emit('message',msg)
+    socket.on('player-joined',(mode,submode,roomID)=>{
+        const curPara=GetParagraph(mode,submode);
+        console.log(curPara)
+        socket.to(roomID).emit('player-joined',roomID)
+        io.to(roomID).emit('ready','Get Ready',curPara);
     })
-
-   
-     
 
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);

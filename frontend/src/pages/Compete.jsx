@@ -6,14 +6,15 @@ import { useState, useContext, useEffect, useRef } from "react";
 
 import Header from "../components/Header";
 import TypingArena from "../components/TypingArena";
+import delay from "../functions/delay";
 import { GameStateContext } from "../context/GameState";
 
 const Compete = () => {
   const [roomID, setRoomID] = useState(null);
-  const [userState, setUserState] = useState();
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const { para, setPara } = useContext(GameStateContext);
+  const { setPara, mode, submode } = useContext(GameStateContext);
   const [join, setJoin] = useState(false);
   const socket = useRef();
 
@@ -23,17 +24,11 @@ const Compete = () => {
     socket.current.emit("create-room", (room_id) => {
       setJoin(true);
       setRoomID(room_id);
-      setUserState("queue");
       document.querySelector(".controls").classList.add("hidden");
       document.querySelector(".room").classList.remove("hidden");
 
-      socket.current.on("player-joined", () => {
-        console.log("other-player-joined");
-        setUserState("arena");
-        console.log(room_id);
-        socket.current.emit("para-generated", room_id, para, (para) => {
-          setPara(para);
-        });
+      socket.current.on("player-joined", (room_id) => {
+        console.log("other-player-joined to ", room_id);
       });
     });
   };
@@ -43,12 +38,7 @@ const Compete = () => {
     document.querySelector(".room").classList.remove("hidden");
     socket.current.emit("join-room", roomID, () => {
       setJoin(true);
-      setUserState("queue");
-      socket.current.emit("player-joined", roomID);
-      socket.current.on("para-received", (para) => {
-        setPara(para);
-        setUserState("arena");
-      });
+      socket.current.emit("player-joined", mode, submode, roomID);
     });
   };
 
@@ -56,6 +46,12 @@ const Compete = () => {
     socket.current = io(import.meta.env.VITE_API_BASE_URL);
     socket.current.on("connect", () => {
       console.log(socket.current.id, " connected");
+    });
+
+    socket.current.on("ready", async (msg, para) => {
+      setPara(para);
+      await delay(3000);
+      setLoading(false);
     });
 
     return () => {
@@ -77,8 +73,15 @@ const Compete = () => {
       <Header />
       {join && (
         <>
-          {userState === "arena" && <TypingArena />}
-          <div> Room Id : {roomID}</div>
+          {loading ? (
+            <div>
+              {" "}
+              Room Id : {roomID}
+              <div>Loading.....</div>
+            </div>
+          ) : (
+            <TypingArena />
+          )}
         </>
       )}
       {!join && (

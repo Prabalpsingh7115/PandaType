@@ -14,9 +14,8 @@ const usePara = () => {
         mode,
         subMode,
       });
-      console.log(response.data);
+      // console.log(response.data);
       navigate("/");
-      // await setPara(response.data.para);
       return response.data.para;
     } catch (err) {
       console.log(err);

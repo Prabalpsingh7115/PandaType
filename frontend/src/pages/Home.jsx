@@ -12,7 +12,7 @@ import delay from "../functions/delay";
 // import { UserContext } from "../context/User";
 
 const Home = () => {
-  const { gameState, setGameState, mode, subMode, para, setPara } =
+  const { gameState, setGameState, mode, subMode, setPara } =
     useContext(GameStateContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -37,15 +37,15 @@ const Home = () => {
     console.log(loading);
   }, [loading]);
 
-  if (loading || !para) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="flex h-screen w-11/12 flex-col items-center overflow-hidden font-customFont text-4xl">
       <Header />
       {gameState !== "finished" && <ModeBar />}
-      {gameState !== "finished" && loading == false && <TypingArena />}
+      {gameState !== "finished" && loading == false ? (
+        <TypingArena />
+      ) : (
+        <div className="my-16 text-4xl">loading....</div>
+      )}
       {gameState !== "finished" && (
         <button
           className={`text-3xl hover:text-gray-300 hover:underline`}

@@ -9,15 +9,19 @@ const randomWord=()=>{
 
 const GetParagraph = (mode,value)=>{
 
-    let n=value||50;
+    if(!mode)
+    {
+        mode='time'
+    }
+    
     if(mode==='time')
     {
-        n=50;
+        value=50;
     }
 
     let words=[];
 
-    for(let i=0;i<n;i++)
+    for(let i=0;i<value;i++)
     {
         words.push(randomWord());
     }
