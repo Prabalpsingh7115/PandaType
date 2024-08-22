@@ -22,9 +22,6 @@ const corsOptions = {
     credentials:true
 };
 
-console.log(process.env.TRUSTED_DOMAINS.split(','))
-
-
 const app=express();
 app.use(cors(corsOptions));
 app.use(express.json());
