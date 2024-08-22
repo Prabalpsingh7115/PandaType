@@ -2,3 +2,4 @@ node_modules/
 backend/.env
 frontend/src/.env
 .vscode
+frontend/src/dist
