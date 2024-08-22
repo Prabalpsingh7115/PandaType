@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useContext } from "react";
 
@@ -113,6 +114,7 @@ const TypingArena = () => {
   };
 
   const invokeFocus = () => {
+    console.log("press");
     if (inputF.current !== document.activeElement) {
       inputF.current.focus();
       setGameState("typing");
@@ -120,6 +122,7 @@ const TypingArena = () => {
   };
 
   useEffect(() => {
+    container.current.focus();
     clearClass(words, clock);
     handleCursor(cursor, words);
     clearInterval(window.timer);
@@ -128,9 +131,9 @@ const TypingArena = () => {
     window.gameTime = subMode;
   });
 
-  // useEffect(() => {
-  //   console.log(document.activeElement);
-  // }, [document.activeElement]);
+  useEffect(() => {
+    console.log(document.activeElement);
+  }, [document.activeElement]);
 
   return (
     <div
@@ -148,6 +151,7 @@ const TypingArena = () => {
       <div
         className={`relative flex h-[7.5rem] overflow-hidden  leading-[2.5rem] text-[#71717a] outline-none`}
         ref={container}
+        tabIndex="0"
         onClick={invokeFocus}
         onKeyDown={invokeFocus}
       >
