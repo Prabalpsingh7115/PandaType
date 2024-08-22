@@ -17,7 +17,7 @@ import GetParagraph from "./functions/getParagraph.js";
 
 
 const corsOptions = {
-    origin: process.env.TRUSTED_DOMAINS.split(','),
+    origin: [process.env.TRUSTED_DOMAINS],
     optionsSuccessStatus: 200,
     credentials:true
 };
@@ -31,7 +31,7 @@ const server = createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: process.env.TRUSTED_DOMAINS.split(','),
+        origin: [process.env.TRUSTED_DOMAINS],
         methods: ["GET", "POST"],
         credentials: true
     }
