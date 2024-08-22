@@ -17,10 +17,12 @@ import GetParagraph from "./functions/getParagraph.js";
 
 
 const corsOptions = {
-    origin: [process.env.TRUSTED_DOMAINS],
+    origin: [ 'http://localhost:5173', 'https://pandatype.co' ],
     optionsSuccessStatus: 200,
     credentials:true
 };
+
+console.log(process.env.TRUSTED_DOMAINS.split(','))
 
 
 const app=express();
@@ -31,7 +33,7 @@ const server = createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: [process.env.TRUSTED_DOMAINS],
+        origin: ['http://localhost:5173','https://pandatype.co'],
         methods: ["GET", "POST"],
         credentials: true
     }
