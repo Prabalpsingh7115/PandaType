@@ -8,7 +8,7 @@ const randomWord=()=>{
 
 
 const GetParagraph = (mode,value)=>{
-
+    value=parseInt(value)
     if(!mode)
     {
         mode='time'

@@ -4,7 +4,7 @@ const handleSpace=()=>{
 
     const curWord=document.querySelector('.word.current');
     const curLetter=document.querySelector('.letter.current');
-    const expectedLetter=' ';
+    const expectedLetter=curLetter?.innerText||' ';
 
     if(!curWord||curLetter===curWord.firstChild)
     {
@@ -31,6 +31,8 @@ const handleSpace=()=>{
     {
         curWord?.classList.add("mistyped");
     }
+
+    // console.log(curWord,curWord.nextSibling)
 
     curWord?.nextSibling?.classList.add("current");
     curWord?.nextSibling?.firstChild.classList.add("current");

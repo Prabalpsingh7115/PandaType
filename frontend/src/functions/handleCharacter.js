@@ -1,6 +1,8 @@
 const handleCharacter=(inputKey)=>{
 
+
     const curWord=document.querySelector('.word.current');
+    const letters=[...document.querySelectorAll('.word.current > .letter')]
     const curLetter=document.querySelector('.letter.current');
     const expectedLetter=curLetter?.innerText||' ';
     
@@ -15,18 +17,23 @@ const handleCharacter=(inputKey)=>{
     
     if(expectedLetter===' ')
     {
-        const extraLetters=[...curWord.querySelectorAll('.letter.extra')];
-        if(extraLetters.length>10)
+        const extraLetters=curWord.querySelectorAll('.letter.extra');
+        // console.log(extraLetters)
+        if(parseInt(extraLetters.length)>10)
         {
             return;
         }
         const extraLetter=document.createElement('div');
         extraLetter.className="letter incorrect extra";
+        extraLetter.setAttribute('idx',letters.length);
         extraLetter.innerHTML=`${inputKey}`;
-        curWord?.appendChild(extraLetter)
+        curWord.appendChild(extraLetter)
+    }
+    else
+    {
+        curLetter.nextSibling?.classList.add("current");
     }
 
-    curLetter?.nextSibling?.classList.add("current");
     curLetter?.classList.remove("current");
 }
 

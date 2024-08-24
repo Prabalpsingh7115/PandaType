@@ -1,6 +1,6 @@
 
 
-const clearClass=(para,clock)=>{
+const clearClass=()=>{
 
     const removeClass=(classlist,classkey)=>{
         classlist.forEach((element) => {
@@ -8,18 +8,23 @@ const clearClass=(para,clock)=>{
         });
     }
 
-    if(clock.current?.classList?.contains("incorrect"))
+    const clock=document.querySelector('.clock')
+
+    if(clock.classList.contains("incorrect"))
     {
-        clock.current.classList.remove("incorrect");
+        clock.classList.remove("incorrect");
     }
 
-    para.current.style.marginTop="0rem"
-    const correctLetters=[...para.current.querySelectorAll('.letter.correct')]
-    const incorrectLetters=[...para.current.querySelectorAll('.letter.incorrect')]
-    const missedLetters=[...para.current.querySelectorAll('.letter.missed')]
-    const currentElements=[...para.current.querySelectorAll('.current')]
-    const typedwords=[...para.current.querySelectorAll(".word.typed")]
-    const mistypedwords=[...para.current.querySelectorAll(".word.mistyped")]
+    // console.log(document.querySelector('.words'))
+    
+
+
+    const correctLetters=[...document.querySelectorAll('.letter.correct')]
+    const incorrectLetters=[...document.querySelectorAll('.letter.incorrect')]
+    const missedLetters=[...document.querySelectorAll('.letter.missed')]
+    const currentElements=[...document.querySelectorAll('.current')]
+    const typedwords=[...document.querySelectorAll(".word.typed")]
+    const mistypedwords=[...document.querySelectorAll(".word.mistyped")]
 
     removeClass(correctLetters,'correct');
     removeClass(incorrectLetters,'incorrect');
@@ -28,14 +33,14 @@ const clearClass=(para,clock)=>{
     removeClass(typedwords,'typed');
     removeClass(mistypedwords,'mistyped');
 
-    const extraLetters=[...para.current.querySelectorAll('.extra')]
+    const extraLetters=[...document.querySelectorAll('.extra')]
     // console.log(extraLetters);
     
     extraLetters.forEach((letter)=>{
         letter.parentNode.removeChild(letter);
     })
 
-    const curWord=para.current.querySelector('.word');
+    const curWord=document.querySelector('.word');
     curWord?.classList.add('current');
     curWord?.firstChild.classList.add('current');
 }

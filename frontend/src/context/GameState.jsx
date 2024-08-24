@@ -4,11 +4,12 @@ export const GameStateContext = createContext(null);
 
 export const GameStateProvider = (props) => {
   const [gameState, setGameState] = useState("idle");
-  const [gameType,setGameType]=useState('practice');
+  const [gameType, setGameType] = useState("practice");
   const [mode, setMode] = useState("time");
   const [subModes, setSubModes] = useState([15, 30, 60, 120]);
-  const [subMode, setSubMode] = useState(subModes[0]);
+  const [subMode, setSubMode] = useState(subModes[1]);
   const [para, setPara] = useState();
+  const [roomID, setRoomID] = useState(null);
 
   return (
     <GameStateContext.Provider
@@ -23,7 +24,10 @@ export const GameStateProvider = (props) => {
         setSubMode,
         para,
         setPara,
-        gameType,setGameType
+        gameType,
+        setGameType,
+        roomID,
+        setRoomID,
       }}
     >
       {props.children}

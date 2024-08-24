@@ -1,23 +1,35 @@
-const scrollLines=(container, words, curWord)=>{
+const scrollLines=()=>{
+    const container=document.querySelector('.container')
+    const words=document.querySelector('.words')
+    const curWord=document.querySelector('.word.current')
+
+
+    
     const lastWordBottom = parseInt(
-        words.current.lastChild.getBoundingClientRect().bottom,
+        curWord.lastChild.getBoundingClientRect().bottom,
       );
   
       const containerTop = parseInt(
-        container.current.getBoundingClientRect().top,
+        container.getBoundingClientRect().top,
       );
-  
+
+      
       const containerBottom = parseInt(
-        container.current.getBoundingClientRect().bottom,
+        container.getBoundingClientRect().bottom,
       );
-  
+      
       const curLineTop = parseInt(
         curWord?.getBoundingClientRect().top ||
-          container.current.getBoundingClientRect().top,
+        container.getBoundingClientRect().top,
       );
-      const curMargin = parseInt(words.current.style.marginTop);
-      if (lastWordBottom > containerBottom && curLineTop > containerTop) {
-        words.current.style.marginTop = `${curMargin - 41}px`;
+      
+      const curMargin = parseInt(words.style.marginTop)||0;
+      if (lastWordBottom+40> containerBottom&&curLineTop>containerTop) {
+        let newMargin=curMargin-46
+        console.log(newMargin,curMargin)
+        console.log(typeof(newMargin),typeof(curMargin))
+        words.style.marginTop = `${newMargin}px`; 
+        console.log(words.style.marginTop)
       }
 }
 

@@ -10,17 +10,25 @@ export default {
         customFont: ['Jaini Purva', "sans-serif"],
         // Add more custom font families as needed
       },
-      keyframes:{
-        blink:{
-          '0%':{opacity:'100'},
-          '25%':{opacity:'50'},
-          '50%':{opacity:'0'},
-          '75%':{opacity:'50'},
-          '10%':{opacity:'100'},
-        }
+      keyframes: {
+        blink: {
+          '0%': { opacity: '1' },
+          // '25%': { opacity: '0.5' },
+          '50%': { opacity: '0' },
+          // '75%': { opacity: '0.5' },
+          '100%': { opacity: '1' },
+        },
+        rotateImage: {
+          '0%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(45deg)' },
+          '50%': { transform: 'rotate(0deg)' },
+          '75%': { transform: 'rotate(-45deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
       },
-      animation:{
-        'cursor':'blink 1s infinite'
+      animation: {
+        cursor: 'blink 1s infinite',
+        rotate: 'rotateImage 5s linear infinite',
       },
     },
   },

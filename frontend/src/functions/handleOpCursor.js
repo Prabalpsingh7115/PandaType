@@ -6,14 +6,14 @@ const handleCursor = (x,y)=>{
     y=parseInt(y)
     // console.log(x,y)
 
-    const cursor=document.querySelector('.cursor')
+    const cursor=document.querySelector('.op-cursor')
     // console.log(cursor)
     
     const Words=[...document.querySelectorAll('.words')[0].children]
     const curWord=x>=0&&x<Words.length?Words[x]:null
-    const curLetter=y!=-1 ? curWord.children[y] : null;
+    const curLetter=y!=-1 ? curWord?.children[y] : null;
 
-    //console.log(Words)
+    // console.log(Words)
     // console.log(curWord)
     // console.log(curLetter)
 

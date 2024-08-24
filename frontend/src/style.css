@@ -21,6 +21,14 @@
     text-decoration-thickness: 0.1rem;
 }
 
+.op-cursor {
+    background-color: red;
+}
+
+.cursor {
+    background-color: cyan;
+}
+
 .extra{
     opacity: 0.6;
 }

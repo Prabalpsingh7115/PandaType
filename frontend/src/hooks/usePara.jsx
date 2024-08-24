@@ -10,11 +10,8 @@ const usePara = () => {
 
   const getPara = async () => {
     try {
-      const response = await api.get("/para", {
-        mode,
-        subMode,
-      });
-      // console.log(response.data);
+      const response = await api.get(`/para?mode=${mode}&submode=${subMode}`);
+      // console.log(response);
       navigate("/");
       return response.data.para;
     } catch (err) {

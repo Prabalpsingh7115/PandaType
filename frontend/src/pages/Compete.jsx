@@ -8,15 +8,29 @@ import Header from "../components/Header";
 import TypingArena from "../components/TypingArena";
 import delay from "../functions/delay";
 import { GameStateContext } from "../context/GameState";
+import Loader from "../components/Loader";
+import useTimer from "../hooks/useTimer";
+import handleOpCursor from "../functions/handleOpCursor";
 
 const Compete = () => {
-  const [roomID, setRoomID] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const { setPara, mode, submode } = useContext(GameStateContext);
-  const [join, setJoin] = useState(false);
   const socket = useRef();
+
+  const {
+    setPara,
+    mode,
+    submode,
+    setGameType,
+    gameState,
+    setGameState,
+    roomID,
+    setRoomID,
+  } = useContext(GameStateContext);
+  const [join, setJoin] = useState(false);
+  const [countDown, setCountDown] = useState();
+  const { startTimer } = useTimer();
 
   // const navigate = useNavigate();
 
@@ -33,7 +47,7 @@ const Compete = () => {
     });
   };
 
-  const JoinRoom = async () => {
+  const JoinRoom = () => {
     document.querySelector(".controls").classList.add("hidden");
     document.querySelector(".room").classList.remove("hidden");
     socket.current.emit("join-room", roomID, () => {
@@ -42,20 +56,57 @@ const Compete = () => {
     });
   };
 
+  const startCountDown = async () => {
+    setCountDown(5);
+    const interval = setInterval(() => {
+      setCountDown((prevCount) => {
+        if (prevCount <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prevCount - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  };
+
   useEffect(() => {
+    if (countDown === 0) {
+      console.log("start");
+      setGameState("playing");
+      startTimer();
+    }
+  }, [countDown]);
+
+  useEffect(() => {
+    setGameType("compete");
     socket.current = io(import.meta.env.VITE_API_BASE_URL);
     socket.current.on("connect", () => {
       console.log(socket.current.id, " connected");
     });
 
     socket.current.on("ready", async (msg, para) => {
+      await delay(1000);
       setPara(para);
-      await delay(3000);
       setLoading(false);
+      setGameState("count-down");
+      startCountDown();
+    });
+
+    socket.current.on("start", () => {
+      console.log("start");
+      startTimer();
+    });
+
+    socket.current.on("opponent-cursor", (x, y) => {
+      // console.log("getting", x, y);
+      handleOpCursor(x, y);
     });
 
     return () => {
-      console.log(socket.current.id, " disconnected");
+      console.log(socket.id, " disconnected");
+      setRoomID(null);
       socket.current.disconnect();
     };
   }, []);
@@ -71,20 +122,24 @@ const Compete = () => {
   return (
     <div className="flex h-screen w-11/12 flex-col items-center overflow-hidden font-customFont text-4xl">
       <Header />
-      {join && (
-        <>
-          {loading ? (
-            <div>
-              {" "}
-              Room Id : {roomID}
-              <div>Loading.....</div>
-            </div>
-          ) : (
-            <TypingArena />
-          )}
-        </>
-      )}
-      {!join && (
+      {join ? (
+        loading ? (
+          <div>
+            Room Id : {roomID}
+            <Loader message={"Waiting for the other player to join"} />
+          </div>
+        ) : (
+          <>
+            {gameState === "count-down" && (
+              <div className="flex-col">
+                <div>Get Ready in {countDown}</div>
+                <Loader message={"Ready to race ?"} />
+              </div>
+            )}
+            {gameState === "playing" && <TypingArena socket={socket} />}
+          </>
+        )
+      ) : (
         <>
           <div className="room hidden"> Room id : {roomID}</div>
           <div className="controls flex h-1/6 items-center justify-center gap-5 text-3xl text-gray-600">

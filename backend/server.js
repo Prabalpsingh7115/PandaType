@@ -45,7 +45,7 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('create-room',(cb)=>{
-        let roomID=Math.random().toString(36).slice(2)
+        let roomID=Math.random().toString(10).slice(12)
         socket.join(roomID);
         console.log('Room ',roomID,"created & joined by",socket.id)
         cb(roomID)
@@ -59,9 +59,18 @@ io.on('connection',(socket)=>{
 
     socket.on('player-joined',(mode,submode,roomID)=>{
         const curPara=GetParagraph(mode,submode);
-        console.log(curPara)
+        // console.log(curPara)
         socket.to(roomID).emit('player-joined',roomID)
         io.to(roomID).emit('ready','Get Ready',curPara);
+    })
+
+    socket.on('cursor-pos',(roomID,wIdx,lIdx)=>{
+        console.log(wIdx,lIdx)
+        socket.to(roomID).emit('opponent-cursor',wIdx,lIdx)
+    })
+
+    socket.on('start',(roomID)=>{
+        io.to(roomID).emit('start');
     })
 
     socket.on('disconnect', () => {
