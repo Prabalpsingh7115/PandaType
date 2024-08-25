@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { GameStateContext } from "../context/GameState.jsx";
 
 const TestResult = ({ result }) => {
-  const { setGameState, gameType } = useContext(GameStateContext);
+  const { setGameState, gameType, gameState } = useContext(GameStateContext);
 
   return (
     <div className="results justify center flex w-full flex-col items-center gap-10">
@@ -32,16 +32,18 @@ const TestResult = ({ result }) => {
           {result.extraLetters} / {result.missedLetters}
         </span>
       </div>
-      {gameType === "compete" && (
-        <button
-          className={`rounded-lg bg-gray-900 px-3 py-2 text-3xl hover:text-gray-300`}
-          onClick={() => {
-            setGameState("idle");
-          }}
-        >
-          New Game
-        </button>
-      )}
+      {gameType !== "compete" &&
+        gameState !==
+          "finished"(
+            <button
+              className={`rounded-lg bg-gray-900 px-3 py-2 text-3xl hover:text-gray-300`}
+              onClick={() => {
+                setGameState("idle");
+              }}
+            >
+              New Game
+            </button>,
+          )}
     </div>
   );
 };
