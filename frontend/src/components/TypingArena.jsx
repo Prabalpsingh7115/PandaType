@@ -2,7 +2,7 @@
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useContext, useState } from "react";
+import { useEffect, useRef, useContext } from "react";
 
 // import Timer from "./Timer.jsx";
 import handleCharacter from "../functions/handleCharacter";
@@ -29,7 +29,8 @@ const TypingArena = ({ socket }) => {
   const inputF = useRef();
   const wIdx = useRef(0);
   const lIdx = useRef(0);
-  const [con, setCon] = useState(false);
+  const pos = useRef(null);
+  // const [con, setCon] = useState(false);
   const { startTimer, gameover, clock } = useTimer();
 
   window.gameTime = mode === "time" ? subMode : 1000;
@@ -37,7 +38,6 @@ const TypingArena = ({ socket }) => {
 
   const handleKeyPress = (e) => {
     startTimer();
-    sendCursor();
     const Words = [...document.querySelectorAll(".words")[0].children];
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
@@ -105,23 +105,25 @@ const TypingArena = ({ socket }) => {
   };
 
   const sendCursor = async () => {
-    if (gameType !== "compete") {
-      return;
-    }
-
-    if (!con) {
-      setCon(true);
-      const pos = setInterval(() => {
+    if (!pos.current) {
+      pos.current = setInterval(() => {
         if (gameState === "finished") {
-          clearInterval(pos);
-          return 0;
+          clearInterval(pos.current);
+          return;
         }
-        // console.log("sending", wIdx.current, lIdx.current);
-        socket.current.emit("cursor-pos", roomID, wIdx.current, lIdx.current);
-      }, 500);
+        // console.log(gameState);
+        socket.current.emit(
+          "cursor-pos",
+          roomID,
+          gameState,
+          wIdx.current,
+          lIdx.current,
+        );
+      }, 1000);
 
       return () => {
-        clearInterval(pos);
+        clearInterval(pos.current);
+        pos.current = null;
       };
     }
   };
@@ -132,14 +134,21 @@ const TypingArena = ({ socket }) => {
     handleCursor(0, 0);
     handleOpCursor(0, 0);
     clearInterval(window.timer);
+    clearInterval(pos.current);
     window.timer = null;
     window.gameStart = null;
     window.gameTime = subMode;
   }, [mode, subMode]);
 
-  // useEffect(() => {
-  //   console.log(document.activeElement);
-  // }, [document.activeElement]);
+  useEffect(() => {
+    if (gameType === "compete" && gameState === "playing") {
+      sendCursor();
+    }
+
+    return () => {
+      clearInterval(pos.current);
+    };
+  }, [gameState, gameType]);
 
   return (
     <div

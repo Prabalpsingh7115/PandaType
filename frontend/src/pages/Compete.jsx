@@ -61,6 +61,7 @@ const Compete = () => {
 
   const startCountDown = async () => {
     setCountDown(5);
+    setGameState("count-down");
     const interval = setInterval(() => {
       setCountDown((prevCount) => {
         if (prevCount <= 1) {
@@ -75,7 +76,7 @@ const Compete = () => {
   };
 
   useEffect(() => {
-    if (countDown === 0) {
+    if (countDown === 0 && gameState === "count-down") {
       // console.log("start");
       setGameState("playing");
       startTimer();
@@ -99,7 +100,6 @@ const Compete = () => {
       await delay(1000);
       setPara(para);
       setLoading(false);
-      setGameState("count-down");
       startCountDown();
     });
 
@@ -109,10 +109,8 @@ const Compete = () => {
     });
 
     socket.current.on("opponent-cursor", (x, y) => {
-      if (gameState === "playing") {
-        // console.log("getting", x, y);
-        handleOpCursor(x, y);
-      }
+      // console.log("getting", x, y);
+      handleOpCursor(x, y);
     });
 
     socket.current.on("opponent-result", (opresult) => {
@@ -129,6 +127,10 @@ const Compete = () => {
   useEffect(() => {
     // console.log(join);
   }, [join]);
+
+  useEffect(() => {
+    // console.log(gameState);
+  }, [gameState]);
 
   useEffect(() => {
     // console.log(roomID);

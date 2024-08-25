@@ -64,8 +64,8 @@ io.on('connection',(socket)=>{
         io.to(roomID).emit('ready','Get Ready',curPara);
     })
 
-    socket.on('cursor-pos',(roomID,wIdx,lIdx)=>{
-        console.log(wIdx,lIdx)
+    socket.on('cursor-pos',(roomID,game,wIdx,lIdx)=>{
+        // console.log(wIdx,lIdx,game)
         socket.to(roomID).emit('opponent-cursor',wIdx,lIdx)
     })
 

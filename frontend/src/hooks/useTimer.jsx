@@ -52,10 +52,10 @@ const useTimer = () => {
 
   const gameover = async () => {
     const curResult = getResults();
-    await setResult(curResult);
+    setResult(curResult);
     clearInterval(timer.current);
     window.gameStart = null;
-    await setGameState("finished");
+    setGameState("finished");
     clearClass();
   };
 
