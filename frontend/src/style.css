@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --primary-color: #000;
+    --secondary-color: #fff;
+    --accent-color:#4caf50;
+    --background-color:#0a0a0a;
+    --highlight-color:#f0e68c;
+  }
+
+
 .correct{
     color:#48c166;
 }
@@ -25,9 +34,6 @@
     background-color: red;
 }
 
-.cursor {
-    background-color: cyan;
-}
 
 .extra{
     opacity: 0.6;

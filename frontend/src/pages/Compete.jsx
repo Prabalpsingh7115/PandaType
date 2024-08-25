@@ -11,6 +11,7 @@ import { GameStateContext } from "../context/GameState";
 import Loader from "../components/Loader";
 import useTimer from "../hooks/useTimer";
 import handleOpCursor from "../functions/handleOpCursor";
+import CompeteResult from "../components/CompeteResult";
 
 const Compete = () => {
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,8 @@ const Compete = () => {
     setGameState,
     roomID,
     setRoomID,
+    result,
+    setOpResult,
   } = useContext(GameStateContext);
   const [join, setJoin] = useState(false);
   const [countDown, setCountDown] = useState();
@@ -73,11 +76,17 @@ const Compete = () => {
 
   useEffect(() => {
     if (countDown === 0) {
-      console.log("start");
+      // console.log("start");
       setGameState("playing");
       startTimer();
     }
   }, [countDown]);
+
+  useEffect(() => {
+    if (gameState === "finished") {
+      socket.current.emit("result", roomID, result);
+    }
+  }, [gameState]);
 
   useEffect(() => {
     setGameType("compete");
@@ -95,13 +104,19 @@ const Compete = () => {
     });
 
     socket.current.on("start", () => {
-      console.log("start");
+      // console.log("start");
       startTimer();
     });
 
     socket.current.on("opponent-cursor", (x, y) => {
-      // console.log("getting", x, y);
-      handleOpCursor(x, y);
+      if (gameState === "playing") {
+        // console.log("getting", x, y);
+        handleOpCursor(x, y);
+      }
+    });
+
+    socket.current.on("opponent-result", (opresult) => {
+      setOpResult(opresult);
     });
 
     return () => {
@@ -112,59 +127,61 @@ const Compete = () => {
   }, []);
 
   useEffect(() => {
-    console.log(join);
+    // console.log(join);
   }, [join]);
 
   useEffect(() => {
-    console.log(roomID);
+    // console.log(roomID);
   }, [roomID]);
 
   return (
     <div className="flex h-screen w-11/12 flex-col items-center overflow-hidden font-customFont text-4xl">
       <Header />
-      {join ? (
-        loading ? (
-          <div>
-            Room Id : {roomID}
-            <Loader message={"Waiting for the other player to join"} />
-          </div>
+      {gameState !== "finished" &&
+        (join ? (
+          loading ? (
+            <div>
+              Room Id : {roomID}
+              <Loader message={"Waiting for the other player to join"} />
+            </div>
+          ) : (
+            <>
+              {gameState === "count-down" && (
+                <div className="flex-col">
+                  <div>Get Ready in {countDown}</div>
+                  <Loader message={"Ready to race ?"} />
+                </div>
+              )}
+              {gameState === "playing" && <TypingArena socket={socket} />}
+            </>
+          )
         ) : (
           <>
-            {gameState === "count-down" && (
-              <div className="flex-col">
-                <div>Get Ready in {countDown}</div>
-                <Loader message={"Ready to race ?"} />
-              </div>
-            )}
-            {gameState === "playing" && <TypingArena socket={socket} />}
+            <div className="room hidden"> Room id : {roomID}</div>
+            <div className="controls flex h-1/6 items-center justify-center gap-5 text-3xl text-gray-600">
+              <button className="rounded-md  px-2 py-1" onClick={CreateRoom}>
+                Create Room
+              </button>
+              <input
+                className="room w-1/3 rounded-md bg-gray-400 px-2 py-1 text-black"
+                placeholder="Room Code"
+                onInput={(e) => setRoomID(e.target.value)}
+              />
+              <button className="rounded-md px-2 py-1" onClick={JoinRoom}>
+                Join Room
+              </button>
+            </div>
+            <button
+              className={`text-3xl hover:text-gray-300 hover:underline`}
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Practice
+            </button>
           </>
-        )
-      ) : (
-        <>
-          <div className="room hidden"> Room id : {roomID}</div>
-          <div className="controls flex h-1/6 items-center justify-center gap-5 text-3xl text-gray-600">
-            <button className="rounded-md  px-2 py-1" onClick={CreateRoom}>
-              Create Room
-            </button>
-            <input
-              className="room w-1/3 rounded-md bg-gray-400 px-2 py-1 text-black"
-              placeholder="Room Code"
-              onInput={(e) => setRoomID(e.target.value)}
-            />
-            <button className="rounded-md px-2 py-1" onClick={JoinRoom}>
-              Join Room
-            </button>
-          </div>
-          <button
-            className={`text-3xl hover:text-gray-300 hover:underline`}
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Practice
-          </button>
-        </>
-      )}
+        ))}
+      {gameState === "finished" && <CompeteResult />}
     </div>
   );
 };

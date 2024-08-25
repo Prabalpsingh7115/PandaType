@@ -13,8 +13,15 @@ import Loader from "../components/Loader";
 // import { UserContext } from "../context/User";
 
 const Home = () => {
-  const { gameState, setGameState, mode, subMode, setPara, setGameType } =
-    useContext(GameStateContext);
+  const {
+    gameState,
+    setGameState,
+    mode,
+    subMode,
+    setPara,
+    setGameType,
+    result,
+  } = useContext(GameStateContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const getPara = usePara();
@@ -40,23 +47,27 @@ const Home = () => {
   }, [loading]);
 
   return (
-    <div className="flex h-screen w-11/12 flex-col items-center justify-center overflow-hidden font-customFont text-4xl">
-      <Header />
-      {gameState !== "finished" && <ModeBar />}
-      {gameState !== "finished" && loading == false && <TypingArena />}
-      {loading && <Loader message={"Fetching words"} />}
+    <div className="flex h-screen w-5/6 flex-col items-center justify-center overflow-hidden font-customFont text-4xl">
+      <div className="fixed top-0 my-5 flex w-full justify-center">
+        <Header />
+      </div>
+      <div className=" flex w-full flex-col items-center justify-around">
+        {gameState === "idle" && <ModeBar />}
+        {gameState !== "finished" && loading == false && <TypingArena />}
+        {loading && <Loader message={"Fetching words"} />}
 
-      {gameState !== "finished" && loading === false && (
-        <button
-          className={`text-3xl hover:text-gray-300 hover:underline`}
-          onClick={() => {
-            navigate("/compete");
-          }}
-        >
-          Challenge
-        </button>
-      )}
-      {gameState === "finished" && <TestResult />}
+        {gameState === "idle" && loading === false && (
+          <button
+            className={`text-3xl hover:text-gray-300 hover:underline`}
+            onClick={() => {
+              navigate("/compete");
+            }}
+          >
+            Challenge
+          </button>
+        )}
+        {gameState === "finished" && <TestResult result={result} />}
+      </div>
     </div>
   );
 };

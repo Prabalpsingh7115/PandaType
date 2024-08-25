@@ -10,6 +10,14 @@ export default {
         customFont: ['Jaini Purva', "sans-serif"],
         // Add more custom font families as needed
       },
+      colors: {
+        "primary-color": "var(--primary-color)",
+        "secondary-color": "var(--secondary-color)",
+        "background-color": "var(--background-color)",
+        "accent-color": "var(--accent-color)",
+        "highlight-color": "var(--highlight-color)",
+
+      },
       keyframes: {
         blink: {
           '0%': { opacity: '1' },

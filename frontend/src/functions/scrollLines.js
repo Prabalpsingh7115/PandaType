@@ -26,10 +26,10 @@ const scrollLines=()=>{
       const curMargin = parseInt(words.style.marginTop)||0;
       if (lastWordBottom+40> containerBottom&&curLineTop>containerTop) {
         let newMargin=curMargin-46
-        console.log(newMargin,curMargin)
-        console.log(typeof(newMargin),typeof(curMargin))
+        // console.log(newMargin,curMargin)
+        // console.log(typeof(newMargin),typeof(curMargin))
         words.style.marginTop = `${newMargin}px`; 
-        console.log(words.style.marginTop)
+        // console.log(words.style.marginTop)
       }
 }
 

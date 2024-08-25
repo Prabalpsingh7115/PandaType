@@ -1,13 +1,12 @@
 import { useContext, useRef } from "react";
 import { GameStateContext } from "../context/GameState";
-import { ResultContext } from "../context/Result";
 import getResults from "../functions/getResults";
 import clearClass from "../functions/clearClass";
 
 const useTimer = () => {
   const clock = useRef();
-  const { mode, setGameState } = useContext(GameStateContext);
-  const { setResult } = useContext(ResultContext);
+  const { mode, setGameState, setResult, gameState } =
+    useContext(GameStateContext);
   const timer = useRef(null);
 
   const startTimer = async () => {
@@ -17,13 +16,19 @@ const useTimer = () => {
           window.gameStart = new Date().getTime();
         }
 
+        if (gameState === "finished") {
+          clearInterval(timer.current);
+          timer.current = null;
+          return;
+        }
+
         if (mode === "time") {
           const curTime = new Date().getTime();
           const remTime = Math.round(
             window.gameTime - (curTime - window.gameStart) / 1000,
           );
           if (remTime <= 5) {
-            document.querySelector(".clock").classList.add("incorrect");
+            document.querySelector(".clock")?.classList.add("incorrect");
           }
 
           // console.log(remTime);
@@ -33,9 +38,9 @@ const useTimer = () => {
             return;
           }
 
-          // if (document.querySelector(".clock")) {
-          document.querySelector(".clock").innerHTML = remTime;
-          // }
+          if (document.querySelector(".clock")) {
+            document.querySelector(".clock").innerHTML = remTime;
+          }
         }
       }, 1000);
 
@@ -46,7 +51,8 @@ const useTimer = () => {
   };
 
   const gameover = async () => {
-    await setResult(getResults());
+    const curResult = getResults();
+    await setResult(curResult);
     clearInterval(timer.current);
     window.gameStart = null;
     await setGameState("finished");

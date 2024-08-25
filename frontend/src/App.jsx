@@ -12,6 +12,7 @@ import Auth from "./pages/Authentication";
 import Profile from "./pages/Profile";
 import Compete from "./pages/Compete";
 import PersistLogin from "./components/PersistLogin";
+import CompeteResult from "./components/CompeteResult";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/compete" element={<Compete />} />
+                <Route path="/competeresult" element={<CompeteResult />} />
               </Route>
             </Routes>
           </BrowserRouter>

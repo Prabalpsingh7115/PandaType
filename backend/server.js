@@ -73,6 +73,10 @@ io.on('connection',(socket)=>{
         io.to(roomID).emit('start');
     })
 
+    socket.on('result',(roomID,result)=>{
+        socket.to(roomID).emit('opponent-result',result)
+    })
+
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);
     });

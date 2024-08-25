@@ -119,6 +119,10 @@ const TypingArena = ({ socket }) => {
         // console.log("sending", wIdx.current, lIdx.current);
         socket.current.emit("cursor-pos", roomID, wIdx.current, lIdx.current);
       }, 500);
+
+      return () => {
+        clearInterval(pos);
+      };
     }
   };
 
@@ -139,11 +143,11 @@ const TypingArena = ({ socket }) => {
 
   return (
     <div
-      className={`flex h-[24rem] w-5/6 flex-col justify-center gap-3 text-4xl`}
+      className={`my-5  flex h-[16rem] w-full flex-col justify-start gap-3 text-4xl`}
     >
-      <div className="mb-8 flex flex-row justify-between">
+      <div className="my-2 flex flex-row justify-between text-2xl text-highlight-color">
         <div
-          className={`${mode === "time" && gameState === "playing" ? "opacity-100" : "opacity-0"}  clock left-0 top-0 `}
+          className={`${gameState === "playing" ? "opacity-100" : "opacity-100"}  clock left-0 top-0 `}
           ref={clock}
         >
           {window.gameTime}
@@ -151,7 +155,7 @@ const TypingArena = ({ socket }) => {
       </div>
 
       <div
-        className={`container relative flex h-[7.5rem] overflow-hidden  leading-[2.5rem] text-[#71717a] outline-none`}
+        className={`container relative flex h-[7.5rem] justify-center overflow-hidden rounded-lg  leading-[2.5rem] text-[#71717a] outline-none`}
         ref={container}
         tabIndex="0"
         onClick={invokeFocus}
@@ -164,11 +168,11 @@ const TypingArena = ({ socket }) => {
           onInput={handleKeyPress}
         />
         <div
-          className={`${gameState === "idle" ? "hidden" : gameState === "playing" ? "animate-cursor" : ""} cursor correct fixed left-0 top-0 z-10 h-[2.5rem] w-0.5  bg-slate-200`}
+          className={`${gameState === "idle" ? "hidden" : gameState === "playing" ? "" : ""} cursor correct fixed left-0 top-0 z-10 h-[2.5rem] w-0.5  bg-highlight-color`}
           ref={cursor}
         ></div>
         <div
-          className={`${gameType === "compete" ? (gameState === "playing" ? "animate-cursor" : "") : "hidden"} op-cursor incorrect fixed left-0 top-0 z-10 h-[2.5rem] w-0.5  bg-slate-200`}
+          className={`${gameType === "compete" ? (gameState === "playing" ? "" : "") : "hidden"} op-cursor incorrect fixed left-0 top-0 z-10 h-[2.5rem] w-0.5  bg-slate-200`}
           ref={opCursor}
         ></div>
 
@@ -196,7 +200,7 @@ const TypingArena = ({ socket }) => {
         </div>
 
         <div
-          className={`${gameState !== "idle" ? "hidden" : ""} absolute inset-0 pt-[2.25rem] text-center text-gray-300`}
+          className={`${gameState !== "idle" ? "hidden" : ""} absolute inset-0 pt-[2.25rem] text-center text-2xl text-gray-300`}
         >
           Click here or press any key to start!
         </div>
