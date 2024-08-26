@@ -19,11 +19,11 @@ const Auth = () => {
   const [lpassword, setLpassword] = useState("");
   const { user } = useContext(UserContext);
   const login = useLogin();
-  const register = useRegister;
+  const register = useRegister();
 
   const handleRegister = async () => {
     register(rusername, email, rpassword);
-    login(rusername, lusername);
+    login(rusername, rpassword);
     clearLfields();
     clearRfields();
   };
