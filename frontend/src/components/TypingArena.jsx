@@ -152,7 +152,7 @@ const TypingArena = ({ socket }) => {
 
   return (
     <div
-      className={`my-5  flex h-[16rem] w-full flex-col justify-start gap-3 text-4xl`}
+      className={`my-5 flex h-[16rem] w-full flex-col justify-start gap-3 text-4xl`}
     >
       <div className="my-2 flex flex-row justify-between text-2xl text-highlight-color">
         <div
