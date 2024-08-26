@@ -48,10 +48,10 @@ const Home = () => {
 
   return (
     <div className="flex h-screen w-5/6 flex-col items-center justify-center overflow-hidden font-customFont text-4xl">
-      <div className="fixed top-0 my-5 flex w-full justify-center">
+      <div className="fixed top-0 mb-5 flex w-full justify-center">
         <Header />
       </div>
-      <div className=" flex w-full flex-col items-center justify-around">
+      <div className=" my-5 flex w-full flex-col items-center justify-around">
         {gameState === "idle" && <ModeBar />}
         {gameState !== "finished" && loading == false && <TypingArena />}
         {loading && <Loader message={"Fetching words"} />}

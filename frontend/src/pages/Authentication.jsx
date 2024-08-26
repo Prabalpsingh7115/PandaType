@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import registerImage from "../assets/images/panda-bgg.jpeg";
-import userIcon from "../assets/icons/user-icon.png";
-import emailIcon from "../assets/icons/email-icon.png";
-import pwdIcon from "../assets/icons/pwd-icon.png";
-import pandaIcon from "../assets/icons/panda-icon.png";
+// import registerImage from "../assets/panda-bgg.jpeg";
+import userIcon from "../assets/user-icon.png";
+import emailIcon from "../assets/email-icon.png";
+import pwdIcon from "../assets/pwd-icon.png";
+import pandaIcon from "../assets/panda-icon3.png";
 import { UserContext } from "../context/User";
 import useLogin from "../hooks/useLogin";
 import useRegister from "../hooks/useRegister";
@@ -52,22 +52,19 @@ const Auth = () => {
 
   return (
     <div
-      className="flex h-screen w-screen items-center justify-center bg-center bg-repeat"
-      style={{ backgroundImage: `url(${registerImage})` }}
+      className="flex h-screen w-screen items-center justify-center bg-primary-color bg-center"
+      // style={{ backgroundImage: `url(${registerImage})` }}
     >
-      <div className="flex h-2/3 flex-col items-center justify-center rounded-xl border-2 border-solid border-slate-300 bg-green-50 bg-opacity-90 bg-clip-padding px-10 text-2xl text-black  backdrop-blur-sm backdrop-filter">
+      <div className="flex h-2/3 flex-col items-center justify-center rounded-xl border-2 border-solid border-slate-300  px-10 text-2xl text-black ">
         <Link to="/">
-          <div className="flex w-full items-center justify-center pt-3 text-4xl">
-            <img src={pandaIcon} alt="panda-icon" className="h-16 w-16" />
-            <span>PandaType</span>
-          </div>
-          <hr className="mx-auto mb-6 mt-1 w-full border-t-2 border-slate-300" />
+          <img src={pandaIcon} alt="panda-icon" className="h-36 w-48" />
+          {/* <hr className="mx-auto mb-6 mt-1 w-full border-t-2 border-slate-300" /> */}
         </Link>
         <div className="flex gap-10 ">
           <div className="mt-2 flex h-5/6 flex-col items-center justify-center gap-4">
-            <h2 className="text-3xl">Register</h2>
+            <h2 className="text-3xl text-secondary-color">Register</h2>
             <div className="flex flex-row gap-3">
-              <img src={userIcon} alt="name-icon" className="w-12" />
+              <img src={userIcon} alt="name-icon" className="w-12 invert" />
               <input
                 type="text"
                 name="rusername"
@@ -82,7 +79,7 @@ const Auth = () => {
             </div>
 
             <div className="flex flex-row gap-3">
-              <img src={emailIcon} alt="email-icon" className="w-12" />
+              <img src={emailIcon} alt="email-icon" className="w-12 invert" />
               <input
                 type="text"
                 name="email"
@@ -98,7 +95,11 @@ const Auth = () => {
 
             <div className="flex flex-col gap-3">
               <div className="flex flex-row gap-1">
-                <img src={pwdIcon} alt="password-icon" className="w-12" />
+                <img
+                  src={pwdIcon}
+                  alt="password-icon"
+                  className="w-12 invert"
+                />
                 <input
                   type="password"
                   name="rpassword"
@@ -122,9 +123,9 @@ const Auth = () => {
           </div>
 
           <div className="login \ flex h-5/6 flex-col items-center justify-center gap-4 rounded-xl">
-            <h2 className="text-2xl">Login</h2>
+            <h2 className="text-2xl text-secondary-color">Login</h2>
             <div className="flex w-full items-center justify-center gap-3">
-              <img src={userIcon} alt="email-icon" className="w-12" />
+              <img src={userIcon} alt="email-icon" className="w-12 invert" />
               <input
                 className="flex rounded-lg border-2 px-3 py-2 text-2xl"
                 type="email"
@@ -140,7 +141,11 @@ const Auth = () => {
             </div>
             <div>
               <div className="flex w-full items-center justify-center gap-3">
-                <img src={pwdIcon} alt="password-icon" className="w-12" />
+                <img
+                  src={pwdIcon}
+                  alt="password-icon"
+                  className="w-12 invert"
+                />
                 <input
                   className="flex rounded-lg border-2 px-3 py-2 text-2xl"
                   required

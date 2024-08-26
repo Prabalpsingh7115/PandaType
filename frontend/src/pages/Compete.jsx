@@ -137,7 +137,7 @@ const Compete = () => {
   }, [roomID]);
 
   return (
-    <div className="flex h-screen w-11/12 flex-col items-center overflow-hidden font-customFont text-4xl">
+    <div className="flex h-screen w-full flex-col items-center overflow-hidden font-customFont text-4xl">
       <Header />
       {gameState !== "finished" &&
         (join ? (

@@ -1,16 +1,18 @@
-import panda from "../assets/images/panda.png";
+// import panda from "../assets/loader.gif";
+import "@dotlottie/player-component";
 
 const Loader = ({ message }) => {
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <div className="flex-col items-center justify-center">
-        <img
-          src={panda}
-          alt="panda-loader"
-          className="h-36 w-36 animate-rotate"
-        ></img>
-        <div className=" flex text-2xl">{message} ....</div>
-      </div>
+    <div className="flex h-full w-full flex-col items-center justify-center">
+      <dotlottie-player
+        src="https://lottie.host/54122e3e-fbdb-47bc-b34f-849fd3530a00/KAeSaVQBpW.json"
+        background="transparent"
+        speed="1"
+        style={{ width: "300px", height: "300px" }}
+        loop
+        autoplay
+      ></dotlottie-player>
+      <div className=" flex text-2xl">{message} ....</div>
     </div>
   );
 };
