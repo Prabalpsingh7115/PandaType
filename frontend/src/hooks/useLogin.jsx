@@ -36,7 +36,7 @@ const useLogin = () => {
       // console.log(user);
     } catch (error) {
       toast.error(`${error.response.data.message}`);
-      console.log("Error:", error);
+      // console.log("Error:", error);
     }
   };
 

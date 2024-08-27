@@ -57,13 +57,17 @@ io.on('connection',(socket)=>{
         cb(roomID)
     })
 
-    socket.on('player-joined',(mode,submode,roomID)=>{
-        const curPara=GetParagraph(mode,submode);
-        // console.log(curPara)
-        socket.to(roomID).emit('player-joined',roomID)
-        io.to(roomID).emit('ready','Get Ready',curPara);
+    socket.on('op-joined',(roomID)=>{
+        socket.to(roomID).emit('op-joined',roomID)
     })
 
+
+    socket.on('ready',(mode,submode,roomID)=>{
+        const curPara=GetParagraph(mode,submode);
+        io.to(roomID).emit('ready',mode,submode,curPara)
+
+    })
+    
     socket.on('cursor-pos',(roomID,game,wIdx,lIdx)=>{
         // console.log(wIdx,lIdx,game)
         socket.to(roomID).emit('opponent-cursor',wIdx,lIdx)
@@ -79,7 +83,7 @@ io.on('connection',(socket)=>{
     })
     
     socket.on('rematch-response',(roomID,res)=>{
-        socket.to(roomID).emit('rematch-success',res);
+        socket.to(roomID).emit('rematch-response',res);
     })
 
     

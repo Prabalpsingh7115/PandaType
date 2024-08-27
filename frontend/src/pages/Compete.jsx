@@ -20,9 +20,12 @@ const Compete = () => {
   const socket = useRef();
 
   const {
+    para,
     setPara,
     mode,
-    submode,
+    setMode,
+    subMode,
+    setSubMode,
     setGameType,
     gameState,
     setGameState,
@@ -45,8 +48,8 @@ const Compete = () => {
       document.querySelector(".room-controls").classList.add("hidden");
       document.querySelector(".room").classList.remove("hidden");
 
-      socket.current.on("player-joined", (room_id) => {
-        console.log("other-player-joined to ", room_id);
+      socket.current.on("op-joined", (room_id) => {
+        socket.current.emit("ready", mode, subMode, room_id);
       });
     });
   };
@@ -54,9 +57,9 @@ const Compete = () => {
   const JoinRoom = () => {
     document.querySelector(".room-controls").classList.add("hidden");
     document.querySelector(".room").classList.remove("hidden");
-    socket.current.emit("join-room", roomID, () => {
+    socket.current.emit("join-room", roomID, (room_id) => {
       setJoin(true);
-      socket.current.emit("player-joined", mode, submode, roomID);
+      socket.current.emit("op-joined", room_id);
     });
   };
 
@@ -67,6 +70,7 @@ const Compete = () => {
       setCountDown((prevCount) => {
         if (prevCount <= 1) {
           clearInterval(interval);
+          socket.current.emit("start", roomID);
           return 0;
         }
         return prevCount - 1;
@@ -82,6 +86,16 @@ const Compete = () => {
     setJoin(true);
     socket.current.emit("rematch-request", roomID, () => {
       socket.current.on("rematch-response", (res) => {
+        if (!res) {
+          console.log("The other player rejected the request");
+          setGameState("idle");
+          setLoading(false);
+          setJoin(false);
+          document.querySelector(".match-controls").classList.remove("hidden");
+          document.querySelector(".rematch").classList.add("hidden");
+          document.querySelector(".challenge").classList.remove("hidden");
+          document.querySelector(".rematch-request").classList.add("hidden");
+        }
         console.log(res);
       });
     });
@@ -89,7 +103,6 @@ const Compete = () => {
 
   useEffect(() => {
     if (countDown === 0 && gameState === "count-down") {
-      // console.log("start");
       setGameState("playing");
       startTimer();
     }
@@ -108,20 +121,21 @@ const Compete = () => {
       console.log(socket.current.id, " connected");
     });
 
-    socket.current.on("ready", async (msg, para) => {
+    socket.current.on("ready", async (mode, submode, para) => {
       await delay(1000);
+      setMode(mode);
+      setSubMode(submode);
       setPara(para);
-      setLoading(false);
       startCountDown();
+      setLoading(false);
     });
 
     socket.current.on("start", () => {
-      // console.log("start");
+      console.log(mode, subMode, para);
       startTimer();
     });
 
     socket.current.on("opponent-cursor", (x, y) => {
-      // console.log("getting", x, y);
       handleOpCursor(x, y);
     });
 
@@ -132,10 +146,12 @@ const Compete = () => {
     socket.current.on("rematch-request", async (room_id) => {
       document.querySelector(".match-controls").classList.add("hidden");
       document.querySelector(".rematch-request").classList.remove("hidden");
-
       await delay(2000);
+      console.log(accept);
       socket.current.emit("rematch-response", room_id, accept);
       document.querySelector(".match-controls").classList.remove("hidden");
+      document.querySelector(".rematch").classList.add("hidden");
+      document.querySelector(".challenge").classList.remove("hidden");
       document.querySelector(".rematch-request").classList.add("hidden");
     });
 
@@ -209,7 +225,7 @@ const Compete = () => {
       {gameState === "finished" && (
         <div className="w-full flex-col">
           <CompeteResult />
-          <div className="rematch-request hidden">
+          <div className="rematch-request hidden px-3 py-5">
             The opponent requested to rematch{" "}
             <button
               onClick={() => {
@@ -221,13 +237,22 @@ const Compete = () => {
           </div>
           <div className="match-controls my-10 flex w-full justify-evenly ">
             <button
-              className="rounded bg-primary-color px-4 py-2 text-[#d0d0d0] "
+              className="rematch rounded bg-primary-color px-4 py-2 text-[#d0d0d0] "
               onClick={rematch}
             >
               Rematch
             </button>
             <button
-              className="rounded bg-primary-color px-4 py-2 text-[#d0d0d0] "
+              className="challenge hidden rounded bg-primary-color px-4 py-2 text-[#d0d0d0] "
+              onClick={() => {
+                setJoin(false);
+                setGameState("idle");
+              }}
+            >
+              Challenge
+            </button>
+            <button
+              className="practice rounded bg-primary-color px-4 py-2 text-[#d0d0d0] "
               onClick={() => {
                 navigate("/");
               }}

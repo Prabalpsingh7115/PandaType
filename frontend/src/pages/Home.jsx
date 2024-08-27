@@ -54,6 +54,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPara();
+    console.log(mode, subMode);
   }, [mode, subMode]);
 
   // useEffect(() => {

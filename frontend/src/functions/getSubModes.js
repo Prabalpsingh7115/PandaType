@@ -2,7 +2,7 @@ const GetSubModes = ({mode}) =>{
  
     if(mode==="time")
     {
-        return [15,30,60,120];
+        return [5,30,60,120];
     }
     else if(mode==="words")
     {
