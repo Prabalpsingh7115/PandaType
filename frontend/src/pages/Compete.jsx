@@ -133,10 +133,10 @@ const Compete = () => {
       document.querySelector(".match-controls").classList.add("hidden");
       document.querySelector(".rematch-request").classList.remove("hidden");
 
-      // await delay(2000);
-      // socket.current.emit("rematch-response", room_id, accept);
-      document.querySelector(".match-controls").classList.add("hidden");
-      document.querySelector(".rematch-request").classList.remove("hidden");
+      await delay(2000);
+      socket.current.emit("rematch-response", room_id, accept);
+      document.querySelector(".match-controls").classList.remove("hidden");
+      document.querySelector(".rematch-request").classList.add("hidden");
     });
 
     return () => {

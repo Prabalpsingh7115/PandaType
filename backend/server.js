@@ -74,7 +74,6 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('rematch-request',(roomID,cb)=>{
-
         socket.to(roomID).emit('rematch-request',roomID)
         cb()
     })

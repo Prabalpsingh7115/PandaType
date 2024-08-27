@@ -17,6 +17,10 @@ const Header = () => {
     logout();
   };
 
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
+
   return (
     <div
       className={`${gameState !== "idle" ? "opacity:0" : ""}  top-5 my-5 flex w-full items-center justify-between text-3xl  text-white`}

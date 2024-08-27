@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 
 import { UserContext } from "../context/User";
 import Header from "../components/Header";
-import axios from "../api/axios";
+import api from "../api/axios";
 
 const months = [
   "Jan",
@@ -28,10 +28,7 @@ const Profile = () => {
 
   const getProfile = async () => {
     try {
-      const response = await axios.get("/profile", {
-        params: {
-          username: user?.username,
-        },
+      const response = await api.get(`/profile?username=${user.username}`, {
         headers: {
           authorization: `Bearer ${user?.accessToken}`,
         },
@@ -39,11 +36,11 @@ const Profile = () => {
       // console.log(response.data);
       setProfile(response.data);
     } catch (err) {
-      if (err.response.status === 403) {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
+      // if (err.response.status === 403) {
+      //   setTimeout(() => {
+      //     window.location.reload();
+      //   }, 2000);
+      // }
       // navigate("/auth");
       console.log(err.response);
     }
