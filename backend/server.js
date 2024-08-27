@@ -73,6 +73,18 @@ io.on('connection',(socket)=>{
         io.to(roomID).emit('start');
     })
 
+    socket.on('rematch-request',(roomID,cb)=>{
+
+        socket.to(roomID).emit('rematch-request',roomID)
+        cb()
+    })
+    
+    socket.on('rematch-response',(roomID,res)=>{
+        socket.to(roomID).emit('rematch-success',res);
+    })
+
+    
+
     socket.on('result',(roomID,result)=>{
         socket.to(roomID).emit('opponent-result',result)
     })

@@ -34,6 +34,7 @@ const Compete = () => {
   const [join, setJoin] = useState(false);
   const [countDown, setCountDown] = useState();
   const { startTimer } = useTimer();
+  const [accept, setAceept] = useState(false);
 
   // const navigate = useNavigate();
 
@@ -41,7 +42,7 @@ const Compete = () => {
     socket.current.emit("create-room", (room_id) => {
       setJoin(true);
       setRoomID(room_id);
-      document.querySelector(".controls").classList.add("hidden");
+      document.querySelector(".room-controls").classList.add("hidden");
       document.querySelector(".room").classList.remove("hidden");
 
       socket.current.on("player-joined", (room_id) => {
@@ -51,7 +52,7 @@ const Compete = () => {
   };
 
   const JoinRoom = () => {
-    document.querySelector(".controls").classList.add("hidden");
+    document.querySelector(".room-controls").classList.add("hidden");
     document.querySelector(".room").classList.remove("hidden");
     socket.current.emit("join-room", roomID, () => {
       setJoin(true);
@@ -73,6 +74,17 @@ const Compete = () => {
     }, 1000);
 
     return () => clearInterval(interval);
+  };
+
+  const rematch = () => {
+    setGameState("waiting");
+    setLoading(true);
+    setJoin(true);
+    socket.current.emit("rematch-request", roomID, () => {
+      socket.current.on("rematch-response", (res) => {
+        console.log(res);
+      });
+    });
   };
 
   useEffect(() => {
@@ -117,9 +129,20 @@ const Compete = () => {
       setOpResult(opresult);
     });
 
+    socket.current.on("rematch-request", async (room_id) => {
+      document.querySelector(".match-controls").classList.add("hidden");
+      document.querySelector(".rematch-request").classList.remove("hidden");
+
+      // await delay(2000);
+      // socket.current.emit("rematch-response", room_id, accept);
+      document.querySelector(".match-controls").classList.add("hidden");
+      document.querySelector(".rematch-request").classList.remove("hidden");
+    });
+
     return () => {
       console.log(socket.id, " disconnected");
       setRoomID(null);
+      setJoin(false);
       socket.current.disconnect();
     };
   }, []);
@@ -137,7 +160,7 @@ const Compete = () => {
   }, [roomID]);
 
   return (
-    <div className="flex h-screen w-full flex-col items-center overflow-hidden font-customFont text-4xl">
+    <div className="flex h-screen w-5/6 flex-col items-center overflow-hidden font-customFont text-4xl">
       <Header />
       {gameState !== "finished" &&
         (join ? (
@@ -160,7 +183,7 @@ const Compete = () => {
         ) : (
           <>
             <div className="room hidden"> Room id : {roomID}</div>
-            <div className="controls flex h-1/6 items-center justify-center gap-5 text-3xl text-gray-600">
+            <div className="room-controls flex h-1/6 items-center justify-center gap-5 text-3xl text-gray-600">
               <button className="rounded-md  px-2 py-1" onClick={CreateRoom}>
                 Create Room
               </button>
@@ -183,7 +206,37 @@ const Compete = () => {
             </button>
           </>
         ))}
-      {gameState === "finished" && <CompeteResult />}
+      {gameState === "finished" && (
+        <div className="w-full flex-col">
+          <CompeteResult />
+          <div className="rematch-request hidden">
+            The opponent requested to rematch{" "}
+            <button
+              onClick={() => {
+                setAceept(true);
+              }}
+            >
+              Accept
+            </button>
+          </div>
+          <div className="match-controls my-10 flex w-full justify-evenly ">
+            <button
+              className="rounded bg-primary-color px-4 py-2 text-[#d0d0d0] "
+              onClick={rematch}
+            >
+              Rematch
+            </button>
+            <button
+              className="rounded bg-primary-color px-4 py-2 text-[#d0d0d0] "
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Practice
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

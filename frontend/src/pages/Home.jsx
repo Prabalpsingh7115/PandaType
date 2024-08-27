@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
@@ -21,13 +21,28 @@ const Home = () => {
     setPara,
     setGameType,
     result,
+    loading,
+    setLoading,
   } = useContext(GameStateContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const getPara = usePara();
 
   // const { user } = useContext(UserContext);
   // console.log(user);
+
+  const newGame = async () => {
+    setLoading(true);
+    const data = await getPara();
+    setPara(data);
+    await delay(500);
+    document.getElementById(".container")?.focus();
+    setGameState("idle");
+    setLoading(false);
+  };
+
+  const restart = () => {
+    setGameState("idle");
+  };
 
   const fetchPara = async () => {
     const data = await getPara();
@@ -42,13 +57,13 @@ const Home = () => {
     fetchPara();
   }, [mode, subMode]);
 
-  useEffect(() => {
-    console.log(loading);
-  }, [loading]);
+  // useEffect(() => {
+  //   console.log(loading);
+  // }, [loading]);
 
   return (
     <div className="flex h-screen w-5/6 flex-col items-center justify-center overflow-hidden font-customFont text-4xl">
-      <div className="fixed top-0 mb-5 flex w-full justify-center">
+      <div className="fixed top-0 mb-5 flex w-5/6 justify-center">
         <Header />
       </div>
       <div className=" my-5 flex w-full flex-col items-center justify-around">
@@ -66,7 +81,27 @@ const Home = () => {
             Challenge
           </button>
         )}
-        {gameState === "finished" && <TestResult result={result} />}
+        {gameState === "finished" && loading === false && (
+          <TestResult result={result} />
+        )}
+        {gameState === "finished" && loading === false && (
+          <div
+            className={`${gameState === "finished" ? "opacity-100" : "opacity-0"} flex w-full justify-center p-5 text-[#71717a] `}
+          >
+            <button
+              className={`px-3 hover:text-gray-300 hover:underline`}
+              onClick={restart}
+            >
+              Restart
+            </button>
+            <button
+              className={`px-3 hover:text-gray-300 hover:underline`}
+              onClick={newGame}
+            >
+              New Game
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

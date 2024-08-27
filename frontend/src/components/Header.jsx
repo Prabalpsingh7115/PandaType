@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 
-import pandaIcon from "../assets/panda-icon3.png";
+import logo from "../assets/logo.png";
 import logoutIcon from "../assets/logout.png";
 import { UserContext } from "../context/User.jsx";
 import { GameStateContext } from "../context/GameState.jsx";
@@ -19,10 +19,10 @@ const Header = () => {
 
   return (
     <div
-      className={`${gameState !== "idle" ? "opacity:0" : ""}  my-5 flex w-5/6 items-center justify-between text-3xl  text-white`}
+      className={`${gameState !== "idle" ? "opacity:0" : ""}  top-5 my-5 flex w-full items-center justify-between text-3xl  text-white`}
     >
       <Link to="/">
-        <img src={pandaIcon} alt="panda-icon" className=" w-46 h-36" />
+        <img src={logo} alt="panda-icon" className=" w-46 h-36" />
       </Link>
       {gameState !== "playing" &&
         (user ? (

@@ -13,7 +13,7 @@ const useTimer = () => {
     if (!timer.current) {
       timer.current = setInterval(() => {
         if (!window.gameStart) {
-          window.gameStart = new Date().getTime();
+          window.gameStart = new Date().getTime() - 600;
         }
 
         if (gameState === "finished") {

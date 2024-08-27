@@ -37,7 +37,6 @@ const TypingArena = ({ socket }) => {
   container.current?.focus();
 
   const handleKeyPress = (e) => {
-    startTimer();
     const Words = [...document.querySelectorAll(".words")[0].children];
     const curWord = words.current.querySelector(".word.current");
     const curLetter = curWord?.querySelector(".letter.current");
@@ -61,6 +60,8 @@ const TypingArena = ({ socket }) => {
     // console.log(curletter)
 
     if (inputKey.current?.length === 1 && inputKey.current !== " ") {
+      setGameState("playing");
+      startTimer();
       handleCharacter(inputKey.current);
     }
 
@@ -99,8 +100,9 @@ const TypingArena = ({ socket }) => {
   const invokeFocus = () => {
     if (inputF.current !== document.activeElement) {
       inputF.current.focus();
-      setGameState("playing");
-      startTimer();
+    }
+    if (gameState === "idle") {
+      setGameState("starting");
     }
   };
 
@@ -150,13 +152,17 @@ const TypingArena = ({ socket }) => {
     };
   }, [gameState, gameType]);
 
+  // useEffect(() => {
+  //   console.log(document.activeElement);
+  // }, [document.activeElement]);
+
   return (
     <div
       className={`my-5 flex h-[16rem] w-full flex-col justify-start gap-3 text-4xl`}
     >
       <div className="my-2 flex flex-row justify-between text-2xl text-highlight-color">
         <div
-          className={`${gameState === "playing" ? "opacity-100" : "opacity-100"}  clock left-0 top-0 `}
+          className={`${gameState === "playing" ? "opacity-100" : "opacity-0"}  clock left-0 top-0 `}
           ref={clock}
         >
           {window.gameTime}
@@ -177,7 +183,7 @@ const TypingArena = ({ socket }) => {
           onInput={handleKeyPress}
         />
         <div
-          className={`${gameState === "idle" ? "hidden" : gameState === "playing" ? "" : ""} cursor correct fixed left-0 top-0 z-10 h-[2.5rem] w-0.5  bg-highlight-color`}
+          className={`${gameState === "idle" ? "hidden" : gameState === "starting" ? "animate-cursor" : ""} cursor correct fixed left-0 top-0 z-10 h-[2.5rem] w-0.5  bg-highlight-color`}
           ref={cursor}
         ></div>
         <div
@@ -186,7 +192,7 @@ const TypingArena = ({ socket }) => {
         ></div>
 
         <div
-          className={`${gameState !== "idle" ? "opacity-100" : "blur-md"} words flex flex-wrap gap-x-4 text-4xl`}
+          className={`${gameState === "idle" ? "blur-md" : "opacity-100"} words flex flex-wrap gap-x-4 text-4xl`}
           ref={words}
         >
           {para.map((word, i) => (

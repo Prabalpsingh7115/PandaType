@@ -1,12 +1,17 @@
-import { useContext } from "react";
+// import { useContext } from "react";
 
-import { GameStateContext } from "../context/GameState.jsx";
+// import { GameStateContext } from "../context/GameState.jsx";
+// import clearClass from "../functions/clearClass.js";
+// import handleCursor from "../functions/handleCursor.js";
+// import delay from "../functions/delay.js";
+// import usePara from "../hooks/usePara.jsx";
+// import Loader from "./Loader.jsx";
 
 const TestResult = ({ result }) => {
-  const { setGameState, gameType, gameState } = useContext(GameStateContext);
+  // const { loading } = useContext(GameStateContext);
 
   return (
-    <div className="results justify center flex w-full flex-col items-center gap-10">
+    <div className="results justify center text- flex w-full flex-col items-center gap-10">
       <div className="result flex w-full justify-center gap-4 text-4xl">
         <h1>Speed : </h1>
         <span>{Math.floor(result.WPM) || 0} WPM</span>
@@ -31,16 +36,6 @@ const TestResult = ({ result }) => {
           {result.extraLetters} / {result.missedLetters}
         </span>
       </div>
-      {gameType !== "compete" && gameState !== "finished" && (
-        <button
-          className={`rounded-lg bg-gray-900 px-3 py-2 text-3xl hover:text-gray-300`}
-          onClick={() => {
-            setGameState("idle");
-          }}
-        >
-          New Game
-        </button>
-      )}
     </div>
   );
 };

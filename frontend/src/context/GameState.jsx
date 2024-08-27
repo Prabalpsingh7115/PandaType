@@ -6,10 +6,11 @@ export const GameStateProvider = (props) => {
   const [gameState, setGameState] = useState("idle");
   const [gameType, setGameType] = useState("practice");
   const [mode, setMode] = useState("time");
-  const [subModes, setSubModes] = useState([15, 30, 60, 120]);
-  const [subMode, setSubMode] = useState(subModes[1]);
+  const [subModes, setSubModes] = useState([5, 30, 60, 120]);
+  const [subMode, setSubMode] = useState(subModes[0]);
   const [para, setPara] = useState();
   const [roomID, setRoomID] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [result, setResult] = useState({
     WPM: 0,
     correctLetters: 0,
@@ -46,6 +47,8 @@ export const GameStateProvider = (props) => {
         setResult,
         opResult,
         setOpResult,
+        loading,
+        setLoading,
       }}
     >
       {props.children}

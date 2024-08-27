@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import userIcon from "../assets/user-icon.png";
 import emailIcon from "../assets/email-icon.png";
 import pwdIcon from "../assets/pwd-icon.png";
-import pandaIcon from "../assets/panda-icon3.png";
+import logo from "../assets/logo.png";
 import { UserContext } from "../context/User";
 import useLogin from "../hooks/useLogin";
 import useRegister from "../hooks/useRegister";
@@ -57,7 +57,7 @@ const Auth = () => {
     >
       <div className="flex h-2/3 flex-col items-center justify-center rounded-xl border-2 border-solid border-slate-300  px-10 text-2xl text-black ">
         <Link to="/">
-          <img src={pandaIcon} alt="panda-icon" className="h-36 w-48" />
+          <img src={logo} alt="panda-icon" className="h-36 w-48" />
           {/* <hr className="mx-auto mb-6 mt-1 w-full border-t-2 border-slate-300" /> */}
         </Link>
         <div className="flex gap-10 ">
