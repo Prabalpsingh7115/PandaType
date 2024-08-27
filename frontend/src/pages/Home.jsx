@@ -54,7 +54,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPara();
-    console.log(mode, subMode);
+    // console.log(mode, subMode);
   }, [mode, subMode]);
 
   // useEffect(() => {
@@ -62,6 +62,7 @@ const Home = () => {
   // }, [loading]);
   useEffect(() => {
     fetchPara();
+    setLoading(false);
   }, []);
 
   return (
