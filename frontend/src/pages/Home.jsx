@@ -60,9 +60,9 @@ const Home = () => {
   // useEffect(() => {
   //   console.log(loading);
   // }, [loading]);
-  useEffect(() => {
-    fetchPara();
-  }, []);
+  // useEffect(() => {
+  //   fetchPara();
+  // }, []);
 
   return (
     <div className="flex h-screen w-5/6 flex-col items-center justify-center overflow-hidden font-customFont text-4xl">

@@ -13,6 +13,7 @@ const usePara = () => {
       const response = await api.get(`/para?mode=${mode}&submode=${subMode}`);
       // console.log(response);
       navigate("/");
+      console.log(response.data);
       return response.data.para;
     } catch (err) {
       console.log(err);
