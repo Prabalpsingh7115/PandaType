@@ -62,7 +62,6 @@ const Home = () => {
   // }, [loading]);
   useEffect(() => {
     fetchPara();
-    setLoading(false);
   }, []);
 
   return (
