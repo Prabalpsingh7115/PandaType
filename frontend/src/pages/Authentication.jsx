@@ -53,14 +53,10 @@ const Auth = () => {
   });
 
   return (
-    <div
-      className="flex h-screen w-screen items-center justify-center bg-primary-color bg-center"
-      // style={{ backgroundImage: `url(${registerImage})` }}
-    >
+    <div className="flex h-screen w-screen items-center justify-center bg-primary-color bg-center">
       <div className="flex h-2/3 flex-col items-center justify-center rounded-xl border-2 border-solid border-slate-300  px-10 text-2xl text-black ">
         <Link to="/">
           <img src={logo} alt="panda-icon" className="h-36 w-48" />
-          {/* <hr className="mx-auto mb-6 mt-1 w-full border-t-2 border-slate-300" /> */}
         </Link>
         <div className="flex gap-10 ">
           <div className="mt-2 flex h-5/6 flex-col items-center justify-center gap-4">

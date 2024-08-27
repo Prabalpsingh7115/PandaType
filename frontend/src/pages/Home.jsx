@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
@@ -21,11 +21,10 @@ const Home = () => {
     setPara,
     setGameType,
     result,
-    loading,
-    setLoading,
   } = useContext(GameStateContext);
   const navigate = useNavigate();
   const getPara = usePara();
+  const [loading, setLoading] = useState(true);
 
   // const { user } = useContext(UserContext);
   // console.log(user);
@@ -47,11 +46,10 @@ const Home = () => {
   const fetchPara = async () => {
     setLoading(true);
     const data = await getPara();
-    setPara(data);
-    setLoading(false);
+    await setPara(data);
     setGameState("idle");
-    setLoading(false);
     setGameType("practice");
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -61,6 +59,9 @@ const Home = () => {
   // useEffect(() => {
   //   console.log(loading);
   // }, [loading]);
+  useEffect(() => {
+    fetchPara();
+  }, []);
 
   return (
     <div className="flex h-screen w-5/6 flex-col items-center justify-center overflow-hidden font-customFont text-4xl">
