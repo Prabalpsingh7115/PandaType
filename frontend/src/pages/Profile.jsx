@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
+import useLogout from "../hooks/useLogout";
 import { UserContext } from "../context/User";
 import Header from "../components/Header";
 import api from "../api/axios";
+import { GameStateContext } from "../context/GameState";
 
 const months = [
   "Jan",
@@ -22,32 +26,66 @@ const months = [
 ];
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { setLoading } = useContext(GameStateContext);
   const [profile, setProfile] = useState(null);
-  // const navigate = useNavigate();
+  const logout = useLogout();
+  const navigate = useNavigate();
+
+  const verifyRefreshToken = async () => {
+    try {
+      const response = await api.post(
+        "/refresh",
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+
+      const decode = jwtDecode(response.data.accessToken);
+      await setUser((prev) => {
+        return {
+          ...prev,
+          username: decode.username,
+          accessToken: response.data.accessToken,
+        };
+      });
+      Cookies.remove("accessToken");
+      Cookies.set("accessToken", response.data.accessToken);
+    } catch (err) {
+      // console.log(err);
+      if (err.response.status === 403) {
+        logout();
+        navigate("/auth");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getProfile = async () => {
     try {
-      const response = await api.get(`/profile?username=${user.username}`, {
+      const response = await api.get(`/profile?username=${user?.username}`, {
         headers: {
           authorization: `Bearer ${user?.accessToken}`,
         },
       });
-      // console.log(response.data);
       setProfile(response.data);
     } catch (err) {
-      // if (err.response.status === 403) {
-      //   setTimeout(() => {
-      //     window.location.reload();
-      //   }, 2000);
-      // }
-      // navigate("/auth");
-      console.log(err.response);
+      // console.log(err);
+      if (err.response.status === 403) {
+        await verifyRefreshToken();
+      }
     }
   };
 
   useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+    setLoading(true);
     getProfile();
+    setLoading(false);
   }, []);
 
   const dateformat = (date) => {

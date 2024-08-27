@@ -30,7 +30,6 @@ const TypingArena = ({ socket }) => {
   const wIdx = useRef(0);
   const lIdx = useRef(0);
   const pos = useRef(null);
-  // const [con, setCon] = useState(false);
   const { startTimer, gameover, clock } = useTimer();
 
   window.gameTime = mode === "time" ? subMode : 1000;

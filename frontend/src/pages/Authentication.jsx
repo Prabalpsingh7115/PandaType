@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // import registerImage from "../assets/panda-bgg.jpeg";
@@ -46,9 +46,11 @@ const Auth = () => {
   };
 
   // console.log(user);
-  if (user) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  });
 
   return (
     <div

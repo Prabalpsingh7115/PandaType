@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 
 import { UserContext } from "../context/User.jsx";
-import axios from "../api/axios.js";
+import api from "../api/axios.js";
 import useLogout from "../hooks/useLogout.jsx";
 
 const PersistLogin = () => {
@@ -16,7 +16,7 @@ const PersistLogin = () => {
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
-        const response = await axios.post(
+        const response = await api.post(
           "/refresh",
           {},
           {
@@ -35,7 +35,7 @@ const PersistLogin = () => {
         Cookies.remove("accessToken");
         Cookies.set("accessToken", response.data.accessToken);
       } catch (err) {
-        if (err.response.status === 401) {
+        if (err.response.status === 403) {
           logout();
         }
       } finally {
@@ -43,7 +43,7 @@ const PersistLogin = () => {
       }
     };
 
-    if (!user?.accessToken) {
+    if (user && !user.accessToken) {
       verifyRefreshToken();
     }
 

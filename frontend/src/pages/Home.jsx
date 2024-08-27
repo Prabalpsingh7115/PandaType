@@ -41,15 +41,16 @@ const Home = () => {
   };
 
   const restart = () => {
-    setGameState("idle");
+    setGameState("starting");
   };
 
   const fetchPara = async () => {
+    setLoading(true);
     const data = await getPara();
     setPara(data);
-    await delay(1000);
     setLoading(false);
     setGameState("idle");
+    setLoading(false);
     setGameType("practice");
   };
 

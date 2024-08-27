@@ -13,13 +13,10 @@ const useLogout = () => {
   const handleLogout = async () => {
     try {
       if (user) {
-        const response = await api.post(
-          "/logout",
-          {},
-          { withCredentials: true },
-        );
+        await api.post("/logout", {}, { withCredentials: true });
         toast.warn(`Alvida ${user.username}!`);
-        console.log(response);
+
+        // console.log(response);
         await setUser(null);
         Cookies.remove("accessToken");
         navigate("/");

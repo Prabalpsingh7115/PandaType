@@ -24,7 +24,6 @@ const verifyJWT = (req,res,next) => {
             {
                 return res.status(403).json({'message':err})
             }
-
             req.username=decoded.username
             next()
             return res.status(200)

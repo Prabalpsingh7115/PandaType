@@ -7,7 +7,7 @@ const getProfile=async(req,res)=>{
     // console.log(username)
     if(!username)
     {
-        return res.status(403).json('No Username found')
+        return res.status(403).json({'message':'No Username found'})
     }
     
     const foundUser = await User.findOne({username}).exec();
@@ -15,7 +15,7 @@ const getProfile=async(req,res)=>{
     if(!foundUser)
     {
             
-        return res.status(404).json('No User found')
+        return res.status(404).json({'message':'No User found'})
     }
 
 
