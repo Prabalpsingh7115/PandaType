@@ -45,7 +45,7 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('create-room',(cb)=>{
-        let roomID=Math.random().toString(10).slice(12)
+        let roomID=Math.random()*1000;
         socket.join(roomID);
         console.log('Room ',roomID,"created & joined by",socket.id)
         cb(roomID)
