@@ -120,7 +120,7 @@ const TypingArena = ({ socket }) => {
           wIdx.current,
           lIdx.current,
         );
-      }, 1000);
+      }, 200);
 
       return () => {
         clearInterval(pos.current);

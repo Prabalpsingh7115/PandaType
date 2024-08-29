@@ -20,7 +20,6 @@ const Compete = () => {
   const socket = useRef();
 
   const {
-    para,
     setPara,
     mode,
     setMode,
@@ -48,8 +47,9 @@ const Compete = () => {
       document.querySelector(".room-controls").classList.add("hidden");
       document.querySelector(".room").classList.remove("hidden");
 
-      socket.current.on("op-joined", (room_id) => {
-        socket.current.emit("ready", mode, subMode, room_id);
+      socket.current.on("op-joined", (roomID) => {
+        // console.log("op-joined");
+        socket.current.emit("ready", mode, subMode, roomID);
       });
     });
   };
@@ -57,10 +57,8 @@ const Compete = () => {
   const JoinRoom = () => {
     document.querySelector(".room-controls").classList.add("hidden");
     document.querySelector(".room").classList.remove("hidden");
-    socket.current.emit("join-room", roomID, (room_id) => {
-      setJoin(true);
-      socket.current.emit("op-joined", room_id);
-    });
+    socket.current.emit("join-room", roomID);
+    setJoin(true);
   };
 
   const startCountDown = async () => {
@@ -126,12 +124,12 @@ const Compete = () => {
       setMode(mode);
       setSubMode(submode);
       setPara(para);
-      startCountDown();
+      await startCountDown();
       setLoading(false);
     });
 
     socket.current.on("start", () => {
-      console.log(mode, subMode, para);
+      // console.log(mode, subMode, para);
       startTimer();
     });
 
@@ -206,7 +204,7 @@ const Compete = () => {
               <input
                 className="room w-1/3 rounded-md bg-gray-400 px-2 py-1 text-black"
                 placeholder="Room Code"
-                onInput={(e) => setRoomID(e.target.value)}
+                onInput={(e) => setRoomID(parseInt(e.target.value))}
               />
               <button className="rounded-md px-2 py-1" onClick={JoinRoom}>
                 Join Room

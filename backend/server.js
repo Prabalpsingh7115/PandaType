@@ -47,19 +47,16 @@ io.on('connection',(socket)=>{
     socket.on('create-room',(cb)=>{
         let roomID=Math.trunc(Math.random()*10000);
         socket.join(roomID);
-        console.log('Room ',roomID,"created & joined by",socket.id)
+        console.log('Room ',roomID,"created by",socket.id)
         cb(roomID)
     })
     
-    socket.on('join-room',(roomID,cb)=>{
+    socket.on('join-room',(roomID)=>{
         socket.join(roomID)
         console.log(roomID,'joined by ',socket.id)
-        cb(roomID)
-    })
-
-    socket.on('op-joined',(roomID)=>{
         socket.to(roomID).emit('op-joined',roomID)
     })
+
 
 
     socket.on('ready',(mode,submode,roomID)=>{
