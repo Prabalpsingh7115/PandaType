@@ -80,6 +80,7 @@ io.on('connection',(socket)=>{
     })
     
     socket.on('rematch-response',(roomID,res)=>{
+        console.log(res);
         socket.to(roomID).emit('rematch-response',res);
     })
 
