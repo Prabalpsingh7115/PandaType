@@ -58,8 +58,6 @@ const Home = () => {
 
   const saveResult = async () => {
     try {
-      console.log("saving");
-      console.log(result);
       if (user) {
         const res = await api.post(
           "/",
@@ -137,7 +135,7 @@ const Home = () => {
           </div>
         )}
       </div>
-      <Footer />
+      {gameState === "idle" && <Footer />}
     </div>
   );
 };

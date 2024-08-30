@@ -52,7 +52,7 @@ const TypingArena = ({ socket }) => {
       inputKey.current = "Ctrl + Backspace";
     }
 
-    document.getElementById("key").innerText = inputKey.current;
+    // document.getElementById("key").innerText = inputKey.current;
 
     // console.log(words);
     // console.log(curword)
