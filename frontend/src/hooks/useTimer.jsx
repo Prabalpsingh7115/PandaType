@@ -5,7 +5,7 @@ import clearClass from "../functions/clearClass";
 
 const useTimer = () => {
   const clock = useRef();
-  const { mode, setGameState, setResult, gameState } =
+  const { mode, subMode, gameType, setGameState, setResult, gameState } =
     useContext(GameStateContext);
   const timer = useRef(null);
 
@@ -13,7 +13,7 @@ const useTimer = () => {
     if (!timer.current) {
       timer.current = setInterval(() => {
         if (!window.gameStart) {
-          window.gameStart = new Date().getTime() - 550;
+          window.gameStart = new Date().getTime();
         }
 
         if (gameState === "finished") {
@@ -51,7 +51,7 @@ const useTimer = () => {
   };
 
   const gameover = async () => {
-    const curResult = getResults();
+    const curResult = getResults(mode, subMode, gameType);
     setResult(curResult);
     clearInterval(timer.current);
     window.gameStart = null;

@@ -10,6 +10,7 @@ import handleNewUser from "./controllers/registerController.js";
 import handleLogin from "./controllers/authController.js";
 import verifyJWT from "./functions/verifyJWT.js";
 import handleRefreshToken from "./controllers/refreshTokenController.js";
+import handleResult from "./controllers/resultController.js";
 import handleLogout from "./controllers/logoutController.js";
 import getProfile from "./controllers/profileController.js";
 import getPara from "./controllers/paraController.js";
@@ -115,6 +116,10 @@ app.get('/profile',verifyJWT,(req,res)=>{
     getProfile(req,res);
 })
 
+// app.get('/profile',verifyJWT,(req,res)=>{
+//     getProfile(req,res);
+// })
+
 
 app.post('/logout',(req,res)=>{
     handleLogout(req,res);
@@ -122,6 +127,10 @@ app.post('/logout',(req,res)=>{
 
 app.get('/',(req,res)=>{
     res.send("<h1>HELLO</h1>")
+})
+
+app.post('/',(req,res)=>{
+    handleResult(req,res)
 })
 
 app.get('/para',(req,res)=>{

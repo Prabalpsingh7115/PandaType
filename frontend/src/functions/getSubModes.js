@@ -6,7 +6,7 @@ const GetSubModes = ({mode}) =>{
     }
     else if(mode==="words")
     {
-        return [25,50,70,100];
+        return [20,50,70,100];
     }
     else
     {

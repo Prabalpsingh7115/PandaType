@@ -10,6 +10,9 @@ import { GameStateContext } from "../context/GameState";
 import usePara from "../hooks/usePara";
 import delay from "../functions/delay";
 import Loader from "../components/Loader";
+import api from "../api/axios";
+import { UserContext } from "../context/User";
+import Footer from "../components/Footer";
 // import { UserContext } from "../context/User";
 
 const Home = () => {
@@ -22,6 +25,7 @@ const Home = () => {
     setGameType,
     result,
   } = useContext(GameStateContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const getPara = usePara();
   const [loading, setLoading] = useState(true);
@@ -52,10 +56,37 @@ const Home = () => {
     setLoading(false);
   };
 
+  const saveResult = async () => {
+    try {
+      console.log("saving");
+      console.log(result);
+      if (user) {
+        const res = await api.post(
+          "/",
+          { username: user.username, result },
+          { withCredentials: true },
+        );
+        console.log(res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     fetchPara();
     // console.log(mode, subMode);
   }, [mode, subMode]);
+
+  // useEffect(() => {
+  //   console.log(user);
+  // });
+
+  useEffect(() => {
+    if (gameState === "finished" && !loading) {
+      saveResult();
+    }
+  }, [gameState, loading]);
 
   // useEffect(() => {
   //   console.log(loading);
@@ -106,6 +137,7 @@ const Home = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./style.css";
 import { UserProvider } from "./context/User";
-import { ResultProvider } from "./context/Result";
 import { GameStateProvider } from "./context/GameState";
 import Home from "./pages/Home";
 import Auth from "./pages/Authentication";
@@ -27,21 +26,19 @@ const App = () => {
         draggable
         theme="dark"
       />
-      <ResultProvider>
-        <GameStateProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route element={<PersistLogin />}>
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/compete" element={<Compete />} />
-                <Route path="/competeresult" element={<CompeteResult />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </GameStateProvider>
-      </ResultProvider>
+      <GameStateProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PersistLogin />}>
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/compete" element={<Compete />} />
+              <Route path="/competeresult" element={<CompeteResult />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </GameStateProvider>
     </UserProvider>
   );
 };

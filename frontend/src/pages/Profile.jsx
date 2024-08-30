@@ -9,6 +9,7 @@ import { UserContext } from "../context/User";
 import Header from "../components/Header";
 import api from "../api/axios";
 import { GameStateContext } from "../context/GameState";
+import Footer from "../components/Footer";
 
 const months = [
   "Jan",
@@ -93,7 +94,7 @@ const Profile = () => {
       return "";
     }
 
-    const [month, day, year] = date.split("/");
+    const [day, month, year] = date.split("/");
     const monthName = months[parseInt(month) - 1];
     return day + " " + monthName + " " + year;
   };
@@ -124,105 +125,152 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex h-screen w-11/12 flex-col items-center gap-2 overflow-hidden font-customFont">
+    <div className="flex h-screen w-5/6 flex-col items-center gap-5 overflow-hidden font-customFont">
       <Header />
-      <div className="flex h-2/5 w-full items-center rounded-lg bg-[#393B44] px-5">
-        <div className="flex w-1/3 flex-col items-center justify-center">
-          <span className="text-6xl">{user?.username}</span>
-          <span className="text-xl text-gray-400">
+      <div className="-mt-5 flex w-full items-center gap-5 rounded-lg bg-background-color py-5">
+        <div className="flex w-1/3 flex-col items-center justify-center gap-3">
+          <span className="text-4xl text-secondary-color">
+            {user?.username}
+          </span>
+          <span className="text-md text-gray-500 ">
             Joined {dateformat(profile?.joindate.substr(0, 10))}
           </span>
         </div>
         <hr className="h-4/5 w-2 rounded-lg bg-gray-400" />
         <div className="info flex w-2/3">
-          <div className="flex w-full flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">Tests Started</span>
-            <span className="text-3xl ">{profile?.tests.tstart}</span>
+          <div className="flex w-full flex-col items-start justify-center">
+            <span className="text-sm text-gray-500">tests</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.tests.tpractices}
+            </span>
           </div>
-          <div className="flex w-full flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">Tests Finished</span>
-            <span className="text-3xl ">{profile?.tests.tfinish}</span>
+          <div className="flex w-full flex-col items-start justify-start">
+            <span className="text-sm text-gray-500">challenges</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.tests.tchallenges}
+            </span>
           </div>
-          <div className="flex w-full flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">Time Typing</span>
-            <span className="text-3xl ">
+          <div className="flex w-full flex-col items-start justify-center">
+            <span className="text-sm text-gray-500">time typing</span>
+            <span className="text-4xl text-secondary-color">
               {timeformat(profile?.tests.ttime)}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="flex h-2/5 w-full items-center justify-between gap-2">
-        <div className="info flex h-3/5 w-full items-center justify-center rounded-lg bg-[#393B44]">
+      <div className=" flex h-1/4 w-full items-center justify-between gap-2">
+        <div className="info flex h-full w-full items-center justify-center rounded-lg bg-background-color">
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">15 seconds</span>
-            <span className="text-3xl ">
-              {profile?.records?.modeTime?.fifteen !== 200
-                ? profile?.records?.modeTime?.fifteen
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">15 seconds</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records?.modeTime?.fifteen.wpm !== 0
+                ? profile?.records?.modeTime?.fifteen.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records?.modeTime?.fifteen.accuracy !== 0
+                ? `${profile?.records?.modeTime?.fifteen.accuracy}%`
+                : "_"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">30 seconds</span>
-            <span className="text-3xl ">
-              {profile?.records?.modeTime?.thirty !== 200
-                ? profile?.records?.modeTime?.thirty
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">30 seconds</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records?.modeTime?.thirty.wpm !== 0
+                ? profile?.records?.modeTime?.thirty.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records?.modeTime?.thirty.accuracy !== 0
+                ? `${profile?.records?.modeTime?.thirty.accuracy}%`
+                : "_"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">60 seconds</span>
-            <span className="text-3xl ">
-              {profile?.records?.modeTime?.sixty !== 200
-                ? profile?.records?.modeTime?.sixty
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">60 seconds</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records?.modeTime?.sixty.wpm !== 0
+                ? profile?.records?.modeTime?.sixty.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records?.modeTime?.sixty.accuracy !== 0
+                ? `${profile?.records?.modeTime?.sixty.accuracy}%`
+                : "_"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">120 seconds</span>
-            <span className="text-3xl ">
-              {profile?.records?.modeTime?.onetwenty !== 200
-                ? profile?.records?.modeTime?.onetwenty
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">120 seconds</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records?.modeTime?.onetwenty.wpm !== 0
+                ? profile?.records?.modeTime?.onetwenty.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records?.modeTime?.onetwenty.accuracy !== 0
+                ? `${profile?.records?.modeTime?.onetwenty.accuracy}%`
+                : "_"}
             </span>
           </div>
         </div>
 
-        <div className="info flex h-3/5 w-full items-center justify-center rounded-lg bg-[#393B44] p-5">
+        <div className="info flex h-full w-full items-center justify-center rounded-lg bg-background-color p-5">
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">25 words</span>
-            <span className="text-3xl ">
-              {profile?.records?.modeWords?.twenty !== 200
-                ? profile?.records?.modeWords?.twenty
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">25 words</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records?.modeWords?.twenty.wpm !== 0
+                ? profile?.records?.modeWords?.twenty.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records?.modeWords?.twenty.accuracy !== 0
+                ? `${profile?.records?.modeWords?.twenty.accuracy}%`
+                : "_"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">50 words</span>
-            <span className="text-3xl ">
-              {profile?.records.modeWords?.fifty !== 200
-                ? profile?.records.modeWords?.fifty
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">50 words</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records.modeWords?.fifty.wpm !== 0
+                ? profile?.records.modeWords?.fifty.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records.modeWords?.fifty.accuracy !== 0
+                ? `${profile?.records?.modeWords?.fifty.accuracy}%`
+                : "_"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">70 words</span>
-            <span className="text-3xl ">
-              {profile?.records.modeWords?.seventy !== 200
-                ? profile?.records.modeWords?.seventy
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">70 words</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records.modeWords?.seventy.wpm !== 0
+                ? profile?.records.modeWords?.seventy.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records.modeWords?.seventy.accuracy !== 0
+                ? `${profile?.records?.modeWords?.seventy.accuracy}%`
+                : "_"}
             </span>
           </div>
           <div className="flex w-1/4 flex-col items-center justify-center">
-            <span className="text-xl text-gray-400">100 words</span>
-            <span className="text-3xl ">
-              {profile?.records.modeWords?.hundred !== 200
-                ? profile?.records.modeWords?.hundred
-                : "__" || "__"}
+            <span className="mb-2 text-sm text-gray-500">100 words</span>
+            <span className="text-4xl text-secondary-color">
+              {profile?.records.modeWords?.hundred.wpm !== 0
+                ? profile?.records.modeWords?.hundred.wpm
+                : "_"}
+            </span>
+            <span className="text-lg text-secondary-color">
+              {profile?.records.modeWords?.hundred.accuracy !== 0
+                ? `${profile?.records?.modeWords?.hundred.accuracy}%`
+                : "_"}
             </span>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

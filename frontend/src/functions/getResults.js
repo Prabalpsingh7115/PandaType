@@ -1,4 +1,4 @@
-const getResults =()=>{
+const getResults =(mode,submode,type)=>{
 
     const words=document.querySelectorAll('.words')
     const typedWords=[...words[0].querySelectorAll(".word.typed")];
@@ -19,10 +19,12 @@ const getResults =()=>{
     const extraLetters=words[0].querySelectorAll(".letter.extra").length
     const missedLetters=words[0].querySelectorAll(".letter.missed").length
 
-    const WPM=(ans*60000)/timePassed;
+    const WPM=Math.round((ans*60000)/timePassed);
+    const accuracy=Math.floor((correctLetters * 100 )/(correctLetters +incorrectLetters +extraLetters +missedLetters));
+
     // console.log(correctLetters,incorrectLetters,extraLetters,missedLetters)
 
-    return {WPM,correctLetters,incorrectLetters,extraLetters,missedLetters};
+    return {WPM,correctLetters,incorrectLetters,extraLetters,missedLetters,time:Math.round(timePassed/1000),type,mode,submode,accuracy};
 
 }
 

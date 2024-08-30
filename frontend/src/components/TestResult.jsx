@@ -18,16 +18,7 @@ const TestResult = ({ result }) => {
       </div>
       <div className="result flex w-full justify-center gap-4 text-4xl">
         <h1>Accuracy : </h1>
-        <span>
-          {Math.floor(
-            (result.correctLetters * 100) /
-              (result.correctLetters +
-                result.incorrectLetters +
-                result.extraLetters +
-                result.missedLetters),
-          )}{" "}
-          %
-        </span>
+        <span>{result.accuracy} %</span>
       </div>
       <div className="result flex w-full justify-center gap-4 text-4xl">
         <h1>Characters : </h1>

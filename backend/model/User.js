@@ -18,51 +18,102 @@ const UserSchema = new mongoose.Schema({
         type:String
     },
     tests:{
-        tstart:{
-            type:Number    
+        tchallenges:{
+            type:Number,
+            default:0
         },
-        tfinish:{
-            type:Number    
+        tpractices:{
+            type:Number,    
+            default:0
         },
         ttime:{
-            type:Number
+            type:Number,
+            default:0
         },
     },
     records:{
         modeTime:{
             fifteen:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             },
             thirty:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             },
             sixty:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             },
             onetwenty:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             }
         },
         modeWords:{
             twenty:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             },
             fifty:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             },
             seventy:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             },
             hundred:{
-                type:Number,
-                default:200
+                wpm:{
+                    type:Number,
+                    default:0
+                },
+                accuracy:{
+                    type:Number,
+                    default:0
+                }
             }
 
         }

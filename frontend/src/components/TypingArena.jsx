@@ -182,11 +182,11 @@ const TypingArena = ({ socket }) => {
           onInput={handleKeyPress}
         />
         <div
-          className={`${gameState === "idle" ? "hidden" : gameState === "starting" ? "animate-cursor" : ""} cursor correct fixed left-0 top-0 z-10 h-[2.4rem] w-[0.2rem] bg-highlight-color  transition-all duration-100  ease-in-out`}
+          className={`${gameState === "idle" ? "hidden" : gameState === "starting" ? "animate-cursor" : ""} cursor correct fixed left-0 top-0 z-10 h-[2.4rem] w-[0.2rem] bg-highlight-color  transition-all duration-200  ease-in-out`}
           ref={cursor}
         ></div>
         <div
-          className={`${gameType === "compete" ? (gameState === "playing" ? "" : "") : "hidden"} op-cursor incorrect fixed left-0 top-0 z-10 h-[2.4rem] w-[0.2rem] bg-slate-200 transition-all duration-100  ease-in-out`}
+          className={`${gameType === "compete" ? (gameState === "playing" ? "" : "") : "hidden"} op-cursor incorrect fixed left-0 top-0 z-10 h-[2.4rem] w-[0.2rem] bg-slate-200 transition-all duration-200  ease-in-out`}
           ref={opCursor}
         ></div>
 

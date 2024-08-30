@@ -4,7 +4,7 @@ import api from "../api/axios";
 
 const useRegister = () => {
   const handleRegister = async (username, email, password) => {
-    console.log(username, email, password);
+    // console.log(username, email, password);
     try {
       const response = await api.post("/register", {
         username,

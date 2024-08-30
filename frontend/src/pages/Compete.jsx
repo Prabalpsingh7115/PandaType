@@ -12,6 +12,7 @@ import Loader from "../components/Loader";
 import useTimer from "../hooks/useTimer";
 import handleOpCursor from "../functions/handleOpCursor";
 import CompeteResult from "../components/CompeteResult";
+import Footer from "../components/Footer";
 
 const Compete = () => {
   const [loading, setLoading] = useState(true);
@@ -89,17 +90,6 @@ const Compete = () => {
         } else {
           alert("Other Player Rejected the Request");
         }
-        // if (!res) {
-        //   console.log("The other player rejected the request");
-        //   setGameState("idle");
-        //   setLoading(false);
-        //   setJoin(false);
-        //   document.querySelector(".match-controls").classList.remove("hidden");
-        //   document.querySelector(".rematch").classList.add("hidden");
-        //   document.querySelector(".challenge").classList.remove("hidden");
-        //   document.querySelector(".rematch-request").classList.add("hidden");
-        // }
-        // console.log(res);
       });
     });
   };
@@ -272,6 +262,7 @@ const Compete = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

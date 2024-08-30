@@ -13,6 +13,10 @@ export const GameStateProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState({
     WPM: 0,
+    type: gameType,
+    mode: mode,
+    submode: subMode,
+    time: 0,
     correctLetters: 0,
     incorrectLetters: 0,
     extraLetters: 0,
@@ -20,6 +24,7 @@ export const GameStateProvider = (props) => {
   });
   const [opResult, setOpResult] = useState({
     WPM: 0,
+    type: "compete",
     correctLetters: 0,
     incorrectLetters: 0,
     extraLetters: 0,
